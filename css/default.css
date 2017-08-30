@@ -1,0 +1,54 @@
+/* Index.html's header */
+.header {
+	border-style: solid;
+	border-color: black;
+	border-width: 3px 3px 3px 3px;
+}
+
+/* Index.html's sideNav */
+.sideNav {
+	border-style: solid;
+	border-color: black;
+	border-width: 0px 0px 3px 3px;
+}
+
+/* Index.html's ng-view container */
+.mainContent {
+	border-style: solid;
+	border-width: 0px 3px 3px 3px
+}
+
+/* home.html's top section */
+.miniToolTop{
+	border-style: solid;
+    border-width: 0px 0px 2px 0px;
+}
+
+/* home.html's middle section */
+.miniToolMiddle{
+	border-style: solid;
+    border-width: 0px 0px 0px 0px; 
+}
+
+/* home.html's bottom section */
+.miniToolBottom{
+	border-style: solid;
+    border-width: 2px 0px 0px 0px;
+}
+
+
+/* ------ Testing Only ------*/
+.border {
+	border-style: solid;
+    border-width: 1px;
+}
+
+.center {
+	text-align: center;
+}
+
+.fill {
+	height: 100%;
+}
+
+/* ------ End Testing ------*/
