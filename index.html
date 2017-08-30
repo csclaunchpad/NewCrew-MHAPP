@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="zenApp">
+	<head>
+		<title>Zen Mental Health Application</title>
+	
+        <!------------ Meta tags ------------>
+	    <meta charset="utf-8" />
+
+		<!------------ Angular CSS ------------>
+	    <link rel="stylesheet" href="lib/angular/css/angular-material.min.css" />
+	    <link rel="stylesheet" href="lib/angular/css/icon.css" />
+	    
+	    <!------------ Zen CSS ------------>
+	    <link rel="stylesheet" href="css/default.css" />
+	</head>
+	
+	<body ng-controller="ZenAppCtrl" ng-cloak>      
+		
+		<!------------ Header ------------> 
+		<md-toolbar class="md-hue-2 header" role="toolbar">
+			<div class="md-toolbar-tools">
+   				<h1 flex class="md-truncate">Zen</h1>
+			</div>
+		</md-toolbar>
+		
+		<!------------ Main Content ------------>
+		<div layout="row" layout-fill>
+		
+			<!------------ Side Nav ------------>
+			<div ng-controller="SideNav" class="sideNav" layout="column" ng-cloak>
+				<section flex>
+					<md-sidenav class="md-sidenav-left" md-disable-backdrop md-component-id="left" md-whiteframe="4" md-is-locked-open="isOpenLeft()">
+	      				<md-toolbar class="md-theme-indigo">
+	        				<h1 class="md-toolbar-tools">Sidenav Left</h1>
+	      				</md-toolbar>
+	      				<md-content layout-padding>
+	        				<md-button ng-click="closeLeft()" class="md-primary">
+	          					Close Sidenav Left
+	      	 				</md-button>
+	      				</md-content>
+					</md-sidenav>
+					
+					<!------------ Side Nav Contents ------------>
+	   				<md-content flex layout-padding>
+	      				<div layout="column" layout-align="top center">
+		       				<div>
+		          				<md-button ng-click="toggleLeft()" class="md-primary">
+		           					Toggle left
+		          				</md-button>
+		        			</div>
+	      				</div>
+	      				<div flex></div>
+	    			</md-content>
+		   		</section>
+			</div>
+			
+			<!------------ Injected Content ------------>
+			<section class="mainContent" role="main" flex>
+			
+				<!-- This is where Angular will inject content via our routeProvider in app.js -->
+				<div ng-view layout-fill></div>
+			</section>
+		</div>
+		
+		<!------------ Angular Declarations ------------>
+		<script src="lib/angular/js/angular.min.js"></script>    
+	    <script src="lib/angular/js/angular-route.min.js"></script>
+	  	<script src="lib/angular/js/angular-animate.min.js"></script>
+	  	<script src="lib/angular/js/angular-aria.min.js"></script>
+	  	<script src="lib/angular/js/angular-messages.min.js"></script>
+	   	<script src="lib/angular/js/angular-touch.min.js"></script>
+	   	<script src="lib/angular/js/angular-resource.min.js"></script>
+	   	<script src="lib/angular/js/angular-sanitize.min.js"></script>
+	  	<script src="lib/angular/js/angular-material.min.js"></script>
+	  	<script src="lib/angular/js/angular-material-icons.min.js"></script>
+	  	
+	  	<!------------ $routeProvider/app config Declarations ------------>
+		<script type="text/javascript" src="js/app.js"></script>
+		
+		<!------------ Controller Declarations ------------>
+	    <script type="text/javascript" src="js/controllers.js"></script>
+	</body>
+</html>
