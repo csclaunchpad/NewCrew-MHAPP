@@ -7,7 +7,7 @@
 	
 	$sqlStatement = "";
 	
-	if(empty($whereClause)) {
+	if($whereStatement == "") {
 		$sqlStatement = ("SELECT " . $selectStatement . " FROM " . $fromStatement . ";");
 	} else {
 		$sqlStatement = ("SELECT " . $selectStatement . " FROM " . $fromStatement . " WHERE " . $whereStatement .  ";");

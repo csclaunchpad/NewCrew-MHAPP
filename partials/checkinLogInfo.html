@@ -1,0 +1,111 @@
+<md-content class="md-padding">
+	<div layout="row" layout-align="center center">
+		<span class="dateHeader" flex="80"><strong>Report Date: </strong>{{entry.dateEntered}}</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore <= 10"><strong>Score:</strong> Very Low ({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Score:</strong> Low ({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Score:</strong> Rough ({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Score:</strong> Decent({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Score:</strong> Good ({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Score:</strong> Very Good ({{entry.entryScore}})</span>
+		<span class="scoreHeader" flex ng-show="entry.entryScore >= 76"><strong>Score:</strong> Amazing ({{entry.entryScore}})</span>
+	</div>
+	<md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-dynamic-height>
+		<md-tab label="Happiness">
+			<md-tab-body layout="column">
+				<div layout="row" flex layout-padding>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Current Score</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Weekly Average</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Monthly Average</div>
+					</div>
+					<div layout="row" flex layout-align="center center">
+						<div class="scoreHeader">Total Average</div>
+					</div>
+				</div>
+				<div layout="row" flex layout-padding>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">{{entry.happinessScore}}</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">7</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">5</div>
+					</div>
+					<div layout="row" flex layout-align="center center">
+						<div class="scoreValue">5</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+				
+				<div layout-padding>
+					<canvas id="line-chartHappiness"></canvas>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+				
+				<div class="notesHeader" layout="row" >
+					<div flex>Notes</div>
+				</div>
+				<div class="notesContent"layout="row" layout-align="center center" layout-padding>
+					<div ng-show="entry.happinessNote != null" flex>{{entry.happinessNote}}</div>
+					<div ng-show="false" flex class="itemNotes">No additional notes.</div>
+				</div>
+			</md-tab-body>
+		</md-tab>
+		
+		<md-tab label="Sleep">
+			<md-tab-body layout="column">
+				<div layout="row" flex layout-padding>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Current Score</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Weekly Average</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreHeader">Monthly Average</div>
+					</div>
+					<div layout="row" flex layout-align="center center">
+						<div class="scoreHeader">Total Average</div>
+					</div>
+				</div>
+				<div layout="row" flex layout-padding>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">{{entry.sleepScore}}</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">4</div>
+					</div>
+					<div layout="row" flex="25" layout-align="center center">
+						<div class="scoreValue">7</div>
+					</div>
+					<div layout="row" flex layout-align="center center">
+						<div class="scoreValue">6</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+				
+				<div layout-padding>
+					<canvas id="line-chartSleep"></canvas>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+				
+				<div class="notesHeader" layout="row" >
+					<div flex>Notes</div>
+				</div>
+				<div class="notesContent"layout="row" layout-align="center center" layout-padding>
+					<div ng-show="entry.happinessNote != null" flex>{{entry.sleepNote}}</div>
+					<div ng-show="false" flex class="itemNotes">No additional notes.</div>
+				</div>
+			</md-tab-body>
+		</md-tab>
+	</md-tabs>
+</md-content>
