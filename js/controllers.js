@@ -108,7 +108,6 @@ app.controller('SqlTesterCtrl', ['$scope', function($scope){
 		
 		// Given the update, set, and where statement: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
 		$scope.updateQuery(inputUpdateStatement, inputSetStatement, inputWhereStatement).then(function() {
-			console.log($scope.response);
 		});
 	};
 	
@@ -143,6 +142,7 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', function($scope, $window){
 	// Fetch all the Tools
 	$scope.selectQuery("*", "tools", "").then(function() {
 		$scope.tools = $scope.response.data;
+		console.log($scope.tools);
 	})
 	
 	// Place holder addTool to toolBelt function
@@ -158,10 +158,6 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', function($scope, $window){
 	
 }]);
 
-//------------------ moreDetails Controller --------------------
-app.controller('HomeCtrl', ['$scope', function($scope){
-}]);
-
 //------------------ checkinLog Controller --------------------
 app.controller('CheckinLogCtrl', ['$scope', '$window', function($scope, $window){
 	
@@ -172,6 +168,8 @@ app.controller('CheckinLogCtrl', ['$scope', '$window', function($scope, $window)
 		
 		// Calculating the total scores (This SHOULD be done in the DB - Justin)
 		for(var i = 0; i < $scope.entries.length; i++) {
+			console.log($scope.entries[i].happinessScore);
+			console.log(parseInt($scope.entries[i].happinessScore));
 			$scope.entries[i].entryScore = (parseInt($scope.entries[i].happinessScore) + parseInt($scope.entries[i].sleepScore)) * 5;
 		}
 	});
@@ -186,91 +184,278 @@ app.controller('CheckinLogCtrl', ['$scope', '$window', function($scope, $window)
 //------------------ checkinLogInfo Controller (Unfinished)--------------------
 app.controller('CheckinLogInfoCtrl', ['$scope', '$window', '$document', function($scope, $window, $document){
 
-	/* To-do List
-	/	1. Check viability of caching wellnessTrackerEntry
-	/
-	/
-	*/
-
 	// Check if the user is coming from checkinLog.html, if not, redirect to home
 	if(localStorage.getItem("selectedEntryID") == null) {
 		$window.location.href= "#/home";
 	} 
 	
-	// Creates our where clause so we only grab the wellnessTrackerEntry that was selected
+	// Grabbing the individual entry that the user selected on checkinLog.html
 	var whereClause = "entryID = '" + localStorage.getItem("selectedEntryID") + "'";
 	
-	// Fetch the entry (Can this be done via localStorage? - Justin)
 	$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
-		$scope.entry = $scope.response.data[0];
 		
-		// Calculating the total score (This SHOULD be done in the DB - Justin)
-		$scope.entry.entryScore = (parseInt($scope.entry.happinessScore) + parseInt($scope.entry.sleepScore)) * 5;
-	});
-	
-	// Happiness Chart
-	angular.element(document).ready(function() {		
-		var chartHappiness = new Chart(document.getElementById("line-chartHappiness").getContext('2d'), {
+		$scope.selectedEntry = $scope.response.data[0];
 		
-		type: 'line',
-		data: {
-			labels: ["Jul 1, 2017","Jul 1, 2017","Jul 2, 2017","Jul 3, 2017","Jul 4, 2017","Jul 5, 2017","Jul 6, 2017","Jul 7, 2017","Jul 8, 2017","Jul 9, 2017"],
-			datasets: [{ 
-					data: [6,6,8,7,10,9,7,5,3,7],
-					label: "Mood",
-					borderColor: "#3e95cd",
-					fill: false
-			}, { 
-				data: [5,5,8,7,8,6,5,4,4,8],
-				label: "Sleep",
-				borderColor: "#8e5ea2",
-				fill: false
-			}, { 
-				data: [4,4,5,6,8,2,6,1,2,3],
-					label: "Diet",
-					borderColor: "#3cba9f",
-					fill: false
-				}, 
-				]
+		// Generating the selected log's score
+		$scope.selectedEntry.entryScore = (parseInt($scope.selectedEntry.happinessScore) + parseInt($scope.selectedEntry.sleepScore)) * 5;
+		
+		// Grabbing the values from the past week (Starting date being the date of the log that was selected)
+		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-6 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
+		
+		// Weekly Linegraphs
+		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
+			$scope.weeklyEntries = $scope.response.data;
+			console.log($scope.weeklyEntries);
+			
+			// Setting up the objects
+			
+			// Labels for graph
+			var weeklyLabels = []
+			var happinessScoreWeekly = [];
+			var sleepScoreWeekly = [];
+			
+			for(var i = 0; i < $scope.weeklyEntries.length; i++) {
+				weeklyLabels[i] = $scope.weeklyEntries[i].dateEntered;
+				happinessScoreWeekly[i] = $scope.weeklyEntries[i].happinessScore;
+				sleepScoreWeekly[i] = $scope.weeklyEntries[i].sleepScore;
+			}		
+			
+			// Happiness Chart Weekly
+			var chartHappinessWeekly = new Chart(document.getElementById("line-chartHappinessWeekly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: weeklyLabels,
+				datasets: [{ 
+						data: happinessScoreWeekly,
+						label: "Happiness Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
 			},
-			options: {
-				title: {
-					display: true,
-					text: 'Wellness Trend'
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
 				}
+			});
+			
+			// Sleep Chart Weekly
+			var chartSleepWeekly = new Chart(document.getElementById("line-chartSleepWeekly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: weeklyLabels,
+				datasets: [{ 
+						data: sleepScoreWeekly,
+						label: "Sleep Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
+			},
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
+				}
+			});
+			
+			// Setup Weekly Average values
+			
+			// Weekly Happiness
+			$scope.weeklyHappinessAverage = 0;
+			
+			for(var i = 0; i < happinessScoreWeekly.length; i++) {
+				$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage + parseInt(happinessScoreWeekly[i]);
 			}
+			
+			$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage/happinessScoreWeekly.length;
+			$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage.toFixed(1);
+			
+			// Weekly Sleep
+			$scope.weeklySleepAverage = 0;
+			
+			for(var i = 0; i < sleepScoreWeekly.length; i++) {
+				$scope.weeklySleepAverage = $scope.weeklySleepAverage + parseInt(sleepScoreWeekly[i]);
+			}
+			
+			$scope.weeklySleepAverage = $scope.weeklySleepAverage/sleepScoreWeekly.length;
+			$scope.weeklySleepAverage = $scope.weeklySleepAverage.toFixed(1);
 		});
 		
-		var chartSleep = new Chart(document.getElementById("line-chartSleep").getContext('2d'), {
+		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-30 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
 		
-		type: 'line',
-		data: {
-			labels: ["Jul 1, 2017","Jul 1, 2017","Jul 2, 2017","Jul 3, 2017","Jul 4, 2017","Jul 5, 2017","Jul 6, 2017","Jul 7, 2017","Jul 8, 2017","Jul 9, 2017"],
-			datasets: [{ 
-					data: [6,5,7,7,10,9,7,5,3,7],
-					label: "Mood",
-					borderColor: "#3e95cd",
-					fill: false
-			}, { 
-				data: [5,7,8,7,8,5,4,4,7,8],
-				label: "Sleep",
-				borderColor: "#8e5ea2",
-				fill: false
-			}, { 
-				data: [4,4,5,6,8,2,6,1,2,3],
-					label: "Diet",
-					borderColor: "#3cba9f",
-					fill: false
-				}, 
-				]
+		// Monthly Graphs
+		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
+			$scope.monthlyEntries = $scope.response.data;
+			console.log($scope.entries);
+			
+			// Setting up the objects
+			
+			// Labels for graph
+			var monthlyLabels = []
+			var happinessScoreMonthly = [];
+			var sleepScoreMonthly = [];
+			
+			for(var i = 0; i < $scope.monthlyEntries.length; i++) {
+				monthlyLabels[i] = $scope.monthlyEntries[i].dateEntered;
+				happinessScoreMonthly[i] = $scope.monthlyEntries[i].happinessScore;
+				sleepScoreMonthly[i] = $scope.monthlyEntries[i].sleepScore;
+			}		
+			
+			// Set up Monthly Happiness Graph
+			var chartHappinessMonthly = new Chart(document.getElementById("line-chartHappinessMonthly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: monthlyLabels,
+				datasets: [{ 
+						data: happinessScoreMonthly,
+						label: "Happiness Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
 			},
-			options: {
-				title: {
-					display: true,
-					text: 'Wellness Trend'
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
 				}
+			});
+			
+			// Set up Monthly Sleep Graph
+			var chartSleepMonthly = new Chart(document.getElementById("line-chartSleepMonthly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: monthlyLabels,
+				datasets: [{ 
+						data: sleepScoreMonthly,
+						label: "Sleep Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
+			},
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
+				}
+			});
+			
+			// Setup Monthly Average values
+			
+			// Monthly Happiness
+			$scope.monthlyHappinessAverage = 0;
+			
+			for(var i = 0; i < happinessScoreMonthly.length; i++) {
+				$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage + parseInt(happinessScoreMonthly[i]);
 			}
+			
+			$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage/happinessScoreMonthly.length;
+			$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage.toFixed(1);
+			
+			// Monthly Sleep
+			$scope.monthlySleepAverage = 0;
+			
+			for(var i = 0; i < sleepScoreMonthly.length; i++) {
+				$scope.monthlySleepAverage = $scope.monthlySleepAverage + parseInt(sleepScoreMonthly[i]);
+			}
+			
+			$scope.monthlySleepAverage = $scope.monthlySleepAverage/sleepScoreMonthly.length;
+			$scope.monthlySleepAverage = $scope.monthlySleepAverage.toFixed(1);
+			
 		});
+		
+		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-90 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
+		
+		// Quarterly Graphs
+		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
+			$scope.quarterlyEntries = $scope.response.data;
+			console.log($scope.entries);
+			
+			// Setting up the objects
+			
+			// Labels for graph
+			var quarterlyLabels = []
+			var happinessScoreQuarterly = [];
+			var sleepScoreQuarterly = [];
+			
+			for(var i = 0; i < $scope.quarterlyEntries.length; i++) {
+				quarterlyLabels[i] = $scope.quarterlyEntries[i].dateEntered;
+				happinessScoreQuarterly[i] = $scope.quarterlyEntries[i].happinessScore;
+				sleepScoreQuarterly[i] = $scope.quarterlyEntries[i].sleepScore;
+			}		
+			
+			// Set up Weekly Happiness Graph
+			var chartHappinessQuarterly = new Chart(document.getElementById("line-chartHappinessQuarterly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: quarterlyLabels,
+				datasets: [{ 
+						data: happinessScoreQuarterly,
+						label: "Happiness Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
+			},
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
+				}
+			});
+			
+			// Set up Weekly Sleep Graph
+			var chartSleepQuarterly = new Chart(document.getElementById("line-chartSleepQuarterly").getContext('2d'), {
+			
+			type: 'line',
+			data: {
+				labels: quarterlyLabels,
+				datasets: [{ 
+						data: sleepScoreQuarterly,
+						label: "Sleep Score",
+						borderColor: "#3e95cd",
+						fill: false
+				}]
+			},
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend'
+					}
+				}
+			});
+			
+			// Setup Quarterly Average values
+			
+			// Quarterly Happiness
+			$scope.quarterlyHappinessAverage = 0;
+			
+			for(var i = 0; i < happinessScoreQuarterly.length; i++) {
+				$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage + parseInt(happinessScoreQuarterly[i]);
+			}
+			
+			$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage/happinessScoreQuarterly.length;
+			$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage.toFixed(1);
+			
+			// Quarterly Sleep
+			$scope.quarterlySleepAverage = 0;
+			
+			for(var i = 0; i < sleepScoreQuarterly.length; i++) {
+				$scope.quarterlySleepAverage = $scope.quarterlySleepAverage + parseInt(sleepScoreQuarterly[i]);
+			}
+			
+			$scope.quarterlySleepAverage = $scope.quarterlySleepAverage/sleepScoreQuarterly.length;
+			$scope.quarterlySleepAverage = $scope.quarterlySleepAverage.toFixed(1);
+			
+		});		
 	});
 }]);
 
