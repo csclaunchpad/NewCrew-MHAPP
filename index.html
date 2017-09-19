@@ -17,17 +17,17 @@
 	<body ng-controller="ZenAppCtrl" ng-cloak>      
 		
 		<!------------ Header ------------> 
-		<md-toolbar class="md-hue-2 header" role="toolbar">
+<!--		<md-toolbar class="md-hue-2 header" role="toolbar">
 			<div class="md-toolbar-tools">
    				<h1 flex class="md-truncate">Zen</h1>
 			</div>
-		</md-toolbar>
+		</md-toolbar> ->
 		
 		<!------------ Main Content ------------>
 		<div layout="row" layout-fill>
 		
-			<!------------ Side Nav ------------>
-			<div ng-controller="SideNav" class="sideNav" layout="column" ng-cloak>
+			<!------------ Side Nav ------------>        <!-- Commented out for Side Nav fix************************************
+<!--			<div ng-controller="SideNav" class="sideNav" layout="column" ng-cloak>
 				<section flex>
 					<md-sidenav class="md-sidenav-left" md-disable-backdrop md-component-id="left" md-whiteframe="4" md-is-locked-open="isOpenLeft()">
 	      				<md-toolbar class="md-theme-indigo">
@@ -39,9 +39,9 @@
 	      	 				</md-button>
 	      				</md-content>
 					</md-sidenav>
-					
+->					
 					<!------------ Side Nav Contents ------------>
-	   				<md-content flex layout-padding>
+<!--	   				<md-content flex layout-padding>
 	      				<div layout="column" layout-align="top center">
 		       				<div>
 		          				<md-button ng-click="toggleLeft()" class="md-primary">
@@ -53,7 +53,27 @@
 	    			</md-content>
 		   		</section>
 			</div>
-			
+->
+			<!------------ Side Nav ------------>
+			<div id="mySidenav" class="sidenav">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<a href="#">Dashboard</a>
+				<a href="#">Wellness Tracker</a>
+				<a href="#">Resources</a>
+				<a href="#">Tools and Excercises</a>
+				<a href="#">Settings</a>
+			</div>
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="imgs/head.png" alt="head" style="width:30px;height:30px; padding:10px;"></span>
+
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+</script>			
 			<!------------ Injected Content ------------>
 			<section class="mainContent" role="main" flex>
 			
