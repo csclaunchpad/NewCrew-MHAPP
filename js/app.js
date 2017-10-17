@@ -37,6 +37,21 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "CheckinLogInfoCtrl",
 		templateUrl: "partials/checkinLogInfo.html"
 	})
+	
+	.when("/diary", {
+		controller: "DiaryCtrl",
+		templateUrl: "partials/diary.html"
+	})
+	
+	.when("/diaryManager", {
+		controller: "DiaryManagerCtrl",
+		templateUrl: "partials/diaryManager.html"
+	})
+	
+	.when("/analyticDashboard", {
+		controller: "analyticDashboardCtrl",
+		templateUrl: "partials/analyticDashboard.html"
+	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
