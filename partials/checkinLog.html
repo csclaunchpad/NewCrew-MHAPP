@@ -1,5 +1,13 @@
 <div ng-cloak>			
 	<md-content class="md-padding">
+		<md-card ng-click="redirectToDashboard()">
+			<md-card-title>
+				<md-card-title-text layout-align="center center">
+					<strong>Analytic Dashboard</strong>
+				</md-card-title-text>
+			</md-card-title>
+		</md-card>
+	
 		<md-card ng-hide="entries == null" ng-repeat="entry in entries" ng-click="redirectMoreDetails(entry.entryID)">		
 			<md-card-title>	
 				<md-card-title-text>
@@ -19,7 +27,7 @@
 		<md-card ng-show="entries == null">		
 			<md-card-title>	
 				<md-card-title-text>
-					<span>You have no saved logs!</span>
+					<span>Loading...</span>
 				</md-card-title-text>
 			</md-card-title>
 		</md-card>
