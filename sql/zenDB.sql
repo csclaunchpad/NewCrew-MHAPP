@@ -6,13 +6,13 @@ CREATE TABLE users(
 	gender TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS journalEntries;
-CREATE TABLE journalEntries (
+DROP TABLE IF EXISTS diaryEntries;
+CREATE TABLE diaryEntries (
 	entryID INTEGER,
 	userID INTEGER NOT NULL REFERENCES users(userID),
-	title TEXT NOT NULL,
+	title TEXT CHECK (title is not null and length(title) > 0),
 	subtitle TEXT,
-	content TEXT NOT NULL,
+	content TEXT CHECK (content is not null and length(content) > 0),
 	dateCreated TEXT NOT NULL,
 	dateLastEdited TEXT NOT NULL,
 	PRIMARY KEY(entryID, userID)
