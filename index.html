@@ -55,23 +55,24 @@
 			</div>
 ->
 			<!------------ Side Nav ------------>
-			<div id="mySidenav" class="sidenav">
+			<div id="SideNav" class="sideNav">
 				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-				<a href="#">Dashboard</a>
-				<a href="#">Wellness Tracker</a>
-				<a href="#">Resources</a>
-				<a href="#">Tools and Excercises</a>
-				<a href="#">Settings</a>
+				<a href="#home">Dashboard</a>
+				<a href="#wellnessTracker">Wellness Tracker</a>
+				<a href="#checkinLog">Checkin Log</a>
+				<a href="#moreDetails">Resources</a>
+				<a href="#toolStore">Tools and Exercises</a>
+				<a href="#sqlTester">Settings</a>
 			</div>
 			<span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="imgs/head.png" alt="head" style="width:30px;height:30px; padding:10px;"></span>
 
 <script>
 function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("SideNav").style.width = "250px";
 }
 
 function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("SideNav").style.width = "0";
 }
 </script>			
 			<!------------ Injected Content ------------>
