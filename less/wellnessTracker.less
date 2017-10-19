@@ -1,0 +1,75 @@
+.wt {
+
+    @border-color: black;
+    @entry-item-height: 30px;
+
+    .entryItem {
+
+        border-top: none;
+        padding: 0;
+        height: @entry-item-height;
+        min-height: auto;
+
+        &:before {
+            height: auto;
+            min-height: auto;
+        }
+
+        &:first-child {
+            .entryDate, .entryColor, .viewEntryBtn {
+                border-top: 1px @border-color solid;
+            }
+        }
+    }
+
+    .entryColor {
+
+        border: 1px @border-color solid;
+        border-top: none;
+
+
+        width: @entry-item-height;
+        height: @entry-item-height;
+
+        &.entryRatingColor {
+            &1 {
+                background: red;
+            }
+
+            &2 {
+                background: pink;
+            }
+
+            &3 {
+                background: blue;
+            }
+
+            &4 {
+                background: purple;
+            }
+
+            &5 {
+                background: green;
+            }
+
+        }
+
+    }
+
+    .entryDate {
+        height: 100%;
+        padding: 0 10px;
+        border-bottom: 1px @border-color solid;
+    }
+
+    .viewEntryBtn {
+        padding: 0 10px;
+        height: @entry-item-height;
+        border: 1px @border-color solid;
+        border-top: none;
+        color: black;
+        text-decoration: none;
+    }
+
+
+}

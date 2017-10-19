@@ -30,8 +30,13 @@ app.config(["$routeProvider", function($routeProvider) {
 	
 	.when("/wellnessTracker", {
 		controller: "WellnessTracker",
-		templateUrl: "partials/wellnessTracker.html"
-	})	
+		templateUrl: "partials/wellnessTracker/wellnessTracker.html"
+	})
+
+	.when("/wellnessTracker/entry/:id", {
+        controller: "EntryCtrl",
+        templateUrl: "partials/wellnessTracker/entry.html"
+	})
 	
 	.when("/checkinLog", {
 		controller: "CheckinLogCtrl",

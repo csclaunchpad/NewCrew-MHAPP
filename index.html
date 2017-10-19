@@ -9,10 +9,12 @@
 		<!------------ Angular CSS ------------>
 	    <link rel="stylesheet" href="lib/angular/css/angular-material.min.css" />
 	    <link rel="stylesheet" href="lib/angular/css/icon.css" />
-	    
-	    <!------------ Zen CSS ------------>
-	    <link rel="stylesheet" href="css/default.css" />
-	</head>
+
+        <!--Less-->
+        <link rel="stylesheet/less" type="text/css" href="less/default.less" />
+
+
+    </head>
 	
 	<body ng-controller="ZenAppCtrl" ng-cloak>      
 		
@@ -31,7 +33,7 @@
 				<a href="#toolStore">Tools and Exercises</a>
 				<a href="#sqlTester">Settings</a>
 			</div>
-			<span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="imgs/head.png" alt="head" style="width:30px;height:30px; padding:10px;"></span>
+			<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>
 
 <script>
 function openNav() {
@@ -49,7 +51,20 @@ function closeNav() {
 				<div ng-view layout-fill></div>
 			</section>
 		</div>
-		
+
+        <!--Less-->
+        <script>
+            window.less = {
+                env: "development",
+                async: false,
+                fileAsync: false,
+                poll: 1000,
+                dumpLineNumbers: "comments",
+                relativeUrls: false
+            };
+        </script>
+        <script src="lib/less/less.min.js" type="text/javascript"></script>
+
 		<!------------ Angular Declarations ------------>
 		<script src="lib/angular/js/angular.min.js"></script>    
 	    <script src="lib/angular/js/angular-route.min.js"></script>

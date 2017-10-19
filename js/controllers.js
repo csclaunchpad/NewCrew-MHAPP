@@ -792,3 +792,73 @@ app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
 		})
 	}
 }]);
+
+app.controller("WellnessTracker", ["$scope", function ($scope) {
+
+
+	$scope.entryList = [];
+
+	//DUMMY DATA
+	$scope.entryList.push({id: 1, date: 1508363261880, feelingRating:1, sleepRating: 1, description: "This is a new description1"});
+	$scope.entryList.push({id: 2, date: 1508363261880, feelingRating:2, sleepRating: 2, description: "This is a new description2"});
+	$scope.entryList.push({id: 3, date: 1508363261880, feelingRating:3, sleepRating: 3, description: "This is a new description3"});
+	$scope.entryList.push({id: 4, date: 1508363261880, feelingRating:4, sleepRating: 4, description: "This is a new description4"});
+	$scope.entryList.push({id: 5, date: 1508363261880, feelingRating:5, sleepRating: 5, description: "This is a new description5"});
+
+
+
+
+}]);
+
+
+app.controller("EntryCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {
+
+
+    $scope.currentIndex = findEntryIndexById($routeParams.id);
+    // $scope.entry = $scope.entryList[$scope.currentIndex];
+
+    // $scope.nextEnabled = hasMoreEntries();
+    // $scope.prevEnabled = hasLessEntries();
+
+    $scope.nextEntry = nextEntry;
+    $scope.prevEntry = prevEntry;
+
+    function nextEntry(){
+        if (hasMoreEntries()){
+            $scope.currentIndex++;
+            $scope.entry = $scope.entryList[$scope.currentIndex];
+            $scope.nextEnabled = hasMoreEntries();
+            $scope.prevEnabled = hasLessEntries();
+        }
+    }
+
+    function prevEntry(){
+        if (hasLessEntries()){
+            $scope.currentIndex--;
+            $scope.entry = $scope.entryList[$scope.currentIndex];
+            $scope.nextEnabled = hasMoreEntries();
+            $scope.prevEnabled = hasLessEntries();
+        }
+    }
+
+    function hasMoreEntries(){
+        return $scope.currentIndex != $scope.entryList.length-1;
+    }
+
+    function hasLessEntries() {
+        return $scope.currentIndex > 0;
+    }
+
+    function findEntryIndexById(id){
+       /* for (var i=0, len = $scope.entryList.length; i < len; i++){
+            var entry = $scope.entryList[i];
+
+            if(entry.id === id)
+                return i;
+        }*/
+
+        return 0;
+    }
+
+
+}]);

@@ -1,0 +1,127 @@
+/* Index.html's header */
+* {
+    box-sizing: border-box;
+}
+
+.leftNavBtn {
+    padding:10px;
+
+    .leftNavBtnImg {
+        width:30px;
+        height:30px;
+    }
+}
+
+.header {
+    border-style: solid;
+    border-color: black;
+    border-width: 3px 3px 3px 3px;
+}
+
+/* Index.html's sideNav */
+/* Index.html's sideNav */
+.sideNav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sideNav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sideNav a:hover {
+    color: #f1f1f1;
+}
+
+.sideNav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sideNav {padding-top: 15px;}
+    .sideNav a {font-size: 18px;}
+}
+
+/* Index.html's ng-view container */
+.mainContent {
+    border-style: solid;
+    border-width: 0px 3px 3px 3px
+}
+
+/* home.html's top section */
+.miniToolTop{
+    border-style: solid;
+    border-width: 0px 0px 2px 0px;
+}
+
+/* home.html's middle section */
+.miniToolMiddle{
+    border-style: solid;
+    border-width: 0px 0px 0px 0px;
+}
+
+/* home.html's bottom section */
+.miniToolBottom{
+    border-style: solid;
+    border-width: 2px 0px 0px 0px;
+}
+
+/* ------ checkinLogInfo.html ------*/
+.dateHeader {
+    font-size: 1.25em;
+}
+
+.scoreHeader {
+    font-size: 1.25em;
+}
+
+.scoreValue {
+    font-size: 2.0em;
+}
+
+.notesHeader {
+    font-weight: bold;
+    font-size: 1.10em;
+}
+
+.notesContent {
+    font-size: 1.0em;
+}
+
+/* ------ Testing Only ------*/
+.border {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.center {
+    text-align: center;
+}
+
+.fill {
+    height: 100%;
+}
+
+/* ------ End Testing ------*/
+
+
+/* Wellness Tracker */
+@import "wellnessTracker";
+
