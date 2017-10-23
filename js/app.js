@@ -28,16 +28,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/moreDetails.html"
 	})
 	
-	.when("/wellnessTracker", {
-		controller: "WellnessTracker",
-		templateUrl: "partials/wellnessTracker/wellnessTracker.html"
-	})
-
-	.when("/wellnessTracker/entry/:id", {
-        controller: "EntryCtrl",
-        templateUrl: "partials/wellnessTracker/entry.html"
-	})
-	
 	.when("/checkinLog", {
 		controller: "CheckinLogCtrl",
 		templateUrl: "partials/checkinLog.html"
@@ -61,6 +51,11 @@ app.config(["$routeProvider", function($routeProvider) {
 	.when("/analyticDashboard", {
 		controller: "analyticDashboardCtrl",
 		templateUrl: "partials/analyticDashboard.html"
+	})
+
+	.when("/dailyEntry", {
+		controller: "DailyEntry",
+		templateUrl: "partials/dailyEntry.html"
 	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)

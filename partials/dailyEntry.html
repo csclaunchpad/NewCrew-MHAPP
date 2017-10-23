@@ -1,0 +1,21 @@
+<md-content layout-align="start center" layout="column" class="wt dailyEntry">
+
+    <img src="imgs/feelings/face{{feelingScore}}.png" class="feelingImg"/>
+
+    <md-slider flex min="1" max="5" ng-model="feelingScore" class="slider" md-discrete></md-slider>
+    <h3 class="sliderHeader">How are you feeling?</h3>
+
+    <md-slider flex min="1" max="5" ng-model="sleepScore" class="slider" md-discrete></md-slider>
+    <h3 class="sliderHeader">How are your sleep?</h3>
+
+    <md-input-container class="md-block descriptionContainer">
+        <label>What's on your mind?</label>
+        <textarea ng-model="description" md-maxlength="500" maxlength="500" class="descriptionText"></textarea>
+    </md-input-container>
+
+
+    <div>
+        <md-button class="md-raised md-primary" ng-click="saveEntry()">Done</md-button>
+    </div>
+
+</md-content>

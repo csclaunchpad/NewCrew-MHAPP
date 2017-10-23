@@ -694,7 +694,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $windo
 		$scope.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function() {
 			$window.location.href = "#/diary";
 		});
-	}
+	};
 	
 	// Update the diary entry in the DB
 	$scope.updateDiaryEntry = function() {
@@ -703,19 +703,19 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $windo
 		$scope.updateQuery("diaryEntries", setQuery, whereClause).then(function() {
 			$window.location.href = "#/diary";
 		});
-	}
+	};
 	
 	// Redirects to diary.html
 	$scope.diaryReturn = function() {
 		$window.location.href = "#/diary";
-	}
+	};
 	
 	// Changes diaryManager to edit mode
 	$scope.editDiaryEntry = function(selectedDiaryEntry) {
 		localStorage.setItem("diaryFunction", "editing");
 		localStorage.setItem("selectedDiaryEntry", selectedDiaryEntry);
 		$scope.flag = localStorage.getItem("diaryFunction");
-	}
+	};
 	
 	// Deletes the entry, then redirects to diary.html
 	$scope.deleteDiaryEntry = function(selectedDiaryEntry) {
@@ -739,7 +739,7 @@ app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
 			// Storing the response
 			$scope.response = angular.fromJson(response);
 		});
-	}
+	};
 	
 	// Does an HTTP GET request to our DB and runs the supplied UPDATE statement, then returns a promise
 	$scope.updateQuery = function(inputUpdateStatement, inputSetStatement, inputWhereStatement) {
@@ -756,12 +756,12 @@ app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
 				$scope.response = false;
 			}
 		})
-	}
+	};
 	
 	// Does an HTTP GET request to our DB and runs the supplied INSERT statement, then returns a promise
 	$scope.insertQuery = function(inputInsertStatement, inputColumnStatement, inputValueStatement) {
 		return $http({
-			method: 'GET',
+			method: 'POST',
 			url: '../php/insertQuery.php',
 			params: {insertStatement: inputInsertStatement, columnStatement: inputColumnStatement, valueStatement: inputValueStatement}
 		}).then(function(response) {
@@ -773,7 +773,7 @@ app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
 				$scope.response = false;
 			}
 		})
-	}
+	};
 	
 	// Does an HTTP GET request to our DB and runs the supplied INSERT statement, then returns a promise
 	$scope.deleteQuery = function(inputTableStatement, inputWhereStatement) {
@@ -793,72 +793,25 @@ app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
 	}
 }]);
 
-app.controller("WellnessTracker", ["$scope", function ($scope) {
+
+app.controller("DailyEntry", ["$scope", function ($scope) {
 
 
-	$scope.entryList = [];
+	$scope.feelingScore = 3;
+	$scope.sleepScore = 3;
+	$scope.description = "";
+	$scope.saveEntry = saveEntry;
 
-	//DUMMY DATA
-	$scope.entryList.push({id: 1, date: 1508363261880, feelingRating:1, sleepRating: 1, description: "This is a new description1"});
-	$scope.entryList.push({id: 2, date: 1508363261880, feelingRating:2, sleepRating: 2, description: "This is a new description2"});
-	$scope.entryList.push({id: 3, date: 1508363261880, feelingRating:3, sleepRating: 3, description: "This is a new description3"});
-	$scope.entryList.push({id: 4, date: 1508363261880, feelingRating:4, sleepRating: 4, description: "This is a new description4"});
-	$scope.entryList.push({id: 5, date: 1508363261880, feelingRating:5, sleepRating: 5, description: "This is a new description5"});
+	function saveEntry(){
 
+		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.feelingScore + ", '" + $scope.description + "', " + $scope.sleepScore + ", datetime('now')";
 
+		$scope.insertQuery("wellnessTrackerEntries", "entryID,userID,happinessScore,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
+			console.log("This is result:", result);
+        });
 
-
-}]);
-
-
-app.controller("EntryCtrl", ["$scope", "$routeParams", function ($scope, $routeParams) {
-
-
-    $scope.currentIndex = findEntryIndexById($routeParams.id);
-    // $scope.entry = $scope.entryList[$scope.currentIndex];
-
-    // $scope.nextEnabled = hasMoreEntries();
-    // $scope.prevEnabled = hasLessEntries();
-
-    $scope.nextEntry = nextEntry;
-    $scope.prevEntry = prevEntry;
-
-    function nextEntry(){
-        if (hasMoreEntries()){
-            $scope.currentIndex++;
-            $scope.entry = $scope.entryList[$scope.currentIndex];
-            $scope.nextEnabled = hasMoreEntries();
-            $scope.prevEnabled = hasLessEntries();
-        }
-    }
-
-    function prevEntry(){
-        if (hasLessEntries()){
-            $scope.currentIndex--;
-            $scope.entry = $scope.entryList[$scope.currentIndex];
-            $scope.nextEnabled = hasMoreEntries();
-            $scope.prevEnabled = hasLessEntries();
-        }
-    }
-
-    function hasMoreEntries(){
-        return $scope.currentIndex != $scope.entryList.length-1;
-    }
-
-    function hasLessEntries() {
-        return $scope.currentIndex > 0;
-    }
-
-    function findEntryIndexById(id){
-       /* for (var i=0, len = $scope.entryList.length; i < len; i++){
-            var entry = $scope.entryList[i];
-
-            if(entry.id === id)
-                return i;
-        }*/
-
-        return 0;
-    }
+	}
 
 
 }]);
+
