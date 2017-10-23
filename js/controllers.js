@@ -815,3 +815,8 @@ app.controller("DailyEntry", ["$scope", function ($scope) {
 
 }]);
 
+app.controller("ResourcesCtrl", ["$scope", function ($scope) {
+
+
+
+}]);

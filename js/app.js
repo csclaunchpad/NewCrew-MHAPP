@@ -23,9 +23,21 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/toolStore.html"
 	})
 	
-	.when("/moreDetails", {
-		controller: "MoreDetailsCtrl",
-		templateUrl: "partials/moreDetails.html"
+	.when("/resources", {
+		controller: "ResourcesCtrl",
+		templateUrl: "partials/resources/resources.html"
+	})
+
+	.when("/resources/employee", {
+		templateUrl: "partials/resources/employee.html"
+	})
+
+	.when("/resources/employeeFamily", {
+		templateUrl: "partials/resources/employeeFamily.html"
+	})
+
+	.when("/resources/public", {
+		templateUrl: "partials/resources/public.html"
 	})
 	
 	.when("/checkinLog", {
