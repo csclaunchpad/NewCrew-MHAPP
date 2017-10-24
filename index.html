@@ -25,7 +25,7 @@
 		
 
 			<!------------ Side Nav ------------>
-				<div id="SideNav" class="sideNav">
+				<div id="SideNav" class="sideNav" onclick="closeNav()">
 					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 					<a href="#home">Dashboard</a>
 					<a href="#dailyEntry">Daily Entry</a>
@@ -38,7 +38,7 @@
 
 				<script>
 					function openNav() {
-						document.getElementById("SideNav").style.width = "350px";
+						document.getElementById("SideNav").style.width = "300px";
 					}
 
 					function closeNav() {
