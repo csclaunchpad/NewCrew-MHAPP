@@ -18,40 +18,48 @@
 	
 	<body ng-controller="ZenAppCtrl" ng-cloak>      
 		
-
+		<div layout="column" layout-align= "left-side" >	
+						<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>
 		<!------------ Main Content ------------>
-		<div layout="row" layout-fill>
+			<div layout="row" >
 		
 
 			<!------------ Side Nav ------------>
-			<div id="SideNav" class="sideNav">
-				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-				<a href="#home">Dashboard</a>
-				<a href="#dailyEntry">Daily Entry</a>
-				<a href="#checkinLog">Checkin Log</a>
-				<a href="#resources">Resources</a>
-				<a href="#toolStore">Tools and Exercises</a>
-				<a href="#sqlTester">Settings</a>
-			</div>
-			<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>
+				<div id="SideNav" class="sideNav">
+					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+					<a href="#home">Dashboard</a>
+					<a href="#dailyEntry">Daily Entry</a>
+					<a href="#checkinLog">Checkin Log</a>
+					<a href="#resources">Resources</a>
+					<a href="#toolStore">Tools and Exercises</a>
+					<a href="#sqlTester">Settings</a>
+				</div>
+	<!--			<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>  -->
 
-<script>
-function openNav() {
-    document.getElementById("SideNav").style.width = "450px";
-}
+				<script>
+					function openNav() {
+						document.getElementById("SideNav").style.width = "350px";
+					}
 
-function closeNav() {
-    document.getElementById("SideNav").style.width = "0";
-}
-</script>			
-			<!------------ Injected Content ------------>
-			<section class="mainContent" role="main" flex>
+					function closeNav() {
+						document.getElementById("SideNav").style.width = "0";
+					}
+				</script>
 			
-				<!-- This is where Angular will inject content via our routeProvider in app.js -->
-				<div ng-view layout-fill></div>
-			</section>
-		</div>
+				<!------------ Injected Content ------------>
+				<section class="mainContent" role="main" flex>
+					<!-- This is where Angular will inject content via our routeProvider in app.js -->
+					<div ng-view layout-fill></div>
+				</section>
+				
+			</div>
+			<div layout="column" layout-align="center center">
+					<md-button class="btn1" ng-click="#resources"> Help Me </md-button>
+			</div>			
+			
+		</div>	
 
+		
         <!--Less-->
         <script>
             window.less = {
