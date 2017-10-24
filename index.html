@@ -2,7 +2,7 @@
 <html lang="en" ng-app="zenApp">
 	<head>
 		<title>Zen Mental Health Application</title>
-	
+
         <!------------ Meta tags ------------>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,51 +15,46 @@
 
 
     </head>
-	
-	<body ng-controller="ZenAppCtrl" ng-cloak>      
-		
-		<div layout="column" layout-align= "left-side" >	
-						<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>
+
+	<body ng-controller="ZenAppCtrl" ng-cloak>
+
+        <!-- Header -->
+        <header class="headerContainer" layout="row" layout-align="start center">
+		    <div class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></div>
+        </header>
+
 		<!------------ Main Content ------------>
-			<div layout="row" >
-		
 
-			<!------------ Side Nav ------------>
-				<div id="SideNav" class="sideNav" onclick="closeNav()">
-					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-					<a href="#home">Dashboard</a>
-					<a href="#dailyEntry">Daily Entry</a>
-					<a href="#checkinLog">Checkin Log</a>
-					<a href="#resources">Resources</a>
-					<a href="#toolStore">Tools and Exercises</a>
-					<a href="#sqlTester">Settings</a>
-				</div>
-	<!--			<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>  -->
+        <!-- This is where Angular will inject content via our routeProvider in app.js -->
+        <section class="mainContent" role="main" flex ng-view></section>
 
-				<script>
-					function openNav() {
-						document.getElementById("SideNav").style.width = "300px";
-					}
 
-					function closeNav() {
-						document.getElementById("SideNav").style.width = "0";
-					}
-				</script>
-			
-				<!------------ Injected Content ------------>
-				<section class="mainContent" role="main" flex>
-					<!-- This is where Angular will inject content via our routeProvider in app.js -->
-					<div ng-view layout-fill></div>
-				</section>
-				
-			</div>
-			<div layout="column" layout-align="center center">
-					<md-button class="btn1" ng-click="#resources"> Help Me </md-button>
-			</div>			
-			
-		</div>	
+		<!------------ Side Nav ------------>
+		<div id="SideNav" class="sideNav" onclick="closeNav()">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="#home">Dashboard</a>
+			<a href="#dailyEntry">Daily Entry</a>
+			<a href="#checkinLog">Checkin Log</a>
+			<a href="#resources">Resources</a>
+			<a href="#toolStore">Tools and Exercises</a>
+			<a href="#sqlTester">Settings</a>
+		</div>
 
-		
+        <!-- Help Me Button -->
+        <div class="footer">
+            <md-button class="helpMeBtn" > Help Me </md-button>
+        </div>
+
+		<script>
+            function openNav() {
+                document.getElementById("SideNav").style.width = "300px";
+            }
+
+            function closeNav() {
+                document.getElementById("SideNav").style.width = "0";
+            }
+		</script>
+
         <!--Less-->
         <script>
             window.less = {
@@ -74,7 +69,7 @@
         <script src="lib/less/less.min.js" type="text/javascript"></script>
 
 		<!------------ Angular Declarations ------------>
-		<script src="lib/angular/js/angular.min.js"></script>    
+		<script src="lib/angular/js/angular.min.js"></script>
 	    <script src="lib/angular/js/angular-route.min.js"></script>
 	  	<script src="lib/angular/js/angular-animate.min.js"></script>
 	  	<script src="lib/angular/js/angular-aria.min.js"></script>
@@ -84,17 +79,17 @@
 	   	<script src="lib/angular/js/angular-sanitize.min.js"></script>
 	  	<script src="lib/angular/js/angular-material.min.js"></script>
 	  	<script src="lib/angular/js/angular-material-icons.min.js"></script>
-		
+
 		<!------------ Chart.js Declarations ------------>
 		<script src="lib/chartjs/Chart.js"></script>
 		<script src="lib/chartjs/Chart.min.js"></script>
-		
+
 		<!------------ Moment Declarations ------------>
 		<script src="lib/moment/moment.js"></script>
-	  	
+
 	  	<!------------ $routeProvider/app config Declarations ------------>
 		<script type="text/javascript" src="js/app.js"></script>
-		
+
 		<!------------ Controller Declarations ------------>
 	    <script type="text/javascript" src="js/controllers.js"></script>
 	</body>
