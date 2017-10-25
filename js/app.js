@@ -23,37 +23,29 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/toolStore.html"
 	})
 	
-	.when("/resources", {
-		controller: "ResourcesCtrl",
-		templateUrl: "partials/resources/resources.html"
+	.when("/moreDetails", {
+		controller: "MoreDetailsCtrl",
+		templateUrl: "partials/moreDetails.html"
+	})
+	
+	.when("/wellnessTracker", {
+		controller: "WellnessTracker",
+		templateUrl: "partials/wellnessTracker/wellnessTracker.html"
 	})
 
-	.when("/resources/employee", {
-		templateUrl: "partials/resources/employee.html"
-	})
-
-	.when("/resources/employeeFamily", {
-		templateUrl: "partials/resources/employeeFamily.html"
-	})
-
-	.when("/resources/public", {
-		templateUrl: "partials/resources/employeeFamily.html"
+	.when("/wellnessTracker/entry/:id", {
+        controller: "EntryCtrl",
+        templateUrl: "partials/wellnessTracker/entry.html"
 	})
 	
 	.when("/checkinLog", {
 		controller: "CheckinLogCtrl",
-		templateUrl: "partials/checkinLog.html",
-        resolve: {
-            entryList: ["$rootScope", "queryService", entryListResolve]
-        }
+		templateUrl: "partials/checkinLog.html"
 	})
 	
-	.when("/checkinLogInfo/:id", {
+	.when("/checkinLogInfo", {
 		controller: "CheckinLogInfoCtrl",
-		templateUrl: "partials/checkinLogInfo.html",
-        resolve: {
-            entryList: ["$rootScope", "queryService", entryListResolve]
-        }
+		templateUrl: "partials/checkinLogInfo.html"
 	})
 	
 	.when("/diary", {
@@ -70,29 +62,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "analyticDashboardCtrl",
 		templateUrl: "partials/analyticDashboard.html"
 	})
-
-	.when("/dailyEntry", {
-		controller: "DailyEntry",
-		templateUrl: "partials/dailyEntry.html"
-	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
-
-
-
-	function entryListResolve($rootScope, queryService){
-        return queryService.selectQuery("*", "wellnessTrackerEntries", "").then(function(response) {
-            $rootScope.entries = response.data;
-
-            // Calculating the total scores (This SHOULD be done in the DB - Justin)
-            for(var i = 0; i < $rootScope.entries.length; i++) {
-                var entry = $rootScope.entries[i];
-                entry.entryScore = (parseInt(entry.happinessScore) + parseInt(entry.sleepScore)) * 5;
-                entry.date = new Date(entry.dateEntered);
-            }
-
-            return $rootScope.entries;
-        });
-	}
 }]);
