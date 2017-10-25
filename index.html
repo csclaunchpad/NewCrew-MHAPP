@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="zenApp">
+<!DOCTYPE html>
+<html>
 	<head>
+		<meta charset="utf-8">
+
 		<title>Zen Mental Health Application</title>
-	
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
+		<script src="lib/ionic/js/ionic.bundle.js"></script>
+
+		<!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
+		<script src="cordova.js"></script>
         <!------------ Meta tags ------------>
-	    <meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!------------ Angular CSS ------------>
 	    <link rel="stylesheet" href="lib/angular/css/angular-material.min.css" />
@@ -13,44 +24,46 @@
         <!--Less-->
         <link rel="stylesheet/less" type="text/css" href="less/default.less" />
 
-
     </head>
-	
-	<body ng-controller="ZenAppCtrl" ng-cloak>      
-		
+
+	<body ng-cloak>
+
+        <!-- Header -->
+        <header class="headerContainer" layout="row" layout-align="start center">
+		    <div class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></div>
+        </header>
 
 		<!------------ Main Content ------------>
-		<div layout="row" layout-fill>
-		
 
-			<!------------ Side Nav ------------>
-			<div id="SideNav" class="sideNav">
-				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-				<a href="#/analyticDashboard">Dashboard</a>
-				<a href="#/wellnessTracker">Wellness Tracker</a>
-				<a href="#/checkinLog">Checkin Log</a>
-				<a href="">Resources (Uncompleted)</a>
-				<a href="#toolStore">Tools</a>
-				<a href="">Settings (Uncompleted)</a>
-			</div>
-			<span class="leftNavBtn" onclick="openNav()"><img src="imgs/head.png" alt="head" class="leftNavBtnImg"></span>
+        <!-- This is where Angular will inject content via our routeProvider in app.js -->
+        <section class="mainContent" role="main" flex ng-view></section>
 
-<script>
-function openNav() {
-    document.getElementById("SideNav").style.width = "250px";
-}
 
-function closeNav() {
-    document.getElementById("SideNav").style.width = "0";
-}
-</script>			
-			<!------------ Injected Content ------------>
-			<section class="mainContent" role="main" flex>
-			
-				<!-- This is where Angular will inject content via our routeProvider in app.js -->
-				<div ng-view layout-fill></div>
-			</section>
+		<!------------ Side Nav ------------>
+		<div id="SideNav" class="sideNav" onclick="closeNav()">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="#home">Dashboard</a>
+			<a href="#dailyEntry">Daily Entry</a>
+			<a href="#checkinLog">Checkin Log</a>
+			<a href="#resources">Resources</a>
+			<a href="#toolStore">Tools and Exercises</a>
+			<a href="#sqlTester">Settings</a>
 		</div>
+
+        <!-- Help Me Button -->
+        <div class="footer">
+            <md-button class="helpMeBtn" > Help Me </md-button>
+        </div>
+
+		<script>
+            function openNav() {
+                document.getElementById("SideNav").style.width = "300px";
+            }
+
+            function closeNav() {
+                document.getElementById("SideNav").style.width = "0";
+            }
+		</script>
 
         <!--Less-->
         <script>
@@ -66,7 +79,7 @@ function closeNav() {
         <script src="lib/less/less.min.js" type="text/javascript"></script>
 
 		<!------------ Angular Declarations ------------>
-		<script src="lib/angular/js/angular.min.js"></script>    
+		<script src="lib/angular/js/angular.min.js"></script>
 	    <script src="lib/angular/js/angular-route.min.js"></script>
 	  	<script src="lib/angular/js/angular-animate.min.js"></script>
 	  	<script src="lib/angular/js/angular-aria.min.js"></script>
@@ -76,17 +89,20 @@ function closeNav() {
 	   	<script src="lib/angular/js/angular-sanitize.min.js"></script>
 	  	<script src="lib/angular/js/angular-material.min.js"></script>
 	  	<script src="lib/angular/js/angular-material-icons.min.js"></script>
-		
+
 		<!------------ Chart.js Declarations ------------>
 		<script src="lib/chartjs/Chart.js"></script>
 		<script src="lib/chartjs/Chart.min.js"></script>
-		
+
 		<!------------ Moment Declarations ------------>
 		<script src="lib/moment/moment.js"></script>
-	  	
+
 	  	<!------------ $routeProvider/app config Declarations ------------>
 		<script type="text/javascript" src="js/app.js"></script>
-		
+
+	  	<!------------ Factory Declarations ------------>
+		<script type="text/javascript" src="js/services.js"></script>
+
 		<!------------ Controller Declarations ------------>
 	    <script type="text/javascript" src="js/controllers.js"></script>
 	</body>
