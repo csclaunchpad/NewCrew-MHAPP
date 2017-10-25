@@ -1,0 +1,360 @@
+<md-content ng-cloak>
+	<div layout="column">
+		<md-card flex="50" class="slider" id="slider">
+			<!-- Question Selection -->
+			<div layout="row">
+				<div layout="row" layout-padding layout-align="start center" flex>
+					<div layout="column">
+						<div class="happinessText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.happinessCheckbox" aria-label="Happiness Checkbox">
+								Happiness Score
+							</md-checkbox>
+						</div>
+						<div class="stressText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.stressCheckbox" aria-label="Sleep Quality Checkbox">
+								Stress Score
+							</md-checkbox>
+						</div>
+					</div>
+					<div layout="column">
+						<div class="anxietyText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.anxietyCheckbox" aria-label="Sleep Quality Checkbox">
+								Anxiety Score
+							</md-checkbox>
+						</div>
+						<div class="angerText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.angerCheckbox" aria-label="Sleep Quality Checkbox">
+								Anger Score
+							</md-checkbox>
+						</div>
+					</div>
+					<div layout="column">
+						<div class="depressionText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.depressionCheckbox" aria-label="Sleep Quality Checkbox">
+								Depression Score
+							</md-checkbox>
+						</div>
+						<div class="sleepText" layout="column" layout-padding>
+							<md-checkbox class="md-primary" ng-model="data.sleepQualityCheckbox" aria-label="Sleep Quality Checkbox">
+								Sleep Quality Score
+							</md-checkbox>
+						</div>
+					</div>
+					<div layout="column" flex flex-offset="30" style="height: 100%;">
+						<div layout-padding>
+							<md-datepicker ng-model="data.fromDate" md-placeholder="Enter date"></md-datepicker>
+						</div>
+						<div layout-padding class="md-datePicker-align">
+							<md-datepicker ng-model="data.toDate" md-placeholder="Enter date"></md-datepicker>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Submit Button -->
+			<div layout="row" layout-align="end center">
+				<md-button class="md-raised buttonBold" ng-click="generateChart(data.happinessCheckbox, data.anxietyCheckbox, data.depressionCheckbox, data.stressCheckbox, data.angerCheckbox, data.sleepQualityCheckbox, data.fromDate, data.toDate)">Generate</md-button>
+				<md-button class="md-raised buttonBold">Check-In Log</md-button>
+			</div>
+		</md-card>
+		
+		<div flex ng-show="!pageElements.loadComplete && pageElements.loadStarted">
+			<md-progress-linear md-mode="indeterminate"></md-progress-linear>
+		</div>
+		
+		<!-- Maximize Button -->
+		<div layout="row" layout-align="center center" layout-padding>
+			<md-button class="md-raised buttonBold" onclick="document.getElementById('slider').classList.toggle('closed');">Test Slider Button</md-button>
+		</div>
+		
+		<div flex="50" ng-show="pageElements.loadComplete">
+			<div flex>
+				<div layout="row" flex layout-padding>
+					<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+						<div class="scoreHeader">Average Check-ins Per-Day</div>
+					</div>
+					<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+						<div class="scoreHeader">Average total score</div>
+					</div>
+					<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+						<div class="scoreHeader">Number of Check-ins</div>
+					</div>
+				</div>
+			</div>			
+			<div layout="row" flex layout-padding>
+				<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+					<div class="scoreValue">{{duplicateDatesFound}}</div>
+				</div>
+				<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+					<div class="scoreValue">{{grandTotalScore}}/100</div>
+				</div>
+				<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">
+					<div class="scoreValue">{{totalCheckins}}</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+			
+			<div layout="column" ng-show="pageElements.happinessValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Happiness Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="happinessWeeklyPercentage > 0">+{{happinessWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="happinessWeeklyPercentage < 0">{{happinessWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="happinessMonthlyPercentage > 0">+{{happinessMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="happinessMonthlyPercentage < 0">{{happinessMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.happinessScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{happinessGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+				
+			</div>
+		
+			<div layout="column" ng-show="pageElements.anxietyValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Anxiety Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="anxietyWeeklyPercentage > 0">+{{anxietyWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="anxietyWeeklyPercentage < 0">{{anxietyWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="anxietyMonthlyPercentage > 0">+{{anxietyMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="anxietyMonthlyPercentage < 0">{{anxietyMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.anxietyScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{anxietyGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+			
+			<div layout="column" ng-show="pageElements.depressionValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Depression Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="depressionWeeklyPercentage > 0">+{{depressionWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="depressionWeeklyPercentage < 0">{{depressionWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="depressionMonthlyPercentage > 0">+{{depressionMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="depressionMonthlyPercentage < 0">{{depressionMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.depressionScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{depressionGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+			
+			<div layout="column" ng-show="pageElements.stressValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Stress Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="stressWeeklyPercentage > 0">+{{stressWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="stressWeeklyPercentage < 0">{{stressWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="stressMonthlyPercentage > 0">+{{stressMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="stressMonthlyPercentage < 0">{{stressMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.stressScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{stressGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+			
+			<div layout="column" ng-show="pageElements.angerValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Anger Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="angerWeeklyPercentage > 0">+{{angerWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="angerWeeklyPercentage < 0">{{angerWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="angerMonthlyPercentage > 0">+{{angerMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="angerMonthlyPercentage < 0">{{angerMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.angerScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{angerGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+			
+			<div layout="column" ng-show="pageElements.sleepValues">
+				<div layout="row" layout-padding>
+					<div layout="row" flex layout-align="center center" >
+						<div class="scoreTitle">Sleep Score</div>
+					</div>
+				</div>
+				<div layout="column" layout-padding>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Week</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Percentage Change: Last Month</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Selected Dates</div>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<div class="scoreHeader">Average Score: Total</div>
+						</div>
+					</div>
+					<div layout="row" layout-padding>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="sleepWeeklyPercentage > 0">+{{sleepWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="sleepWeeklyPercentage < 0">{{sleepWeeklyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue" ng-show="sleepMonthlyPercentage > 0">+{{sleepMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="sleepMonthlyPercentage < 0">{{sleepMonthlyPercentage}}%</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{output.sleepScoreAverage}} / 10</span>
+						</div>
+						<div layout="row" flex layout-align="center center">
+							<span class="scoreValue">{{sleepGrandAverage}} / 10</span>
+						</div>
+					</div>
+				</div>
+				
+				<md-divider layout-padding></md-divider>
+			</div>
+		
+			<!-- Graph -->
+			<div layout="row">
+				<div layout-padding layout-fill>
+					<canvas id="mainChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</md-content>
