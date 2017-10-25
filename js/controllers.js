@@ -52,7 +52,7 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 	// Function that is called via select query button on sqlTester.html
 	$scope.runSelectQuery = function(inputSelectStatement, inputFromStatement, inputWhereStatement) {
 		
-		// Given the select, from, and where statements, returns a promise, also sets $scope.response to the data returned from the query
+		// Given the select, from, and where statements, returns a promise, also sets response to the data returned from the query
         queryService.selectQuery(inputSelectStatement, inputFromStatement, inputWhereStatement).then(function(response) {
 			
 			// Storing the response's data (I.E the query results) (Example)
@@ -66,7 +66,7 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 	// Function that is called via update query button on sqlTester.html
 	$scope.runUpdateQuery = function(inputUpdateStatement, inputSetStatement, inputWhereStatement) {
 		
-		// Given the update, set, and where statement: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
+		// Given the update, set, and where statement: runs the supplied query and returns a promise, also sets response to true/false depending on success/failure
         queryService.updateQuery(inputUpdateStatement, inputSetStatement, inputWhereStatement).then(function() {
 		});
 	};
@@ -74,7 +74,7 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 	// Function that is called via insert query button on sqlTester.html
 	$scope.runInsertQuery = function(inputInsertStatement, inputColumnStatement, inputValueStatement) {
 		
-		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
+		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets response to true/false depending on success/failure
         queryService.insertQuery(inputInsertStatement, inputColumnStatement, inputValueStatement).then(function() {
 		});
 	};
@@ -82,7 +82,7 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 	// Function that is called via delete query button on sqlTester.html
 	$scope.runDeleteQuery = function(inputTableStatement, inputWhereStatement) {
 		
-		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
+		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets response to true/false depending on success/failure
         queryService.deleteQuery(inputTableStatement, inputWhereStatement).then(function() {
 		});
 	};
@@ -336,8 +336,8 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 			whereClause = "(dateEntered >= DATETIME('" + fromDate + "') AND dateEntered <= DATETIME('" + toDate + "')) ORDER BY dateEntered";
 			
 			// Query the actual line graph data
-			queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function() {
-				$scope.entries = $scope.response.data;
+			queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function(response) {
+				$scope.entries = response.data;
 				
 				var labelsArray = [];
 				
@@ -545,12 +545,12 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				// Calculating last week's percentage change
 				
 				var weekDay = moment().isoWeekday();
-				today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+				var today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 				
 				// Fetching this weeks data
 				whereClause = "dateEntered BETWEEN DATETIME('" + today + "', '-" + weekDay + " day') AND DATETIME('" + today + "') ORDER BY dateEntered;";
 				
-				queryService(selectStatement, "wellnessTrackerEntries", whereClause).then( function() {
+				queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {
 					
 					var averageHappinessTotal = 0;
 					var currentWeekHappinessAverage = 0;
@@ -568,14 +568,14 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					var checkinCounter = 0;
 					
 					// Grab the averages for this week, so we can compare it to last week
-					for(var i = 0; i < $scope.response.data.length; i++) {
+					for(var i = 0; i < response.data.length; i++) {
 						
-						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt($scope.response.data[i].happinessScore);
-						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt($scope.response.data[i].anxietyScore);
-						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt($scope.response.data[i].depressionScore);
-						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt($scope.response.data[i].stressScore);
-						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt($scope.response.data[i].angerScore);
-						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt($scope.response.data[i].sleepScore);
+						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
+						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
+						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
@@ -592,7 +592,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					
 					whereClause = "dateEntered BETWEEN DATETIME('" + today + "', '-" + beginningOfWeekMinusAnotherWeek + " days') AND DATETIME('" + today + "', '-" + weekDay + " days') ORDER BY dateEntered";
 					
-					queryService(selectStatement, "wellnessTrackerEntries", whereClause).then( function() {				
+					queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {				
 						
 						var lastWeekHappinessAverage = 0;
 						var lastWeekAnxietyAverage = 0;
@@ -611,13 +611,13 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 						var checkinCounter = 0;
 						
 						// Grab the averages from last week
-						for(var i = 0; i < $scope.response.data.length; i++) {
-							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt($scope.response.data[i].happinessScore);
-							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt($scope.response.data[i].anxietyScore);
-							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt($scope.response.data[i].depressionScore);
-							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt($scope.response.data[i].stressScore);
-							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt($scope.response.data[i].angerScore);
-							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt($scope.response.data[i].sleepScore);
+						for(var i = 0; i < response.data.length; i++) {
+							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
+							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
+							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 							checkinCounter++;
 						}
 						
@@ -666,7 +666,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				// Fetching this months data
 				whereClause = "dateEntered BETWEEN DATETIME('" + today + "', '-" + monthDay + " day') AND DATETIME('" + today + "') ORDER BY dateEntered;";
 				
-				queryService(selectStatement, "wellnessTrackerEntries", whereClause).then( function() {
+				queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {
 					
 					var currentMonthHappinessAverage = 0;
 					var currentMonthAnxietyAverage = 0;
@@ -675,24 +675,24 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					var currentMonthAngerAverage = 0;
 					var currentMonthSleepAverage = 0;
 					
-					averageHappinessTotal = 0;
-					averageAnxietyTotal = 0;
-					averageDepressionTotal = 0;
-					averageStressTotal = 0;
-					averageAngerTotal = 0;
-					averageSleepTotal = 0;
+					var averageHappinessTotal = 0;
+					var averageAnxietyTotal = 0;
+					var averageDepressionTotal = 0;
+					var averageStressTotal = 0;
+					var averageAngerTotal = 0;
+					var averageSleepTotal = 0;
 				
 					var checkinCounter = 0;
 					
 					// Calculate the averages for this month, so we can compare it to last month
-					for(var i = 0; i < $scope.response.data.length; i++) {
+					for(var i = 0; i < response.data.length; i++) {
 						
-						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt($scope.response.data[i].happinessScore);
-						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt($scope.response.data[i].anxietyScore);
-						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt($scope.response.data[i].depressionScore);
-						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt($scope.response.data[i].stressScore);
-						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt($scope.response.data[i].angerScore);
-						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt($scope.response.data[i].sleepScore);
+						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
+						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
+						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
@@ -709,7 +709,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					
 					whereClause = "dateEntered BETWEEN DATETIME('" + today + "', '-" + beginningOfMonthMinusAnotherMonth + " days') AND DATETIME('" + today + "', '-" + monthDay + " days') ORDER BY dateEntered";
 					
-					queryService(selectStatement, "wellnessTrackerEntries", whereClause).then( function() {				
+					queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {				
 						
 						var lastMonthHappinessAverage = 0;
 						var lastMonthAnxietyAverage = 0;
@@ -728,13 +728,13 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 						var checkinCounter = 0;
 						
 						// Calculate last months averages
-						for(var i = 0; i < $scope.response.data.length; i++) {
-							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt($scope.response.data[i].happinessScore);
-							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt($scope.response.data[i].anxietyScore);
-							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt($scope.response.data[i].depressionScore);
-							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt($scope.response.data[i].stressScore);
-							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt($scope.response.data[i].angerScore);
-							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt($scope.response.data[i].sleepScore);
+						for(var i = 0; i < response.data.length; i++) {
+							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
+							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
+							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 							checkinCounter++;
 						}
 						
@@ -780,7 +780,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				
 				// Fetching total score numbers
 				
-				queryService("*", "wellnessTrackerEntries", "").then( function() {
+				queryService.selectQuery("*", "wellnessTrackerEntries", "").then( function(response) {
 					
 					var checkinCounter = 0;
 					
@@ -791,13 +791,13 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					var averageAngerTotal = 0;
 					var averageSleepTotal = 0;
 					
-					for(var i = 0; i < $scope.response.data.length; i++) {
-						averageHappinessTotal = averageHappinessTotal + parseInt($scope.response.data[i].happinessScore);
-						averageAnxietyTotal = averageAnxietyTotal + parseInt($scope.response.data[i].anxietyScore);
-						averageDepressionTotal = averageDepressionTotal + parseInt($scope.response.data[i].depressionScore);
-						averageStressTotal = averageStressTotal + parseInt($scope.response.data[i].stressScore);
-						averageAngerTotal = averageAngerTotal + parseInt($scope.response.data[i].angerScore);
-						averageSleepTotal = averageSleepTotal + parseInt($scope.response.data[i].sleepScore);
+					for(var i = 0; i < response.data.length; i++) {
+						averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+						averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
+						averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+						averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
+						averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
@@ -811,6 +811,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					$scope.grandTotalScore = ((parseInt($scope.happinessGrandAverage) + parseInt($scope.anxietyGrandAverage) + parseInt($scope.depressionGrandAverage) + parseInt($scope.stressGrandAverage) + parseInt($scope.angerGrandAverage) + parseInt($scope.sleepGrandAverage)) * 1.666666666666667).toFixed(2);
 				
 					$scope.pageElements.loadComplete = true;
+					
 				})
 			});
 		}
@@ -882,15 +883,15 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", functio
 	// If viewing, retrieve the entry
 	} else if($scope.flag == "viewing") {
 		var whereClause = "entryID = " + $scope.selectedDiaryEntryID;
-		queryService("*", "diaryEntries", whereClause).then(function() {
-			$scope.selectedEntry = $scope.response.data[0];
+		queryService.selectQuery("*", "diaryEntries", whereClause).then(function(response) {
+			$scope.selectedEntry = response.data[0];
 		});
 		
 	// If editing, retrieve the entry, separate from "viewing" for future functionality.
 	} else if($scope.flag == "editing") {
 		var whereClause = "entryID = " + $scope.selectedDiaryEntryID;
-		queryService("*", "diaryEntries", whereClause).then(function() {
-			$scope.selectedEntry = $scope.response.data[0];
+		queryService.selectQuery("*", "diaryEntries", whereClause).then(function(response) {
+			$scope.selectedEntry = response.data[0];
 		});
 	}
 	
@@ -901,7 +902,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", functio
 		var valuesClause = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM diaryEntries), 1, '" + $scope.newEntry.title + "', '" + $scope.newEntry.subtitle + "', '" + $scope.newEntry.content + "', datetime('now'), datetime('now')";
 		$scope.addingEntry = true;
 
-        queryService.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function() {
+        queryService.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function(response) {
 			$window.location.href = "#/diary";
 		});
 	};
