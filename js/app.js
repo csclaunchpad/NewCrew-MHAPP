@@ -37,17 +37,23 @@ app.config(["$routeProvider", function($routeProvider) {
 	})
 
 	.when("/resources/public", {
-		templateUrl: "partials/resources/public.html"
+		templateUrl: "partials/resources/employeeFamily.html"
 	})
 	
 	.when("/checkinLog", {
 		controller: "CheckinLogCtrl",
-		templateUrl: "partials/checkinLog.html"
+		templateUrl: "partials/checkinLog.html",
+        resolve: {
+            entryList: ["$rootScope", "queryService", entryListResolve]
+        }
 	})
 	
-	.when("/checkinLogInfo", {
+	.when("/checkinLogInfo/:id", {
 		controller: "CheckinLogInfoCtrl",
-		templateUrl: "partials/checkinLogInfo.html"
+		templateUrl: "partials/checkinLogInfo.html",
+        resolve: {
+            entryList: ["$rootScope", "queryService", entryListResolve]
+        }
 	})
 	
 	.when("/diary", {
@@ -72,4 +78,21 @@ app.config(["$routeProvider", function($routeProvider) {
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
+
+
+
+	function entryListResolve($rootScope, queryService){
+        return queryService.selectQuery("*", "wellnessTrackerEntries", "").then(function(response) {
+            $rootScope.entries = response.data;
+
+            // Calculating the total scores (This SHOULD be done in the DB - Justin)
+            for(var i = 0; i < $rootScope.entries.length; i++) {
+                var entry = $rootScope.entries[i];
+                entry.entryScore = (parseInt(entry.happinessScore) + parseInt(entry.sleepScore)) * 5;
+                entry.date = new Date(entry.dateEntered);
+            }
+
+            return $rootScope.entries;
+        });
+	}
 }]);

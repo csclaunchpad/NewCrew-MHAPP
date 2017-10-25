@@ -9,50 +9,8 @@ app.controller('HomeCtrl', ['$scope', function($scope){
 	/* Placeholder Controller */
 }]);
 
-//------------------ SideNav Controller --------------------
-app.controller('SideNav', function ($scope, $timeout, $mdSidenav, $log) {
-	
-	// When called, the sideNav's sliding will be toggled
-	$scope.toggleLeft = buildDelayedToggler('left');
-    
-	// Returns whether the sideNav is open or not
-	$scope.isOpenLeft = function(){
-    	return $mdSidenav('left').isOpen();
-    };
-	
-    // When given a function, the function will continue to operate until the time is up
-	function debounce(func, wait, context) {
-		var timer;
-
-		return function debounced() {
-			var context = $scope, args = Array.prototype.slice.call(arguments);
-			$timeout.cancel(timer);
-			timer = $timeout(function() {
-					timer = undefined;
-					func.apply(context, args);
-			}, wait || 10);
-		};
-	}
-	
-	// Responsible for sideNav's slide via Angular's $mdSidenav(id).toggle() method
-	function buildDelayedToggler(navID) {
-		return debounce(function() {
-			$mdSidenav(navID).toggle().then(function () {
-				$log.debug("toggle " + navID + " is done");
-			});
-		}, 200);
-	}
-	
-	// Closes the sideNav by using Angular's $mdSidenav(id).close() method
-	$scope.closeLeft = function () {
-		$mdSidenav('left').close().then(function () {
-			$log.debug("close LEFT is done");
-        });
-    };
-});
-
 //------------------ sqlTester Controller --------------------
-app.controller('SqlTesterCtrl', ['$scope', function($scope){
+app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, queryService){
 	
 	/* To-do List
 	/	1. Error Handling
@@ -95,10 +53,10 @@ app.controller('SqlTesterCtrl', ['$scope', function($scope){
 	$scope.runSelectQuery = function(inputSelectStatement, inputFromStatement, inputWhereStatement) {
 		
 		// Given the select, from, and where statements, returns a promise, also sets $scope.response to the data returned from the query
-		$scope.selectQuery(inputSelectStatement, inputFromStatement, inputWhereStatement).then(function() {
+        queryService.selectQuery(inputSelectStatement, inputFromStatement, inputWhereStatement).then(function(response) {
 			
 			// Storing the response's data (I.E the query results) (Example)
-			$scope.query = $scope.response.data;
+			$scope.query = response.data;
 			
 			// Storing the keys from the query statement (Example)
 			$scope.keys = Object.keys($scope.query[0]);		
@@ -109,7 +67,7 @@ app.controller('SqlTesterCtrl', ['$scope', function($scope){
 	$scope.runUpdateQuery = function(inputUpdateStatement, inputSetStatement, inputWhereStatement) {
 		
 		// Given the update, set, and where statement: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
-		$scope.updateQuery(inputUpdateStatement, inputSetStatement, inputWhereStatement).then(function() {
+        queryService.updateQuery(inputUpdateStatement, inputSetStatement, inputWhereStatement).then(function() {
 		});
 	};
 	
@@ -117,7 +75,7 @@ app.controller('SqlTesterCtrl', ['$scope', function($scope){
 	$scope.runInsertQuery = function(inputInsertStatement, inputColumnStatement, inputValueStatement) {
 		
 		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
-		$scope.insertQuery(inputInsertStatement, inputColumnStatement, inputValueStatement).then(function() {
+        queryService.insertQuery(inputInsertStatement, inputColumnStatement, inputValueStatement).then(function() {
 		});
 	};
 	
@@ -125,13 +83,13 @@ app.controller('SqlTesterCtrl', ['$scope', function($scope){
 	$scope.runDeleteQuery = function(inputTableStatement, inputWhereStatement) {
 		
 		// Given the table name, columns, and values to be inserted: runs the supplied query and returns a promise, also sets $scope.response to true/false depending on success/failure
-		$scope.deleteQuery(inputTableStatement, inputWhereStatement).then(function() {
+        queryService.deleteQuery(inputTableStatement, inputWhereStatement).then(function() {
 		});
 	};
 }]);
 
 //------------------ toolStore Controller (Place holder/Demo) --------------------
-app.controller('ToolStoreCtrl', ['$scope', '$window', function($scope, $window){
+app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
 	
 	/* Things to do: 
 	// 1. Add "Add to toolbelt" Button
@@ -140,14 +98,14 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', function($scope, $window){
 	*/
 	
 	// Fetch all the Tools
-	$scope.selectQuery("*", "tools", "").then(function() {
-		$scope.tools = $scope.response.data;
-	})
+    queryService.selectQuery("*", "tools", "").then(function(response) {
+		$scope.tools = response.data;
+	});
 	
 	// Place holder for addTool to toolBelt function
 	$scope.addTool = function(toolID) {
 		console.log(toolID);
-	}
+	};
 	
 	// Caches the selected tool's ID, and redirects to our autofilled moreDetails page
 	$scope.moreDetails = function(toolID) {
@@ -158,323 +116,85 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', function($scope, $window){
 }]);
 
 //------------------ checkinLog Controller --------------------
-app.controller('CheckinLogCtrl', ['$scope', '$window', function($scope, $window){
+app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", function($scope, $window, entryList){
 	
 	// Fetch all wellnessTrackerEntries
-	$scope.selectQuery("*", "wellnessTrackerEntries", "").then(function() {
-		$scope.entries = $scope.response.data;
-		
-		// Calculating the total scores (This SHOULD be done in the DB - Justin)
-		for(var i = 0; i < $scope.entries.length; i++) {
-			$scope.entries[i].entryScore = (parseInt($scope.entries[i].happinessScore) + parseInt($scope.entries[i].sleepScore)) * 5;
-		}
-	});
+	$scope.entries = entryList;
 	
 	// Redirect method for checkinLog.html -> checkinLogInfo.html, also stores the selected tool ID in localStorage
 	$scope.redirectMoreDetails = function(entryID) {
 		localStorage.setItem("selectedEntryID", entryID);
 		$window.location.href = "#/checkinLogInfo";
-	}
+	};
 	// To analyticDashboard function
 	$scope.redirectToDashboard = function() {
 		$window.location.href = "#/analyticDashboard";
-	}
+	};
 }]);
 
 //------------------ checkinLogInfo Controller --------------------
-app.controller('CheckinLogInfoCtrl', ['$scope', '$window', '$document', function($scope, $window, $document){
+app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "entryList", function($scope, $routeParams, $location, entryList){
 
-	// Check if the user is coming from checkinLog.html, if not, redirect to home
-	if(localStorage.getItem("selectedEntryID") == null) {
-		$window.location.href= "#/home";
-	} 
-	
-	// --- Weekly Linegraphs --- //
-	
-	// Grab the individual entry that the user selected on checkinLog.html
-	var whereClause = "entryID = '" + localStorage.getItem("selectedEntryID") + "'";
-	
-	$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
-		
-		$scope.selectedEntry = $scope.response.data[0];
-		
-		// Generating the selected log's score (This should be a field in the DB - Justin)
-		$scope.selectedEntry.entryScore = (parseInt($scope.selectedEntry.happinessScore) + parseInt($scope.selectedEntry.sleepScore)) * 5;
-		
-		// Apply the date restriction to our where clause (Within 7 days)
-		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-6 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
-		
-		// Select all wellnessTrackerEntries that are between the given dates above
-		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
-			$scope.weeklyEntries = $scope.response.data;
-			
-			// Weekly Date Labels, for example, YYYY-MM-DD HH:MM:SS
-			var weeklyLabels = []
-			
-			// Weekly HappinessScore Labels, for example, 1-10
-			var happinessScoreWeekly = [];
-			
-			// Weekly SleepScore Labels, for example, 1-10
-			var sleepScoreWeekly = [];
-			
-			// For each entry involved in the provided week, attach its appropriate label
-			for(var i = 0; i < $scope.weeklyEntries.length; i++) {
-				weeklyLabels[i] = $scope.weeklyEntries[i].dateEntered;
-				happinessScoreWeekly[i] = $scope.weeklyEntries[i].happinessScore;
-				sleepScoreWeekly[i] = $scope.weeklyEntries[i].sleepScore;
-			}		
-			
-			// Happiness Chart Weekly
-			var chartHappinessWeekly = new Chart(document.getElementById("line-chartHappinessWeekly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: weeklyLabels,
-				datasets: [{ 
-						data: happinessScoreWeekly,
-						label: "Happiness Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Sleep Chart Weekly
-			var chartSleepWeekly = new Chart(document.getElementById("line-chartSleepWeekly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: weeklyLabels,
-				datasets: [{ 
-						data: sleepScoreWeekly,
-						label: "Sleep Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Setup weekly average values
-			
-			// Weekly Happiness Average
-			$scope.weeklyHappinessAverage = 0;
-			
-			// Add each happinessScore entry, then divide them by the total of entries to produce the average
-			for(var i = 0; i < happinessScoreWeekly.length; i++) {
-				$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage + parseInt(happinessScoreWeekly[i]);
-			}
-			
-			$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage/happinessScoreWeekly.length;
-			$scope.weeklyHappinessAverage = $scope.weeklyHappinessAverage.toFixed(1);
-			
-			// Weekly Sleep Average
-			$scope.weeklySleepAverage = 0;
-			
-			// Add each sleepScore entry, then divide them by the total of entries to produce the average
-			for(var i = 0; i < sleepScoreWeekly.length; i++) {
-				$scope.weeklySleepAverage = $scope.weeklySleepAverage + parseInt(sleepScoreWeekly[i]);
-			}
-			
-			$scope.weeklySleepAverage = $scope.weeklySleepAverage/sleepScoreWeekly.length;
-			$scope.weeklySleepAverage = $scope.weeklySleepAverage.toFixed(1);
-		});
-		
-		// --- Monthly Linegraphs --- //
-		
-		// Apply the date restriction to our where clause (Within 30 days)
-		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-30 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
-		
-		// Select all wellnessTrackerEntries that are between the given dates above
-		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
-			$scope.monthlyEntries = $scope.response.data;
-			
-			// Monthly Date Labels, for example, YYYY-MM-DD HH:MM:SS
-			var monthlyLabels = [];
-			
-			// Monthly HappinessScore Labels, for example, 1-10
-			var happinessScoreMonthly = [];
-			
-			// Monthly SleepScore Labels, for example, 1-10
-			var sleepScoreMonthly = [];
-			
-			// For each entry involved in the provided month, attach its appropriate label
-			for(var i = 0; i < $scope.monthlyEntries.length; i++) {
-				monthlyLabels[i] = $scope.monthlyEntries[i].dateEntered;
-				happinessScoreMonthly[i] = $scope.monthlyEntries[i].happinessScore;
-				sleepScoreMonthly[i] = $scope.monthlyEntries[i].sleepScore;
-			}		
-			
-			// Set up Monthly Happiness Graph
-			var chartHappinessMonthly = new Chart(document.getElementById("line-chartHappinessMonthly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: monthlyLabels,
-				datasets: [{ 
-						data: happinessScoreMonthly,
-						label: "Happiness Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Set up Monthly Sleep Graph
-			var chartSleepMonthly = new Chart(document.getElementById("line-chartSleepMonthly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: monthlyLabels,
-				datasets: [{ 
-						data: sleepScoreMonthly,
-						label: "Sleep Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Setup Monthly Average values
-			
-			// Monthly Happiness Average
-			$scope.monthlyHappinessAverage = 0;
-			
-			// Add each happinessScore entry, then divide them by the total of entries to produce the average.
-			for(var i = 0; i < happinessScoreMonthly.length; i++) {
-				$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage + parseInt(happinessScoreMonthly[i]);
-			}
-			
-			$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage/happinessScoreMonthly.length;
-			$scope.monthlyHappinessAverage = $scope.monthlyHappinessAverage.toFixed(1);
-			
-			// Monthly Sleep Average
-			$scope.monthlySleepAverage = 0;
-			
-			// Add each sleepScore entry, then divide them by the total of entries to produce the average.
-			for(var i = 0; i < sleepScoreMonthly.length; i++) {
-				$scope.monthlySleepAverage = $scope.monthlySleepAverage + parseInt(sleepScoreMonthly[i]);
-			}
-			
-			$scope.monthlySleepAverage = $scope.monthlySleepAverage/sleepScoreMonthly.length;
-			$scope.monthlySleepAverage = $scope.monthlySleepAverage.toFixed(1);
-			
-		});
-		
-		// --- Quarterly Linegraphs --- //
-		
-		// Select all wellnessTrackerEntries that are between the given dates above
-		whereClause = "(dateEntered >= DATETIME('" + $scope.selectedEntry.dateEntered + "', '-90 days') AND dateEntered <= DATETIME('" + $scope.selectedEntry.dateEntered + "')) ORDER BY dateEntered";
+	var id = $routeParams.id,
+        currentIndex;
 
-		$scope.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function() {
-			$scope.quarterlyEntries = $scope.response.data;
-		
-			
-			// Quarterly Date Labels, for example, YYYY-MM-DD HH:MM:SS
-			var quarterlyLabels = [];
-			
-			// Quarterly HappinessScore Labels, for example, 1-10
-			var happinessScoreQuarterly = [];
-			
-			// Quarterly SleepScore Labels, for example, 1-10
-			var sleepScoreQuarterly = [];
-			
-			// For each entry involved in the provided quarter, attach its appropriate label
-			for(var i = 0; i < $scope.quarterlyEntries.length; i++) {
-				quarterlyLabels[i] = $scope.quarterlyEntries[i].dateEntered;
-				happinessScoreQuarterly[i] = $scope.quarterlyEntries[i].happinessScore;
-				sleepScoreQuarterly[i] = $scope.quarterlyEntries[i].sleepScore;
-			}		
-			
-			// Set up Quarterly Happiness Graph
-			var chartHappinessQuarterly = new Chart(document.getElementById("line-chartHappinessQuarterly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: quarterlyLabels,
-				datasets: [{ 
-						data: happinessScoreQuarterly,
-						label: "Happiness Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Set up Quarterly Sleep Graph
-			var chartSleepQuarterly = new Chart(document.getElementById("line-chartSleepQuarterly").getContext('2d'), {
-			
-			type: 'line',
-			data: {
-				labels: quarterlyLabels,
-				datasets: [{ 
-						data: sleepScoreQuarterly,
-						label: "Sleep Score",
-						borderColor: "#3e95cd",
-						fill: false
-				}]
-			}, options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend'
-					}
-				}
-			});
-			
-			// Setup Quarterly Average values
-			
-			// Quarterly Happiness Average
-			$scope.quarterlyHappinessAverage = 0;
-			
-			// Add each happinessScore entry, then divide them by the total of entries to produce the average
-			for(var i = 0; i < happinessScoreQuarterly.length; i++) {
-				$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage + parseInt(happinessScoreQuarterly[i]);
-			}
-			
-			$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage/happinessScoreQuarterly.length;
-			$scope.quarterlyHappinessAverage = $scope.quarterlyHappinessAverage.toFixed(1);
-			
-			// Quarterly Sleep Average
-			$scope.quarterlySleepAverage = 0;
-			
-			// Add each sleepScore entry, then divide them by the total of entries to produce the average
-			for(var i = 0; i < sleepScoreQuarterly.length; i++) {
-				$scope.quarterlySleepAverage = $scope.quarterlySleepAverage + parseInt(sleepScoreQuarterly[i]);
-			}
-			
-			$scope.quarterlySleepAverage = $scope.quarterlySleepAverage/sleepScoreQuarterly.length;
-			$scope.quarterlySleepAverage = $scope.quarterlySleepAverage.toFixed(1);
-			
-		});		
-	});
+	$scope.entry = null;
+	$scope.hasNext = true;
+	$scope.hasPrev = true;
+	$scope.nextEntry = nextEntry;
+	$scope.prevEntry = prevEntry;
+
+	setEntry();
+
+	function setEntry() {
+
+        for(var i = 0, len = entryList.length; i < len; i++){
+            var entry = entryList[i];
+
+            if (entry.entryID === id){
+                $scope.entry = entry;
+                currentIndex = i;
+                setHasNext();
+                setHasPrev();
+                break;
+            }
+        }
+    }
+
+    function nextEntry(){
+	    if ($scope.hasNext) {
+            currentIndex++;
+            updateUrl();
+        }
+    }
+
+    function prevEntry(){
+        if($scope.hasPrev) {
+            currentIndex--;
+            updateUrl();
+        }
+    }
+
+    function updateUrl(){
+        if (currentIndex <= entryList.length - 1 && currentIndex >= 0) {
+            var entryId = entryList[currentIndex].entryID;
+            $location.path("checkinLogInfo/" + entryId);
+        }
+    }
+
+    function setHasNext(){
+        $scope.hasNext = currentIndex < entryList.length - 1;
+    }
+
+    function setHasPrev(){
+        $scope.hasPrev = currentIndex !== 0;
+    }
+
+
 }]);
 
 //------------------ Analytic Dashboard Controller --------------------
-app.controller('analyticDashboardCtrl', ['$scope', function($scope){
+app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($scope, queryService){
 	
 	// Form values
 	$scope.data = {
@@ -482,7 +202,7 @@ app.controller('analyticDashboardCtrl', ['$scope', function($scope){
 		sleepQualityCheckbox: false,
 		fromDate: new Date(),
 		toDate: new Date()
-	}
+	};
 	
 	// Happiness = 0, Sleep Quality = 1
 	$scope.graphColours = ["#3E95CD", "#00FFE4"];
@@ -518,13 +238,13 @@ app.controller('analyticDashboardCtrl', ['$scope', function($scope){
 			whereClause = "(dateEntered >= DATETIME('" + fromDate + "') AND dateEntered <= DATETIME('" + toDate + "')) ORDER BY dateEntered";
 			
 			// Query the actual line graph data
-			$scope.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function() {
-				$scope.entries = $scope.response.data;
+            queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function(response) {
+				$scope.entries = response.data;
 				
 				// Setting up the objects
 				
 				// Labels for graph
-				var labelsArray = []
+				var labelsArray = [];
 				
 				// Each happiness checkin score
 				var happinessScoreArray = [];
@@ -608,47 +328,47 @@ app.controller('analyticDashboardCtrl', ['$scope', function($scope){
 }]);
 
 //------------------ Diary Controller --------------------
-app.controller('DiaryCtrl', ['$scope', '$window', function($scope, $window){
+app.controller('DiaryCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
 	
 	// Resets DiaryManager's function
 	localStorage.setItem("diaryFunction", "");
 	
 	// Fetch all diary entries (1=1 is a temporary fix to an issue discovered in selectQuery.php's where clause, please ignore)
-	$scope.selectQuery("*", "diaryEntries", "1=1 ORDER BY dateCreated").then(function() {
-		$scope.diaryEntries = $scope.response.data;
+    queryService.selectQuery("*", "diaryEntries", "1=1 ORDER BY dateCreated").then(function(response) {
+		$scope.diaryEntries = response.data;
 	});
 	
 	// Indicates to our diaryManager that upon loading, that the user has requested a "New" entry, redirect to the diaryManager
 	$scope.addDiaryEntry = function() {
 		localStorage.setItem("diaryFunction", "new");
 		$window.location.href = "#/diaryManager";
-	}
+	};
 	
 	// Indicates to our diaryManager that upon loading, that the user has requested to view an entry, redirect to the diaryManager with the selected entryID
 	$scope.viewDiaryEntry = function(selectedDiaryEntry) {
 		localStorage.setItem("diaryFunction", "viewing");
 		localStorage.setItem("selectedDiaryEntry", selectedDiaryEntry);
 		$window.location.href = "#/diaryManager";
-	}
+	};
 	
 	// Indicates to our diaryManager that upon loading, that the user has requested to edit an entry, redirect to the diaryManager with the selected entryID
 	$scope.editDiaryEntry = function(selectedDiaryEntry) {
 		localStorage.setItem("diaryFunction", "editing");
 		localStorage.setItem("selectedDiaryEntry", selectedDiaryEntry);
 		$window.location.href = "#/diaryManager";
-	}
+	};
 	
 	// Create the query to delete the diary entry, then "reload" the page (Is the reload needed? - Justin)
 	$scope.deleteDiaryEntry = function(selectedDiaryEntry) {
 		var whereClause = "entryID = " + selectedDiaryEntry;
-		$scope.deleteQuery("diaryEntries", whereClause).then(function() {
+        queryService.deleteQuery("diaryEntries", whereClause).then(function() {
 			$window.location.href = "#/diary";
 		});
 	};
 }]);
 
 //------------------ Diary Manager Controller --------------------
-app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $window){
+app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
 	
 	// Retrieve the function flag from localStorage, this flag tells diaryManager which feature the user requested
 	$scope.flag = localStorage.getItem("diaryFunction");
@@ -690,8 +410,8 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $windo
 		// Design values clause, note that "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM diaryEntries)" is to mimic an auto-incrementing primary key as SQLite3 doesn't support an auto-incrementing compound key - This should be a trigger in the DB granted overhead isn't large - Justin
 		var valuesClause = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM diaryEntries), 1, '" + $scope.newEntry.title + "', '" + $scope.newEntry.subtitle + "', '" + $scope.newEntry.content + "', datetime('now'), datetime('now')";
 		$scope.addingEntry = true;
-		
-		$scope.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function() {
+
+        queryService.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function() {
 			$window.location.href = "#/diary";
 		});
 	};
@@ -700,7 +420,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $windo
 	$scope.updateDiaryEntry = function() {
 		var setQuery = "title = '" + $scope.selectedEntry.title + "', subtitle = '" + $scope.selectedEntry.subtitle + "', content = '" + $scope.selectedEntry.content + "', dateLastEdited = datetime('now')";
 		var whereClause = "entryID = " + $scope.selectedEntry.entryID;
-		$scope.updateQuery("diaryEntries", setQuery, whereClause).then(function() {
+        queryService.updateQuery("diaryEntries", setQuery, whereClause).then(function() {
 			$window.location.href = "#/diary";
 		});
 	};
@@ -720,81 +440,13 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', function($scope, $windo
 	// Deletes the entry, then redirects to diary.html
 	$scope.deleteDiaryEntry = function(selectedDiaryEntry) {
 		var whereClause = "entryID = " + selectedDiaryEntry;
-		$scope.deleteQuery("diaryEntries", whereClause).then(function() {
+        queryService.deleteQuery("diaryEntries", whereClause).then(function() {
 			$window.location.href = "#/diary";
 		});
 	};
 }]);
 
-//------------------ App Controller --------------------
-app.controller('ZenAppCtrl', ['$scope', '$http', function($scope, $http) {
-
-	// Does an HTTP GET request to our DB and runs the supplied SELECT statement, then returns a promise
-	$scope.selectQuery = function(inputSelectStatement, inputFromStatement, inputWhereStatement) {
-		return $http({
-			method: 'GET',
-			url: '../php/selectQuery.php',
-			params: {selectStatement: inputSelectStatement, fromStatement: inputFromStatement, whereStatement: inputWhereStatement}
-		}).then(function(response) {
-			// Storing the response
-			$scope.response = angular.fromJson(response);
-		});
-	};
-	
-	// Does an HTTP GET request to our DB and runs the supplied UPDATE statement, then returns a promise
-	$scope.updateQuery = function(inputUpdateStatement, inputSetStatement, inputWhereStatement) {
-		return $http({
-			method: 'GET',
-			url: '../php/updateQuery.php',
-			params: {updateStatement: inputUpdateStatement, setStatement: inputSetStatement, whereStatement: inputWhereStatement}
-		}).then(function(response) {
-			
-			// Checks for an array in the data, if there is, the update request was a success
-			if (Array.isArray(angular.fromJson(response).data)) {
-				$scope.response = true;
-			} else {
-				$scope.response = false;
-			}
-		})
-	};
-	
-	// Does an HTTP GET request to our DB and runs the supplied INSERT statement, then returns a promise
-	$scope.insertQuery = function(inputInsertStatement, inputColumnStatement, inputValueStatement) {
-		return $http({
-			method: 'POST',
-			url: '../php/insertQuery.php',
-			params: {insertStatement: inputInsertStatement, columnStatement: inputColumnStatement, valueStatement: inputValueStatement}
-		}).then(function(response) {
-			
-			// Checks for an array in the data, if there is, the update request was a success
-			if (Array.isArray(angular.fromJson(response).data)) {
-				$scope.response = true;
-			} else {
-				$scope.response = false;
-			}
-		})
-	};
-	
-	// Does an HTTP GET request to our DB and runs the supplied INSERT statement, then returns a promise
-	$scope.deleteQuery = function(inputTableStatement, inputWhereStatement) {
-		return $http({
-			method: 'GET',
-			url: '../php/deleteQuery.php',
-			params: {tableStatement: inputTableStatement, whereStatement: inputWhereStatement}
-		}).then(function(response) {
-			
-			// Checks for an array in the data, if there is, the update request was a success
-			if (Array.isArray(angular.fromJson(response).data)) {
-				$scope.response = true;
-			} else {
-				$scope.response = false;
-			}
-		})
-	}
-}]);
-
-
-app.controller("DailyEntry", ["$scope", function ($scope) {
+app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {
 
 
 	$scope.feelingScore = 3;
@@ -806,7 +458,7 @@ app.controller("DailyEntry", ["$scope", function ($scope) {
 
 		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.feelingScore + ", '" + $scope.description + "', " + $scope.sleepScore + ", datetime('now')";
 
-		$scope.insertQuery("wellnessTrackerEntries", "entryID,userID,happinessScore,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
+        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,happinessScore,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
 			console.log("This is result:", result);
         });
 
