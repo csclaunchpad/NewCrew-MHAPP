@@ -2,7 +2,7 @@
 
 // This file contains all functionality that goes along with a page. The controller that goes along with a page is defined in app.js
 
-var app = angular.module("zenApp.controllers", ['ngRoute', 'ngMaterial']);
+var app = angular.module("zenApp.controllers", ['ngRoute', 'ngMaterial', 'angular-carousel']);
 
 //------------------ Home Controller --------------------
 app.controller('HomeCtrl', ['$scope', function($scope){
@@ -812,9 +812,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					$scope.grandTotalScore = ((parseInt($scope.happinessGrandAverage) + parseInt($scope.anxietyGrandAverage) + parseInt($scope.depressionGrandAverage) + parseInt($scope.stressGrandAverage) + parseInt($scope.angerGrandAverage) + parseInt($scope.sleepGrandAverage)) * 1.666666666666667).toFixed(2);
 				
 					$scope.pageElements.loadComplete = true;
-
-					
-					
+		
 					if(parseInt($scope.grandTotalScore)) {
 						$scope.pageElements.hideAllElements = false;
 					} else {
@@ -943,6 +941,10 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", functio
 			$window.location.href = "#/diary";
 		});
 	};
+}]);
+
+app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', function($scope, Carousel){
+	$scope.Carousel = Carousel;
 }]);
 
 app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {

@@ -1,0 +1,154 @@
+<md-content>
+	<div layout="column">
+		<div layout="row" layout-padding>
+			<div layout="column" layout-align="center" flex-offset="5">
+				<div>
+					<span class="md-display-1">Sleep Tool</span>
+				</div>
+				<div>
+					Designed by: Dr. Sandman
+				</div>
+			</div>
+			<div layout="row" flex layout-align="end center">
+				<div>
+					<md-button class="md-raised md-primary buttonBold">Add to Toolbelt</md-button>
+					<md-button class="md-raised md-primary buttonBold">Back</md-button>
+				</div>
+			</div>
+		</div>
+		
+		<md-divider></md-divider>
+		
+		<div layout="column" flex flex-offset="5" layout-padding>
+			<div layout-align="end center">
+				<span class="md-headline">This app helps with...</span>
+			</div>
+			
+			<div layout="column"> 
+				<div>
+					<h4>Sleep</h4>
+				</div>
+				<div>
+					<md-progress-linear class="md-red" md-mode="determinate" value="90" flex="95"></md-progress-linear>
+				</div>
+			</div>
+			<div layout="column"> 
+				<div>
+					<h4>Stress</h4>
+				</div>
+				<div>
+					<md-progress-linear md-mode="determinate" value="60" flex="95"></md-progress-linear>
+				</div>
+			</div>
+			<div layout="column"> 
+				<div>
+					<h4>Depression</h4>
+				</div>
+				<div>
+					<md-progress-linear md-mode="determinate" value="40" flex="95"></md-progress-linear>
+				</div>
+			</div>
+		</div>
+		
+		<md-divider layout-padding></md-divider>
+		
+		<div layout="row" layout-align="center center" layout-padding>
+			<div flex="30">
+				rem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus semper magna tellus, ac porta nunc tincidunt eget. Etiam turpis magna, dapibus id varius non, semper at augue. Pellentesque elementum commodo mi, malesuada fermentum odio mattis et. Aliquam laoreet aliquam velit non maximus. Mauris ullamcorper consequat sollicitudin. Praesent euismod tincidunt sollicitudin. Nulla nisi justo, elementum et arcu ac, feugiat vulputate arcu. Donec porta ipsum id efficitur molestie. In aliquet lectus at tincidunt convallis.
+			</div>
+				
+			<div flex-offset="20" flex="30">
+				Cras eget neque commodo, condimentum ipsum quis, condimentum lacus. Donec placerat pharetra magna, vitae pretium nibh commodo nec. Etiam leo nibh, blandit sit amet viverra sed, placerat eu ante. Nam id cursus sem. Nullam in porttitor purus, tincidunt ultrices purus. Sed arcu dolor, fermentum a tristique vel, lobortis pellentesque quam. Fusce mattis nisi lectus, ac eleifend mauris venenatis nec. In venenatis urna id venenatis condimentum.
+			</div>
+		</div>
+		
+		<div layout="row" layout-align="center center" flex layout-padding>
+            <div ng-carousel ng-carousel-name="example-carousel1" flex="80">
+                <slidecontainer>
+                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
+                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
+                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
+                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
+                </slidecontainer>
+                <div class="carousel-arrow carousel-arrow-left">
+                    <button class="carouselButton" ng-click="Carousel.get('example-carousel1').previous()">Left</button>
+                </div>
+                <div class="carousel-arrow carousel-arrow-right">
+                    <button class="carouselButton" ng-click="Carousel.get('example-carousel1').next()">Right</button>
+                </div>
+            </div>
+        </div>		
+		
+		<div layout="row" layout-align="center center" layout-padding>
+			<div flex="80">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim finibus consequat. Mauris et sagittis tellus. Phasellus quam nulla, fringilla quis faucibus lacinia, blandit eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque rutrum, magna nec blandit dignissim, tellus turpis elementum ante, eu mollis justo augue at purus. In ut lorem tristique, malesuada lorem vitae, suscipit orci. Vivamus eu malesuada enim. Aliquam dolor urna, dapibus a interdum id, fringilla vel augue. Morbi eget porttitor ex, quis iaculis nisi. Sed quis ullamcorper ex. Vestibulum libero magna, suscipit efficitur mauris id, rhoncus pharetra magna. Fusce ac purus risus. Donec aliquam gravida elit, sed lobortis orci cursus maximus. Ut non pulvinar velit. Nunc a vulputate dolor. Ut eu eros a nibh vestibulum tristique at volutpat urna. Donec sollicitudin vel mauris a iaculis. Duis pharetra rutrum libero, vitae gravida mi suscipit in. Curabitur vestibulum laoreet urna at vestibulum. Praesent vulputate sagittis felis eu aliquet. Nam congue vel nulla ut pharetra.
+			</div>
+		</div>
+		
+		<md-divider layout-padding></md-divider>
+		
+		<div layout="column" layout-padding>
+			<div layout-align="end center">
+				<span class="md-headline">Similar Apps...</span>
+			</div>
+			<div layout="row" layout-align="center center">
+				<div flex>
+					<md-card>
+						<md-card-title>					
+							<md-card-title-text>
+								<span class="md-headline">Nutrition Tool</span>
+								<span class="md-subhead">Developed by Dr. Apple</span>
+							</md-card-title-text>
+						</md-card-title>
+						<md-card-content>
+							Suspendisse eu ante quis lacus maximus sagittis commodo non ante. Integer ut rhoncus magna. Ut ut finibus ipsum.
+						</md-card-content>
+						
+						<md-card-actions layout="row" layout-padding layout-align="end end">
+							<md-button class="md-raised md-primary" aria-label="Add to Toolbelt">Add to Toolbelt</md-button>
+							<md-button class="md-raised md-primary" aria-label="More Details">More Details</md-button>
+						</md-card-actions>
+					</md-card>
+				</div>
+				<div flex>
+					<md-card>
+						<md-card-title>
+						
+							<md-card-title-text>
+								<span class="md-headline">Bed-Time Prep Tool</span>
+								<span class="md-subhead">Developed by Dr. Sandman</span>
+							</md-card-title-text>
+						</md-card-title>
+						<md-card-content>
+							Suspendisse eu ante quis lacus maximus sagittis commodo non ante. Integer ut rhoncus magna. Ut ut finibus ipsum.
+						</md-card-content>
+						
+						<md-card-actions layout="row" layout-padding layout-align="end end">
+							<md-button class="md-raised md-primary" aria-label="Add to Toolbelt">Add to Toolbelt</md-button>
+							<md-button class="md-raised md-primary" aria-label="More Details">More Details</md-button>
+						</md-card-actions>
+					</md-card>
+				</div>
+				<div flex>
+					<md-card>
+						<md-card-title>					
+							<md-card-title-text>
+								<span class="md-headline">Stress Tool</span>
+								<span class="md-subhead">Developed by Dr. Chill</span>
+							</md-card-title-text>
+						</md-card-title>
+						<md-card-content>
+							Suspendisse eu ante quis lacus maximus sagittis commodo non ante. Integer ut rhoncus magna. Ut ut finibus ipsum.
+						</md-card-content>
+						
+						<md-card-actions layout="row" layout-padding layout-align="end end">
+							<md-button class="md-raised md-primary" aria-label="Add to Toolbelt">Add to Toolbelt</md-button>
+							<md-button class="md-raised md-primary" aria-label="More Details">More Details</md-button>
+						</md-card-actions>
+					</md-card>
+				</div>
+			</div>
+		</div>
+				
+	</div>
+</md-content>

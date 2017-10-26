@@ -66,6 +66,11 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/diaryManager.html"
 	})
 	
+	.when("/moreDetails", {
+		controller: "MoreDetailsCtrl",
+		templateUrl: "partials/moreDetails.html"
+	})
+	
 	.when("/analyticDashboard", {
 		controller: "analyticDashboardCtrl",
 		templateUrl: "partials/analyticDashboard.html"
