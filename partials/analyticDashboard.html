@@ -119,11 +119,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="happinessWeeklyPercentage > 0">+{{happinessWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="happinessWeeklyPercentage < 0">{{happinessWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="happinessWeeklyPercentage <= 0">{{happinessWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="happinessMonthlyPercentage > 0">+{{happinessMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="happinessMonthlyPercentage < 0">{{happinessMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="happinessMonthlyPercentage <= 0">{{happinessMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{happinessScoreAverage}} / 10</span>
@@ -162,11 +162,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="anxietyWeeklyPercentage > 0">+{{anxietyWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="anxietyWeeklyPercentage < 0">{{anxietyWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="anxietyWeeklyPercentage <= 0">{{anxietyWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="anxietyMonthlyPercentage > 0">+{{anxietyMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="anxietyMonthlyPercentage < 0">{{anxietyMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="anxietyMonthlyPercentage <= 0">{{anxietyMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{anxietyScoreAverage}} / 10</span>
@@ -204,11 +204,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="depressionWeeklyPercentage > 0">+{{depressionWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="depressionWeeklyPercentage < 0">{{depressionWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="depressionWeeklyPercentage <= 0">{{depressionWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="depressionMonthlyPercentage > 0">+{{depressionMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="depressionMonthlyPercentage < 0">{{depressionMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="depressionMonthlyPercentage <= 0">{{depressionMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{depressionScoreAverage}} / 10</span>
@@ -246,11 +246,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="stressWeeklyPercentage > 0">+{{stressWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="stressWeeklyPercentage < 0">{{stressWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="stressWeeklyPercentage <= 0">{{stressWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="stressMonthlyPercentage > 0">+{{stressMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="stressMonthlyPercentage < 0">{{stressMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="stressMonthlyPercentage <= 0">{{stressMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{stressScoreAverage}} / 10</span>
@@ -288,11 +288,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="angerWeeklyPercentage > 0">+{{angerWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="angerWeeklyPercentage < 0">{{angerWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="angerWeeklyPercentage <= 0">{{angerWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="angerMonthlyPercentage > 0">+{{angerMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="angerMonthlyPercentage < 0">{{angerMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="angerMonthlyPercentage <= 0">{{angerMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{angerScoreAverage}} / 10</span>
@@ -330,11 +330,11 @@
 					<div layout="row" layout-padding>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="sleepWeeklyPercentage > 0">+{{sleepWeeklyPercentage}}%</span>
-							<span class="scoreValue" ng-show="sleepWeeklyPercentage < 0">{{sleepWeeklyPercentage}}%</span>
+							<span class="scoreValue" ng-show="sleepWeeklyPercentage <= 0">{{sleepWeeklyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue" ng-show="sleepMonthlyPercentage > 0">+{{sleepMonthlyPercentage}}%</span>
-							<span class="scoreValue" ng-show="sleepMonthlyPercentage < 0">{{sleepMonthlyPercentage}}%</span>
+							<span class="scoreValue" ng-show="sleepMonthlyPercentage <= 0">{{sleepMonthlyPercentage}}%</span>
 						</div>
 						<div layout="row" flex layout-align="center center">
 							<span class="scoreValue">{{sleepScoreAverage}} / 10</span>
