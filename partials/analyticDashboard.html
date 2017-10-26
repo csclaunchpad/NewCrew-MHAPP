@@ -58,16 +58,22 @@
 			</div>
 		</md-card>
 		
-		<div flex ng-show="!pageElements.loadComplete && pageElements.loadStarted">
+		<div flex ng-show="!pageElements.loadComplete && pageElements.loadStarted && !pageElements.hideAllElements">
 			<md-progress-linear md-mode="indeterminate"></md-progress-linear>
 		</div>
+		
+		<md-card ng-show="pageElements.hideAllElements" layout-align="center center">
+			<div>
+				No Check-Ins Found!
+			</div>
+		</md-card>
 		
 		<!-- Maximize Button -->
 		<div layout="row" layout-align="center center" layout-padding>
 			<md-button class="md-raised buttonBold" onclick="document.getElementById('slider').classList.toggle('closed');">Test Slider Button</md-button>
 		</div>
 		
-		<div flex="50" ng-show="pageElements.loadComplete">
+		<div flex="50" ng-show="pageElements.loadComplete" ng-hide="pageElements.hideAllElements">
 			<div flex>
 				<div layout="row" flex layout-padding>
 					<div layout="row" flex layout-align="center center" ng-show="pageElements.showOutput">

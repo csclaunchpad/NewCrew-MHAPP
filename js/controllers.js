@@ -212,6 +212,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 	$scope.pageElements = {
 		maximizeButton: true,
 		showOutput: false,
+		hideAllElements: false,
 		happinessValues: false,
 		anxietyValues: false,
 		depressionValues: false,
@@ -811,7 +812,14 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					$scope.grandTotalScore = ((parseInt($scope.happinessGrandAverage) + parseInt($scope.anxietyGrandAverage) + parseInt($scope.depressionGrandAverage) + parseInt($scope.stressGrandAverage) + parseInt($scope.angerGrandAverage) + parseInt($scope.sleepGrandAverage)) * 1.666666666666667).toFixed(2);
 				
 					$scope.pageElements.loadComplete = true;
+
 					
+					
+					if(parseInt($scope.grandTotalScore)) {
+						$scope.pageElements.hideAllElements = false;
+					} else {
+						$scope.pageElements.hideAllElements = true;
+					}
 				})
 			});
 		}
