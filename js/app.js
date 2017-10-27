@@ -93,7 +93,7 @@ app.config(["$routeProvider", function($routeProvider) {
             // Calculating the total scores (This SHOULD be done in the DB - Justin)
             for(var i = 0; i < $rootScope.entries.length; i++) {
                 var entry = $rootScope.entries[i];
-                entry.entryScore = (parseInt(entry.happinessScore) + parseInt(entry.sleepScore)) * 5;
+                entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0);
                 entry.date = new Date(entry.dateEntered);
             }
 

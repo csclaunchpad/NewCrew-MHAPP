@@ -42,7 +42,7 @@
 			<!-- Submit Button -->
 			<div layout="row" layout-align="end center">
 				<md-button class="md-raised buttonBold" ng-click="generateChart(data.moodCheckbox, data.stressCheckbox, data.dietCheckbox, data.sleepCheckbox, data.fromDate, data.toDate)">Generate</md-button>
-				<md-button class="md-raised buttonBold">Check-In Log</md-button>
+				<md-button class="md-raised buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
 			</div>
 		</md-card>
 		
@@ -174,7 +174,7 @@
 		
 			<!-- Graph -->
 			<div layout="row">
-				<div layout-padding layout-fill>
+				<div id="chartDiv" layout-padding layout-fill>
 					<canvas id="mainChart"></canvas>
 				</div>
 			</div>

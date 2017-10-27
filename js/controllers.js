@@ -191,7 +191,7 @@ app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "en
 }]);
 
 //------------------ Analytic Dashboard Controller --------------------
-app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($scope, queryService){
+app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", function($scope, queryService, $window){
 	
 	// Form values
 	$scope.data = {
@@ -214,6 +214,10 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 		sleepValues: false,
 		loadComplete: false,
 		loadStarted: false
+	}
+	
+	$scope.redirectToCheckinLog = function() {
+		$window.location.href= "#/checkinLog";
 	}
 	
 	// Mood = 0, sleep = 1, stress = 2, diet = 3 
@@ -455,7 +459,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepCheckboxIndex].label, data: graphDataSets[sleepCheckboxIndex].data, borderColor: graphDataSets[sleepCheckboxIndex].borderColor, fill: graphDataSets[sleepCheckboxIndex].fill};
 				}
 				
-				// Generate Chart
 				var mainChart = new Chart(document.getElementById("mainChart").getContext('2d'), {
 					
 					type: 'line',
@@ -472,6 +475,8 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 						}
 					}
 				});
+				
+				console.log(mainChartDiv.childNodes[0]);
 				
 				// Calculating last week's percentage change
 				/*

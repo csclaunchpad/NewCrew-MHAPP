@@ -11,15 +11,19 @@
             <md-card >
                 <md-card-title>
                     <md-card-title-text>
-                        <div layout="row" layout-align="center center">
-                            <span flex="80"><strong>Date:</strong> {{entry.dateEntered}}</span>
-                            <span flex ng-show="entry.entryScore <= 10"><strong>Score: </strong> Very Low ({{report.entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Score:</strong> Low ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Score:</strong> Rough ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Score:</strong> Decent ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Score:</strong> Good ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Score:</strong> Very Good ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 76"><strong>Score:</strong> Amazing ({{entry.entryScore}})</span>
+                        <div layout="row" flex layout-align="center center">
+                            <span flex><strong>Date:</strong> {{entry.dateEntered}}</span>
+							<span flex class="moodText"><strong>Mood Score:</strong> {{entry.moodScore}}</span>
+							<span flex class="sleepText"><strong>Sleep Score:</strong> {{entry.sleepScore}}</span>
+							<span flex class="stressText"><strong>Stress Score:</strong> {{entry.stressScore}}</span>
+							<span flex class="dietText"><strong>Diet Score:</strong> {{entry.moodScore}}</span>
+                            <span flex ng-show="entry.entryScore <= 10"><strong>Total Score: </strong> Very Low ({{report.entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Total Score:</strong> Low ({{entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Total Score:</strong> Rough ({{entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Total Score:</strong> Decent ({{entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Total Score:</strong> Good ({{entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Total Score:</strong> Very Good ({{entry.entryScore}})</span>
+                            <span flex ng-show="entry.entryScore >= 76"><strong>Total Score:</strong> Amazing ({{entry.entryScore}})</span>
                         </div>
                     </md-card-title-text>
                 </md-card-title>
