@@ -126,10 +126,7 @@ app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", function($sc
 		localStorage.setItem("selectedEntryID", entryID);
 		$window.location.href = "#/checkinLogInfo";
 	};
-	// To analyticDashboard function
-	$scope.redirectToDashboard = function() {
-		$window.location.href = "#/analyticDashboard";
-	};
+
 }]);
 
 //------------------ checkinLogInfo Controller --------------------

@@ -30,10 +30,10 @@
 					</div>
 					<div layout="column" flex flex-offset="40" style="height: 100%;">
 						<div layout-padding>
-							<md-datepicker ng-model="data.fromDate" md-placeholder="Enter date"></md-datepicker>
+							<md-datepicker ng-model="data.fromDate" md-max-date="data.toDate" md-placeholder="Enter date"></md-datepicker>
 						</div>
 						<div layout-padding class="md-datePicker-align">
-							<md-datepicker ng-model="data.toDate" md-placeholder="Enter date"></md-datepicker>
+							<md-datepicker ng-model="data.toDate" md-min-date="data.fromDate" md-placeholder="Enter date"></md-datepicker>
 						</div>
 					</div>
 				</div>
