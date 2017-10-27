@@ -1,6 +1,6 @@
 <md-content layout-align="start center" layout="column">
 
-    <img src="imgs/feelings/face{{entry.happinessScore}}.png" class="feelingImg"/>
+    <img src="imgs/feelings/face{{checkinTotal}}.png" class="feelingImg"/>
 
     <div layout="row" layout-align="center">
         <div class="navArrowBtn" ng-class="{'disabled': !hasPrev}" ng-click="prevEntry()">
@@ -13,7 +13,7 @@
 
     <h3>On {{entry.date | date: 'longDate'}}, you were feeling:</h3>
 
-    <p ng-bind="entry.happinessNote" class="descriptionText"></p>
+    <p ng-bind="entry.entryNote" class="descriptionText"></p>
 
 
 </md-content>

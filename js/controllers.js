@@ -142,7 +142,10 @@ app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "en
 	$scope.prevEntry = prevEntry;
 
 	setEntry();
-
+	
+	// Calculate the total score of the checkin, and then use it to display the appropriate images
+	$scope.checkinTotal = ((parseInt($scope.entry.moodScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.dietScore)) / 4).toFixed(0);
+	
 	function setEntry() {
 
         for(var i = 0, len = entryList.length; i < len; i++){
