@@ -3,10 +3,10 @@
 		<div layout="row" layout-padding>
 			<div layout="column" layout-align="center" flex-offset="5">
 				<div>
-					<span class="md-display-1">Sleep Tool</span>
+					<span class="md-display-1">{{tool.name}}</span>
 				</div>
 				<div>
-					Designed by: Dr. Sandman
+					Designed by: {{tool.designedBy}}
 				</div>
 			</div>
 			<div layout="row" flex layout-align="end center">
@@ -26,26 +26,26 @@
 			
 			<div layout="column"> 
 				<div>
-					<h4>Sleep</h4>
+					<h4>{{tool.helpsWithName1}}</h4>
 				</div>
 				<div>
-					<md-progress-linear class="md-red" md-mode="determinate" value="90" flex="95"></md-progress-linear>
-				</div>
-			</div>
-			<div layout="column"> 
-				<div>
-					<h4>Stress</h4>
-				</div>
-				<div>
-					<md-progress-linear md-mode="determinate" value="60" flex="95"></md-progress-linear>
+					<md-progress-linear class="md-red" md-mode="determinate" value="{{tool.helpsWithScore1}}" flex="95"></md-progress-linear>
 				</div>
 			</div>
 			<div layout="column"> 
 				<div>
-					<h4>Depression</h4>
+					<h4>{{tool.helpsWithName2}}</h4>
 				</div>
 				<div>
-					<md-progress-linear md-mode="determinate" value="40" flex="95"></md-progress-linear>
+					<md-progress-linear md-mode="determinate" value="{{tool.helpsWithScore2}}" flex="95"></md-progress-linear>
+				</div>
+			</div>
+			<div layout="column"> 
+				<div>
+					<h4>{{tool.helpsWithName3}}</h4>
+				</div>
+				<div>
+					<md-progress-linear md-mode="determinate" value="{{tool.helpsWithScore3}}" flex="95"></md-progress-linear>
 				</div>
 			</div>
 		</div>
@@ -54,21 +54,21 @@
 		
 		<div layout="row" layout-align="center center" layout-padding>
 			<div flex="30">
-				rem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus semper magna tellus, ac porta nunc tincidunt eget. Etiam turpis magna, dapibus id varius non, semper at augue. Pellentesque elementum commodo mi, malesuada fermentum odio mattis et. Aliquam laoreet aliquam velit non maximus. Mauris ullamcorper consequat sollicitudin. Praesent euismod tincidunt sollicitudin. Nulla nisi justo, elementum et arcu ac, feugiat vulputate arcu. Donec porta ipsum id efficitur molestie. In aliquet lectus at tincidunt convallis.
+				{{tool.description1}}
 			</div>
 				
 			<div flex-offset="20" flex="30">
-				Cras eget neque commodo, condimentum ipsum quis, condimentum lacus. Donec placerat pharetra magna, vitae pretium nibh commodo nec. Etiam leo nibh, blandit sit amet viverra sed, placerat eu ante. Nam id cursus sem. Nullam in porttitor purus, tincidunt ultrices purus. Sed arcu dolor, fermentum a tristique vel, lobortis pellentesque quam. Fusce mattis nisi lectus, ac eleifend mauris venenatis nec. In venenatis urna id venenatis condimentum.
+				{{tool.description2}}
 			</div>
 		</div>
 		
 		<div layout="row" layout-align="center center" flex layout-padding>
             <div ng-carousel ng-carousel-name="example-carousel1" flex="80">
                 <slidecontainer>
-                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
-                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
-                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
-                    <slide><img src="imgs/toolPictures/placeholder.png" width="100%" height="300px" /></slide>
+                    <slide><img src="{{tool.carouselPicture1}}" width="100%" height="300px" /></slide>
+                    <slide><img src="{{tool.carouselPicture2}}" width="100%" height="300px" /></slide>
+                    <slide><img src="{{tool.carouselPicture3}}" width="100%" height="300px" /></slide>
+                    <slide><img src="{{tool.carouselPicture4}}" width="100%" height="300px" /></slide>
                 </slidecontainer>
                 <div class="carousel-arrow carousel-arrow-left">
                     <button class="carouselButton" ng-click="Carousel.get('example-carousel1').previous()">Left</button>
@@ -81,7 +81,7 @@
 		
 		<div layout="row" layout-align="center center" layout-padding>
 			<div flex="80">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim finibus consequat. Mauris et sagittis tellus. Phasellus quam nulla, fringilla quis faucibus lacinia, blandit eu elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque rutrum, magna nec blandit dignissim, tellus turpis elementum ante, eu mollis justo augue at purus. In ut lorem tristique, malesuada lorem vitae, suscipit orci. Vivamus eu malesuada enim. Aliquam dolor urna, dapibus a interdum id, fringilla vel augue. Morbi eget porttitor ex, quis iaculis nisi. Sed quis ullamcorper ex. Vestibulum libero magna, suscipit efficitur mauris id, rhoncus pharetra magna. Fusce ac purus risus. Donec aliquam gravida elit, sed lobortis orci cursus maximus. Ut non pulvinar velit. Nunc a vulputate dolor. Ut eu eros a nibh vestibulum tristique at volutpat urna. Donec sollicitudin vel mauris a iaculis. Duis pharetra rutrum libero, vitae gravida mi suscipit in. Curabitur vestibulum laoreet urna at vestibulum. Praesent vulputate sagittis felis eu aliquet. Nam congue vel nulla ut pharetra.
+				{{tool.description3}}
 			</div>
 		</div>
 		

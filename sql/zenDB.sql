@@ -49,7 +49,29 @@ CREATE TABLE settings (
 
 DROP TABLE IF EXISTS tools;
 CREATE TABLE tools (
-	toolID INTEGER PRIMARY KEY
+	toolID INTEGER PRIMARY KEY,
+	designedBy TEXT NOT NULL,
+	name TEXT NOT NULL,
+	subDescription TEXT NOT NULL,
+	description1 TEXT NOT NULL,
+	description2 TEXT NOT NULL,
+	description3 TEXT NOT NULL,
+	carouselPicture1 TEXT NOT NULL,
+	carouselPicture2 TEXT NOT NULL,
+	carouselPicture3 TEXT NOT NULL,
+	carouselPicture4 TEXT NOT NULL,
+	helpsWithName1 TEXT NOT NULL,
+	helpsWithScore1 INTEGER NOT NULL,
+	helpsWithName2 TEXT NOT NULL,
+	helpsWithScore2 INTEGER NOT NULL,
+	helpsWithName3 TEXT NOT NULL,
+	helpsWithScore3 INTEGER NOT NULL,
+	relatedApp1 INTEGER,
+	relatedApp2 INTEGER,
+	relatedApp3 INTEGER,
+	FOREIGN KEY(relatedApp1) REFERENCES tools(toolID),
+	FOREIGN KEY(relatedApp2) REFERENCES tools(toolID),
+	FOREIGN KEY(relatedApp3) REFERENCES tools(toolID)
 );
 
 DROP TABLE IF EXISTS toolBelt;

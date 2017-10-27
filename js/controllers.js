@@ -140,11 +140,18 @@ app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "en
 	$scope.hasPrev = true;
 	$scope.nextEntry = nextEntry;
 	$scope.prevEntry = prevEntry;
+	
+	$scope.notesProvided = true;
 
 	setEntry();
 	
 	// Calculate the total score of the checkin, and then use it to display the appropriate images
 	$scope.checkinTotal = ((parseInt($scope.entry.moodScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.dietScore)) / 4).toFixed(0);
+	
+	// Check if the note is blank, if so, enable our "No notes were entered" element.
+	if($scope.entry.entryNote === null) {
+		$scope.notesProvided = false;
+	}
 	
 	function setEntry() {
 
@@ -232,9 +239,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 		// Check if a checkbox is selected, else, don't do anything (If we didn't check, we'd generate a blank chart)
 		if(moodCheckbox || stressCheckbox || dietCheckbox || sleepCheckbox) {
 			
-			console.log("StressCheckbox: " + stressCheckbox);
-			console.log("dietCheckbox: " + dietCheckbox);
-			
 			// Tell our loading bar that the back-end has started
 			$scope.pageElements.loadStarted = true;
 			
@@ -319,10 +323,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			// Query the actual line graph data
 			queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function(response) {
 				$scope.entries = response.data;
-				
-				console.log("HIT");
-				console.log($scope.entries);
-				
+			
 				var labelsArray = [];
 				
 				var moodScoreArray = [];
@@ -337,8 +338,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 				
 				$scope.totalCheckins = 0;
 				
-				console.log("$scope.entries.length: " + $scope.entries.length);
-				
 				// Each array is aligned, apply the actual values from our query
 				for(var i = 0; i < $scope.entries.length; i++) {
 					
@@ -347,7 +346,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					labelsArray[i] = $scope.entries[i].dateEntered;
 					
 					if(moodCheckbox) {
-						console.log($scope.entries[i].moodScore);
 						moodScoreArray[i] = $scope.entries[i].moodScore;
 						moodScoreTotal = moodScoreTotal + parseInt($scope.entries[i].moodScore);
 					}
@@ -387,7 +385,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 				if(stressCheckbox) $scope.stressScoreAverage = (stressScoreTotal / $scope.totalCheckins).toFixed(2);
 				if(dietCheckbox) $scope.dietScoreAverage = (dietScoreTotal / $scope.totalCheckins).toFixed(2);
 				if(sleepCheckbox) $scope.sleepScoreAverage = (sleepScoreTotal / $scope.totalCheckins).toFixed(2);
-				console.log("moodScoreAverage: " + $scope.moodScoreAverage);
 				
 				// Build our graph object
 				var graphDataSets = [];
@@ -478,8 +475,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 						}
 					}
 				});
-				
-				console.log(mainChartDiv.childNodes[0]);
 				
 				// Calculating last week's percentage change
 				/*
@@ -742,8 +737,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 						$scope.pageElements.hideAllElements = true;
 					}*/
 				})
-				
-				$scope.pageElements.loadComplete = true;
 			});
 		}
 	}
@@ -868,8 +861,21 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", functio
 	};
 }]);
 
-app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', function($scope, Carousel){
+app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryService', function($scope, Carousel, $window, queryService){
 	$scope.Carousel = Carousel;
+	
+	if(localStorage.getItem("selectedToolID") == null) {
+		$window.location.href= "#/toolStore";
+	} else {	
+		var selectedToolID = localStorage.getItem("selectedToolID");
+	}
+	
+	var whereClause = "toolID = " + selectedToolID;
+	queryService.selectQuery("*", "tools", whereClause).then( function(response) {
+		$scope.tool = response.data[0];
+	});
+	
+	
 }]);
 
 app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {

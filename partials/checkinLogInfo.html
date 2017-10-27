@@ -12,8 +12,12 @@
     </div>
 
     <h3>On {{entry.date | date: 'longDate'}}, you were feeling:</h3>
-
-    <p ng-bind="entry.entryNote" class="descriptionText"></p>
-
-
+	
+	<!-- Center doesn't work atm -->
+	<div layout="row" flex layout-align="center center">
+		<div flex>
+			<p ng-show="notesProvided" ng-bind="entry.entryNote" class="descriptionText"></p>
+			<p ng-show="!notesProvided" class="descriptionText">No notes were provided for this check-in!</p>
+		</div>
+	</div>
 </md-content>
