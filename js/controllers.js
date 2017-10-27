@@ -198,12 +198,10 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 	
 	// Form values
 	$scope.data = {
-		happinessCheckbox: false,
-		anxietyCheckbox: false,
-		depressionCheckbox: false,
+		moodCheckbox: false,
+		sleepCheckbox: false,
 		stressCheckbox: false,
-		angerCheckbox: false,
-		sleepQualityCheckbox: false,
+		dietCheckbox: false,
 		fromDate: new Date(),
 		toDate: new Date()
 	}
@@ -213,24 +211,25 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 		maximizeButton: true,
 		showOutput: false,
 		hideAllElements: false,
-		happinessValues: false,
-		anxietyValues: false,
-		depressionValues: false,
+		moodValues: false,
 		stressValues: false,
-		angerValues: false,
+		dietValues: false,
 		sleepValues: false,
 		loadComplete: false,
 		loadStarted: false
 	}
 	
-	// Happiness = 0, Anxiety = 1, Depression = 2, Stress = 3, Anger = 4, Sleep Quality = 5
-	$scope.graphColours = ["#ff9933", "#cc66ff", "#3366ff", "#669999", "#ff0000", "#000066"];
+	// Mood = 0, sleep = 1, stress = 2, diet = 3 
+	$scope.graphColours = ["#FF9800", "#01579B", "#D32F2F", "#4CAF50"];
 	
 	// Called when "Generate" button is clicked
-	$scope.generateChart = function(happinessCheckbox, anxietyCheckbox, depressionCheckbox, stressCheckbox, angerCheckbox, sleepQualityCheckbox, fromDate, toDate) {
+	$scope.generateChart = function(moodCheckbox, stressCheckbox, dietCheckbox, sleepCheckbox, fromDate, toDate) {
 		
 		// Check if a checkbox is selected, else, don't do anything (If we didn't check, we'd generate a blank chart)
-		if(happinessCheckbox || anxietyCheckbox || depressionCheckbox || stressCheckbox || angerCheckbox || sleepQualityCheckbox) {
+		if(moodCheckbox || stressCheckbox || dietCheckbox || sleepCheckbox) {
+			
+			console.log("StressCheckbox: " + stressCheckbox);
+			console.log("dietCheckbox: " + dietCheckbox);
 			
 			// Tell our loading bar that the back-end has started
 			$scope.pageElements.loadStarted = true;
@@ -238,33 +237,19 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 			// Reset our counters
 			$scope.totalAverage = 0;
 			$scope.totalCheckins = 0;
-			$scope.happinessScoreAverage = 0;
-			$scope.anxietyScoreAverage = 0;
-			$scope.depressionScoreAverage = 0;
+			$scope.moodScoreAverage = 0;
 			$scope.stressScoreAverage = 0;
-			$scope.angerScoreAverage = 0;
+			$scope.dietScoreAverage = 0;
 			$scope.sleepScoreAverage = 0;
 			
 			$scope.pageElements.maximizeButton = !$scope.pageElements.maximizeButton;
 			$scope.pageElements.showOutput = true;
 			
 			// Display the appropriate elements if their checkbox was selected
-			if($scope.data.happinessCheckbox) {
-				$scope.pageElements.happinessValues = true;
+			if($scope.data.moodCheckbox) {
+				$scope.pageElements.moodValues = true;
 			} else {
-				$scope.pageElements.happinessValues = false;
-			}
-			
-			if($scope.data.anxietyCheckbox) {
-				$scope.pageElements.anxietyValues = true;
-			} else {
-				$scope.pageElements.anxietyValues = false;
-			}
-			
-			if($scope.data.depressionCheckbox) {
-				$scope.pageElements.depressionValues = true;
-			} else {
-				$scope.pageElements.depressionValues = false;
+				$scope.pageElements.moodValues = false;
 			}
 			
 			if($scope.data.stressCheckbox) {
@@ -273,13 +258,13 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				$scope.pageElements.stressValues = false;
 			}
 			
-			if($scope.data.angerCheckbox) {
-				$scope.pageElements.angerValues = true;
+			if($scope.data.dietCheckbox) {
+				$scope.pageElements.dietValues = true;
 			} else {
-				$scope.pageElements.angerValues = false;
+				$scope.pageElements.dietValues = false;
 			}
 			
-			if($scope.data.sleepQualityCheckbox) {
+			if($scope.data.sleepCheckbox) {
 				$scope.pageElements.sleepValues = true;
 			} else {
 				$scope.pageElements.sleepValues = false;
@@ -289,74 +274,66 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 			var whereClause = "";
 			
 			// We need to fill variables depending on whether they were selected or not (We avoid string building doing it this way)
-			var happinessScore = "";
-			var anxietyScore = "";
-			var depressionScore = "";
+			var moodScore = "";
 			var stressScore = "";
-			var angerScore = "";
-			var sleepQualityScore = "";
+			var dietScore = "";
+			var sleepScore = "";
 			
-			if(happinessCheckbox) {
-				happinessScore = "happinessScore, ";
-			}
-			
-			if(anxietyCheckbox) {
-				anxietyScore = "anxietyScore, ";
-			}
-			
-			if(depressionCheckbox) {
-				depressionScore = "depressionScore, ";
+			if(moodCheckbox) {
+				moodScore = "moodScore, ";
 			}
 			
 			if(stressCheckbox) {
 				stressScore = "stressScore, ";
 			}
 			
-			if(angerCheckbox) {
-				angerScore = "angerScore, ";
+			if(dietCheckbox) {
+				dietScore = "dietScore, ";
 			}
 			
-			if(sleepQualityCheckbox) {
-				sleepQualityScore = "sleepScore, ";
+			if(sleepCheckbox) {
+				sleepScore = "sleepScore, ";
 			}
 			
 			// Parse the angular dates into formats we can use using the moment time library (SQLite3 Standard)
-			fromDate = moment(fromDate).format('YYYY-MM-DD HH:mm:ss');
-			toDate = moment(toDate).format('YYYY-MM-DD HH:mm:ss');
+			var fromDate = moment($scope.data.fromDate).format('YYYY-MM-DD HH:mm:ss');
+			var toDate = moment($scope.data.toDate).format('YYYY-MM-DD HH:mm:ss');
+			
 			
 			// Set the times to their min or max hour accordingly
 			var finalFromDate = new String(fromDate.slice(0, 10) + ' 00' + fromDate.slice(13, fromDate.length));
-			var finalToDate = new String(fromDate.slice(0, 10) + ' 23' + fromDate.slice(13, fromDate.length));
+			var finalToDate = new String(toDate.slice(0, 10) + ' 23' + toDate.slice(13, toDate.length));
 
 			// Turn them into a string object so we can use them in our queries
 			finalFromDate = finalFromDate.toString();
 			finalToDate = finalToDate.toString();
-
-			// Generating the select and where clause
-			selectStatement = happinessScore + anxietyScore + depressionScore + stressScore + angerScore + sleepQualityScore + "dateEntered";		
-			whereClause = "(dateEntered >= DATETIME('" + fromDate + "') AND dateEntered <= DATETIME('" + toDate + "')) ORDER BY dateEntered";
 			
+			// Generating the select and where clause
+			selectStatement = moodScore + stressScore + dietScore + sleepScore + "dateEntered";		
+			whereClause = "dateEntered BETWEEN DATETIME('" + fromDate + "') AND DATETIME('" + toDate + "') ORDER BY dateEntered";
+
 			// Query the actual line graph data
 			queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then(function(response) {
 				$scope.entries = response.data;
 				
+				console.log("HIT");
+				console.log($scope.entries);
+				
 				var labelsArray = [];
 				
-				var happinessScoreArray = [];
-				var anxietyScoreArray = [];
-				var depressionScoreArray = [];
+				var moodScoreArray = [];
 				var stressScoreArray = [];
-				var angerScoreArray = [];
+				var dietScoreArray = [];
 				var sleepScoreArray = [];				
 				
-				var happinessScoreTotal = 0;
-				var anxietyScoreTotal = 0;
-				var depressionScoreTotal = 0;
+				var moodScoreTotal = 0;
 				var stressScoreTotal = 0;
-				var angerScoreTotal = 0;
+				var dietScoreTotal = 0;
 				var sleepScoreTotal = 0;
 				
 				$scope.totalCheckins = 0;
+				
+				console.log("$scope.entries.length: " + $scope.entries.length);
 				
 				// Each array is aligned, apply the actual values from our query
 				for(var i = 0; i < $scope.entries.length; i++) {
@@ -365,19 +342,10 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					
 					labelsArray[i] = $scope.entries[i].dateEntered;
 					
-					if(happinessCheckbox) {
-						happinessScoreArray[i] = $scope.entries[i].happinessScore;
-						happinessScoreTotal = happinessScoreTotal + parseInt($scope.entries[i].happinessScore);
-					}
-					
-					if(anxietyCheckbox) {
-						anxietyScoreArray[i] = $scope.entries[i].anxietyScore;
-						anxietyScoreTotal = anxietyScoreTotal + parseInt($scope.entries[i].anxietyScore);
-					}
-					
-					if(depressionCheckbox) {
-						depressionScoreArray[i] = $scope.entries[i].depressionScore;
-						depressionScoreTotal = depressionScoreTotal + parseInt($scope.entries[i].depressionScore);
+					if(moodCheckbox) {
+						console.log($scope.entries[i].moodScore);
+						moodScoreArray[i] = $scope.entries[i].moodScore;
+						moodScoreTotal = moodScoreTotal + parseInt($scope.entries[i].moodScore);
 					}
 					
 					if(stressCheckbox) {
@@ -385,19 +353,19 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 						stressScoreTotal = stressScoreTotal + parseInt($scope.entries[i].stressScore);
 					}
 					
-					if(angerCheckbox) {
-						angerScoreArray[i] = $scope.entries[i].angerScore;
-						angerScoreTotal = angerScoreTotal + parseInt($scope.entries[i].angerScore);
+					if(dietCheckbox) {
+						dietScoreArray[i] = $scope.entries[i].dietScore;
+						dietScoreTotal = dietScoreTotal + parseInt($scope.entries[i].dietScore);
 					}
 					
-					if(sleepQualityCheckbox) {
+					if(sleepCheckbox) {
 						sleepScoreArray[i] = $scope.entries[i].sleepScore;
 						sleepScoreTotal = sleepScoreTotal + parseInt($scope.entries[i].sleepScore);
 					}
 				}
 				
 				// Loops through all the checkins, and counts the number of duplicate days to determine the average number of checkins per day
-				var currentComparedDate = labelsArray[1];
+				/*var currentComparedDate = labelsArray[1];
 				$scope.duplicateDatesFound = 0;
 				
 				for(var i= 0; i < labelsArray.length; i++) {
@@ -408,54 +376,27 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					}
 				}
 				
-				$scope.duplicateDatesFound = ($scope.duplicateDatesFound / labelsArray.length).toFixed(2);
+				$scope.duplicateDatesFound = ($scope.duplicateDatesFound / labelsArray.length).toFixed(2);*/
 				
 				// If their appropriate checkbox is selected, calculate the average score
-				if(happinessCheckbox) $scope.happinessScoreAverage = (happinessScoreTotal / $scope.totalCheckins).toFixed(2);
-				if(anxietyCheckbox) $scope.anxietyScoreAverage = (anxietyScoreTotal / $scope.totalCheckins).toFixed(2);
-				if(depressionCheckbox) $scope.depressionScoreAverage = (depressionScoreTotal / $scope.totalCheckins).toFixed(2);
+				if(moodCheckbox) $scope.moodScoreAverage = (moodScoreTotal / $scope.totalCheckins).toFixed(2);
 				if(stressCheckbox) $scope.stressScoreAverage = (stressScoreTotal / $scope.totalCheckins).toFixed(2);
-				if(angerCheckbox) $scope.angerScoreAverage = (angerScoreTotal / $scope.totalCheckins).toFixed(2);
-				if(sleepQualityCheckbox) $scope.sleepScoreAverage = (sleepScoreTotal / $scope.totalCheckins).toFixed(2);
+				if(dietCheckbox) $scope.dietScoreAverage = (dietScoreTotal / $scope.totalCheckins).toFixed(2);
+				if(sleepCheckbox) $scope.sleepScoreAverage = (sleepScoreTotal / $scope.totalCheckins).toFixed(2);
+				console.log("moodScoreAverage: " + $scope.moodScoreAverage);
 				
 				// Build our graph object
 				var graphDataSets = [];
 				
-				// If happinessCheckbox was selected, build our happiness line
-				if(happinessCheckbox) {
+				// If moodCheckbox was selected, build our mood line
+				if(moodCheckbox) {
 					
-					var happinessCheckboxIndex = graphDataSets.length;
+					var moodCheckboxIndex = graphDataSets.length;
 					
 					graphDataSets[graphDataSets.length] = { 
-						data: happinessScoreArray,
-						label: "Happiness Score",
+						data: moodScoreArray,
+						label: "Mood Score",
 						borderColor: $scope.graphColours[0],
-						fill: false
-					}
-				}
-				
-				// If anxietyCheckbox was selected, build our anxiety line
-				if(anxietyCheckbox) {
-					
-					var anxietyCheckboxIndex = graphDataSets.length;
-					
-					graphDataSets[graphDataSets.length] = { 
-						data: anxietyScoreArray,
-						label: "Anxiety Score",
-						borderColor: $scope.graphColours[1],
-						fill: false
-					}
-				}
-				
-				// If depressionCheckbox was selected, build our depression line
-				if(depressionCheckbox) {
-					
-					var depressionCheckboxIndex = graphDataSets.length;
-					
-					graphDataSets[graphDataSets.length] = { 
-						data: depressionScoreArray,
-						label: "Depression Score",
-						borderColor: $scope.graphColours[2],
 						fill: false
 					}
 				}
@@ -468,61 +409,53 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					graphDataSets[graphDataSets.length] = { 
 						data: stressScoreArray,
 						label: "Stress Score",
+						borderColor: $scope.graphColours[2],
+						fill: false
+					}
+				}
+				
+				// If dietCheckbox was selected, build our diet line
+				if(dietCheckbox) {
+					
+					var dietCheckboxIndex = graphDataSets.length;
+					
+					graphDataSets[graphDataSets.length] = { 
+						data: dietScoreArray,
+						label: "Diet Score",
 						borderColor: $scope.graphColours[3],
 						fill: false
 					}
 				}
 				
-				// If angerCheckbox was selected, build our anger line
-				if(angerCheckbox) {
+				// If sleepCheckbox was selected, build our sleep quality line
+				if(sleepCheckbox) {
 					
-					var angerCheckboxIndex = graphDataSets.length;
-					
-					graphDataSets[graphDataSets.length] = { 
-						data: angerScoreArray,
-						label: "Anger Score",
-						borderColor: $scope.graphColours[4],
-						fill: false
-					}
-				}
-				
-				// If sleepQualityCheckbox was selected, build our sleep quality line
-				if(sleepQualityCheckbox) {
-					
-					var sleepQualityCheckboxIndex = graphDataSets.length;
+					var sleepCheckboxIndex = graphDataSets.length;
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: sleepScoreArray,
 						label: "Sleep Quality Score",
-						borderColor: $scope.graphColours[5],
+						borderColor: $scope.graphColours[1],
 						fill: false
 					}
 				}
 				
 				var datasetsObject = [];
 				
-				if(happinessCheckbox) {
-					datasetsObject[datasetsObject.length] = {label: graphDataSets[happinessCheckboxIndex].label, data: graphDataSets[happinessCheckboxIndex].data, borderColor: graphDataSets[happinessCheckboxIndex].borderColor, fill: graphDataSets[happinessCheckboxIndex].fill};
-				}
-				
-				if(anxietyCheckbox) {
-					datasetsObject[datasetsObject.length] = {label: graphDataSets[anxietyCheckboxIndex].label, data: graphDataSets[anxietyCheckboxIndex].data, borderColor: graphDataSets[anxietyCheckboxIndex].borderColor, fill: graphDataSets[anxietyCheckboxIndex].fill};
-				}
-				
-				if(depressionCheckbox) {
-					datasetsObject[datasetsObject.length] = {label: graphDataSets[depressionCheckboxIndex].label, data: graphDataSets[depressionCheckboxIndex].data, borderColor: graphDataSets[depressionCheckboxIndex].borderColor, fill: graphDataSets[depressionCheckboxIndex].fill};
+				if(moodCheckbox) {
+					datasetsObject[datasetsObject.length] = {label: graphDataSets[moodCheckboxIndex].label, data: graphDataSets[moodCheckboxIndex].data, borderColor: graphDataSets[moodCheckboxIndex].borderColor, fill: graphDataSets[moodCheckboxIndex].fill};
 				}
 				
 				if(stressCheckbox) {
 					datasetsObject[datasetsObject.length] = {label: graphDataSets[stressCheckboxIndex].label, data: graphDataSets[stressCheckboxIndex].data, borderColor: graphDataSets[stressCheckboxIndex].borderColor, fill: graphDataSets[stressCheckboxIndex].fill};
 				}
 				
-				if(angerCheckbox) {
-					datasetsObject[datasetsObject.length] = {label: graphDataSets[angerCheckboxIndex].label, data: graphDataSets[angerCheckboxIndex].data, borderColor: graphDataSets[angerCheckboxIndex].borderColor, fill: graphDataSets[angerCheckboxIndex].fill};
+				if(dietCheckbox) {
+					datasetsObject[datasetsObject.length] = {label: graphDataSets[dietCheckboxIndex].label, data: graphDataSets[dietCheckboxIndex].data, borderColor: graphDataSets[dietCheckboxIndex].borderColor, fill: graphDataSets[dietCheckboxIndex].fill};
 				}
 				
-				if(sleepQualityCheckbox) {
-					datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepQualityCheckboxIndex].label, data: graphDataSets[sleepQualityCheckboxIndex].data, borderColor: graphDataSets[sleepQualityCheckboxIndex].borderColor, fill: graphDataSets[sleepQualityCheckboxIndex].fill};
+				if(sleepCheckbox) {
+					datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepCheckboxIndex].label, data: graphDataSets[sleepCheckboxIndex].data, borderColor: graphDataSets[sleepCheckboxIndex].borderColor, fill: graphDataSets[sleepCheckboxIndex].fill};
 				}
 				
 				// Generate Chart
@@ -544,7 +477,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				});
 				
 				// Calculating last week's percentage change
-				
+				/*
 				var weekDay = moment().isoWeekday();
 				var today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 				
@@ -553,16 +486,12 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				
 				queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {
 					
-					var averageHappinessTotal = 0;
-					var currentWeekHappinessAverage = 0;
-					var averageAnxietyTotal = 0;
-					var currentWeekAnxietyAverage = 0;
-					var averageDepressionTotal = 0;
-					var currentWeekDepressionAverage = 0;
+					//var averageMoodTotal = 0;
+					var currentWeekMoodAverage = 0;
 					var averageStressTotal = 0;
 					var currentWeekStressAverage = 0;
-					var averageAngerTotal = 0;
-					var currentWeekAngerAverage = 0;
+					var averageDietTotal = 0;
+					var currentWeekDietAverage = 0;
 					var averageSleepTotal = 0;
 					var currentWeekSleepAverage = 0;
 					
@@ -571,68 +500,63 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					// Grab the averages for this week, so we can compare it to last week
 					for(var i = 0; i < response.data.length; i++) {
 						
-						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
-						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
-						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+						if(moodCheckbox) averageMoodTotal = averageMoodTotal + parseInt(response.data[i].moodScore);
 						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
-						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						if(dietCheckbox) averageDietTotal = averageDietTotal + parseInt(response.data[i].dietScore);
 						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
-					if(happinessCheckbox) currentWeekHappinessAverage = (averageHappinessTotal / checkinCounter).toFixed(2);
-					if(anxietyCheckbox) currentWeekAnxietyAverage = (averageAnxietyTotal / checkinCounter).toFixed(2);
-					if(depressionCheckbox) currentWeekDepressionAverage = (averageDepressionTotal / checkinCounter).toFixed(2);
+					if(moodCheckbox) currentWeekMoodAverage = (averageMoodTotal / checkinCounter).toFixed(2);
 					if(stressCheckbox) currentWeekStressAverage = (averageStressTotal / checkinCounter).toFixed(2);
-					if(angerCheckbox) currentWeekAngerAverage = (averageAngerTotal / checkinCounter).toFixed(2);
+					if(dietCheckbox) currentWeekDietAverage = (averageDietTotal / checkinCounter).toFixed(2);
 					if(sleepQualityCheckbox) currentWeekSleepAverage = (averageSleepTotal / checkinCounter).toFixed(2);
 					
 					// Fetching last week's data
-					
 					var beginningOfWeekMinusAnotherWeek = weekDay + 6;
 					
 					whereClause = "dateEntered BETWEEN DATETIME('" + today + "', '-" + beginningOfWeekMinusAnotherWeek + " days') AND DATETIME('" + today + "', '-" + weekDay + " days') ORDER BY dateEntered";
 					
 					queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {				
 						
-						var lastWeekHappinessAverage = 0;
+						var lastWeekMoodAverage = 0;
 						var lastWeekAnxietyAverage = 0;
 						var lastWeekDepressionAverage = 0;
 						var lastWeekStressAverage = 0;
-						var lastWeekAngerAverage = 0;
+						var lastWeekDietAverage = 0;
 						var lastWeekSleepAverage = 0;
 						
-						averageHappinessTotal = 0;
+						averageMoodTotal = 0;
 						averageAnxietyTotal = 0;
 						averageDepressionTotal = 0;
 						averageStressTotal = 0;
-						averageAngerTotal = 0;
+						averageDietTotal = 0;
 						averageSleepTotal = 0;
 						
 						var checkinCounter = 0;
 						
 						// Grab the averages from last week
 						for(var i = 0; i < response.data.length; i++) {
-							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+							if(moodCheckbox) averageMoodTotal = averageMoodTotal + parseInt(response.data[i].moodScore);
 							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
 							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
 							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
-							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+							if(dietCheckbox) averageDietTotal = averageDietTotal + parseInt(response.data[i].dietScore);
 							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 							checkinCounter++;
 						}
 						
-						if(happinessCheckbox) lastWeekHappinessAverage = (averageHappinessTotal / checkinCounter).toFixed(2);
+						if(moodCheckbox) lastWeekMoodAverage = (averageMoodTotal / checkinCounter).toFixed(2);
 						if(anxietyCheckbox) lastWeekAnxietyAverage = (averageAnxietyTotal / checkinCounter).toFixed(2);
 						if(depressionCheckbox) lastWeekDepressionAverage = (averageDepressionTotal / checkinCounter).toFixed(2);
 						if(stressCheckbox) lastWeekStressAverage = (averageStressTotal / checkinCounter).toFixed(2);
-						if(angerCheckbox) lastWeekAngerAverage = (averageAngerTotal / checkinCounter).toFixed(2);
+						if(dietCheckbox) lastWeekDietAverage = (averageDietTotal / checkinCounter).toFixed(2);
 						if(sleepQualityCheckbox) lastWeekSleepAverage = (averageSleepTotal / checkinCounter).toFixed(2);
 						
 						// Calculate Percentage difference
-						if(happinessCheckbox) {
-							$scope.happinessWeeklyPercentage = lastWeekHappinessAverage - currentWeekHappinessAverage;
-							$scope.happinessWeeklyPercentage = (($scope.happinessWeeklyPercentage / lastWeekHappinessAverage) * 100).toFixed(0);
+						if(moodCheckbox) {
+							$scope.moodWeeklyPercentage = lastWeekMoodAverage - currentWeekMoodAverage;
+							$scope.moodWeeklyPercentage = (($scope.moodWeeklyPercentage / lastWeekMoodAverage) * 100).toFixed(0);
 						}
 						
 						if(anxietyCheckbox) {
@@ -650,9 +574,9 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 							$scope.stressWeeklyPercentage = (($scope.stressWeeklyPercentage / lastWeekStressAverage) * 100).toFixed(0);
 						}
 						
-						if(angerCheckbox) {
-							$scope.angerWeeklyPercentage = lastWeekAngerAverage - currentWeekAngerAverage;
-							$scope.angerWeeklyPercentage = (($scope.angerWeeklyPercentage / lastWeekAngerAverage) * 100).toFixed(0);
+						if(dietCheckbox) {
+							$scope.dietWeeklyPercentage = lastWeekDietAverage - currentWeekDietAverage;
+							$scope.dietWeeklyPercentage = (($scope.dietWeeklyPercentage / lastWeekDietAverage) * 100).toFixed(0);
 						}
 						
 						if(sleepQualityCheckbox) {
@@ -669,18 +593,18 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 				
 				queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {
 					
-					var currentMonthHappinessAverage = 0;
+					var currentMonthMoodAverage = 0;
 					var currentMonthAnxietyAverage = 0;
 					var currentMonthDepressionAverage = 0;
 					var currentMonthStressAverage = 0;
-					var currentMonthAngerAverage = 0;
+					var currentMonthDietAverage = 0;
 					var currentMonthSleepAverage = 0;
 					
-					var averageHappinessTotal = 0;
+					var averageMoodTotal = 0;
 					var averageAnxietyTotal = 0;
 					var averageDepressionTotal = 0;
 					var averageStressTotal = 0;
-					var averageAngerTotal = 0;
+					var averageDietTotal = 0;
 					var averageSleepTotal = 0;
 				
 					var checkinCounter = 0;
@@ -688,20 +612,20 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					// Calculate the averages for this month, so we can compare it to last month
 					for(var i = 0; i < response.data.length; i++) {
 						
-						if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+						if(moodCheckbox) averageMoodTotal = averageMoodTotal + parseInt(response.data[i].moodScore);
 						if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
 						if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
 						if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
-						if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						if(dietCheckbox) averageDietTotal = averageDietTotal + parseInt(response.data[i].dietScore);
 						if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
-					if(happinessCheckbox) currentMonthHappinessAverage = (averageHappinessTotal / checkinCounter).toFixed(2);
+					if(moodCheckbox) currentMonthMoodAverage = (averageMoodTotal / checkinCounter).toFixed(2);
 					if(anxietyCheckbox) currentMonthAnxietyAverage = (averageAnxietyTotal / checkinCounter).toFixed(2);
 					if(depressionCheckbox) currentMonthDepressionAverage = (averageDepressionTotal / checkinCounter).toFixed(2);
 					if(stressCheckbox) currentMonthStressAverage = (averageStressTotal / checkinCounter).toFixed(2);
-					if(angerCheckbox) currentMonthAngerAverage = (averageAngerTotal / checkinCounter).toFixed(2);
+					if(dietCheckbox) currentMonthDietAverage = (averageDietTotal / checkinCounter).toFixed(2);
 					if(sleepQualityCheckbox) currentMonthSleepAverage = (averageSleepTotal / checkinCounter).toFixed(2);
 					
 					// Fetching last month's data
@@ -712,44 +636,44 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 					
 					queryService.selectQuery(selectStatement, "wellnessTrackerEntries", whereClause).then( function(response) {				
 						
-						var lastMonthHappinessAverage = 0;
+						var lastMonthMoodAverage = 0;
 						var lastMonthAnxietyAverage = 0;
 						var lastMonthDepressionAverage = 0;
 						var lastMonthStressAverage = 0;
-						var lastMonthAngerAverage = 0;
+						var lastMonthDietAverage = 0;
 						var lastMonthSleepAverage = 0;
 						
-						var averageHappinessTotal = 0;
+						var averageMoodTotal = 0;
 						var averageAnxietyTotal = 0;
 						var averageDepressionTotal = 0;
 						var averageStressTotal = 0;
-						var averageAngerTotal = 0;
+						var averageDietTotal = 0;
 						var averageSleepTotal = 0;
 						
 						var checkinCounter = 0;
 						
 						// Calculate last months averages
 						for(var i = 0; i < response.data.length; i++) {
-							if(happinessCheckbox) averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
+							if(moodCheckbox) averageMoodTotal = averageMoodTotal + parseInt(response.data[i].moodScore);
 							if(anxietyCheckbox) averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
 							if(depressionCheckbox) averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
 							if(stressCheckbox) averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
-							if(angerCheckbox) averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+							if(dietCheckbox) averageDietTotal = averageDietTotal + parseInt(response.data[i].dietScore);
 							if(sleepQualityCheckbox) averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 							checkinCounter++;
 						}
 						
-						if(happinessCheckbox) lastMonthHappinessAverage = (averageHappinessTotal / checkinCounter).toFixed(2);
+						if(moodCheckbox) lastMonthMoodAverage = (averageMoodTotal / checkinCounter).toFixed(2);
 						if(anxietyCheckbox) lastMonthAnxietyAverage = (averageAnxietyTotal / checkinCounter).toFixed(2);
 						if(depressionCheckbox) lastMonthDepressionAverage = (averageDepressionTotal / checkinCounter).toFixed(2);
 						if(stressCheckbox) lastMonthStressAverage = (averageStressTotal / checkinCounter).toFixed(2);
-						if(angerCheckbox) lastMonthAngerAverage = (averageAngerTotal / checkinCounter).toFixed(2);
+						if(dietCheckbox) lastMonthDietAverage = (averageDietTotal / checkinCounter).toFixed(2);
 						if(sleepQualityCheckbox) lastMonthSleepAverage = (averageSleepTotal / checkinCounter).toFixed(2);
 						
 						// Calculate Percentage difference
-						if(happinessCheckbox) {
-							$scope.happinessMonthlyPercentage = lastMonthHappinessAverage - currentMonthHappinessAverage;
-							$scope.happinessMonthlyPercentage = (($scope.happinessMonthlyPercentage / lastMonthHappinessAverage) * 100).toFixed(0);
+						if(moodCheckbox) {
+							$scope.moodMonthlyPercentage = lastMonthMoodAverage - currentMonthMoodAverage;
+							$scope.moodMonthlyPercentage = (($scope.moodMonthlyPercentage / lastMonthMoodAverage) * 100).toFixed(0);
 						}
 						
 						if(anxietyCheckbox) {
@@ -767,9 +691,9 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 							$scope.stressMonthlyPercentage = (($scope.stressMonthlyPercentage / lastMonthStressAverage) * 100).toFixed(0);
 						}
 						
-						if(angerCheckbox) {
-							$scope.angerMonthlyPercentage = lastMonthAngerAverage - currentMonthAngerAverage;
-							$scope.angerMonthlyPercentage = (($scope.angerMonthlyPercentage / lastMonthAngerAverage) * 100).toFixed(0);
+						if(dietCheckbox) {
+							$scope.dietMonthlyPercentage = lastMonthDietAverage - currentMonthDietAverage;
+							$scope.dietMonthlyPercentage = (($scope.dietMonthlyPercentage / lastMonthDietAverage) * 100).toFixed(0);
 						}
 						
 						if(sleepQualityCheckbox) {
@@ -778,47 +702,43 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", function($sco
 						}
 					})
 				})
-				
+				*/
 				// Fetching total score numbers
 				
 				queryService.selectQuery("*", "wellnessTrackerEntries", "").then( function(response) {
 					
 					var checkinCounter = 0;
 					
-					var averageHappinessTotal = 0;
-					var averageAnxietyTotal = 0;
-					var averageDepressionTotal = 0;
+					var averageMoodTotal = 0;
 					var averageStressTotal = 0;
-					var averageAngerTotal = 0;
+					var averageDietTotal = 0;
 					var averageSleepTotal = 0;
 					
 					for(var i = 0; i < response.data.length; i++) {
-						averageHappinessTotal = averageHappinessTotal + parseInt(response.data[i].happinessScore);
-						averageAnxietyTotal = averageAnxietyTotal + parseInt(response.data[i].anxietyScore);
-						averageDepressionTotal = averageDepressionTotal + parseInt(response.data[i].depressionScore);
+						averageMoodTotal = averageMoodTotal + parseInt(response.data[i].moodScore);
 						averageStressTotal = averageStressTotal + parseInt(response.data[i].stressScore);
-						averageAngerTotal = averageAngerTotal + parseInt(response.data[i].angerScore);
+						averageDietTotal = averageDietTotal + parseInt(response.data[i].dietScore);
 						averageSleepTotal = averageSleepTotal + parseInt(response.data[i].sleepScore);
 						checkinCounter++;
 					}
 					
-					$scope.happinessGrandAverage = (averageHappinessTotal / checkinCounter).toFixed(2);
-					$scope.anxietyGrandAverage = (averageAnxietyTotal / checkinCounter).toFixed(2);
-					$scope.depressionGrandAverage = (averageDepressionTotal / checkinCounter).toFixed(2);
+					$scope.moodGrandAverage = (averageMoodTotal / checkinCounter).toFixed(2);
 					$scope.stressGrandAverage = (averageStressTotal / checkinCounter).toFixed(2);
-					$scope.angerGrandAverage = (averageAngerTotal / checkinCounter).toFixed(2);
+					$scope.dietGrandAverage = (averageDietTotal / checkinCounter).toFixed(2);
 					$scope.sleepGrandAverage = (averageSleepTotal / checkinCounter).toFixed(2);
 					
-					$scope.grandTotalScore = ((parseInt($scope.happinessGrandAverage) + parseInt($scope.anxietyGrandAverage) + parseInt($scope.depressionGrandAverage) + parseInt($scope.stressGrandAverage) + parseInt($scope.angerGrandAverage) + parseInt($scope.sleepGrandAverage)) * 1.666666666666667).toFixed(2);
+					//$scope.grandTotalScore = ((parseInt($scope.moodGrandAverage) + parseInt($scope.anxietyGrandAverage) + parseInt($scope.depressionGrandAverage) + parseInt($scope.stressGrandAverage) + parseInt($scope.dietGrandAverage) + parseInt($scope.sleepGrandAverage)) * 1.666666666666667).toFixed(2);
 				
 					$scope.pageElements.loadComplete = true;
 		
-					if(parseInt($scope.grandTotalScore)) {
+					/*if(parseInt($scope.grandTotalScore)) {
 						$scope.pageElements.hideAllElements = false;
 					} else {
 						$scope.pageElements.hideAllElements = true;
-					}
+					}*/
 				})
+				
+				$scope.pageElements.loadComplete = true;
 			});
 		}
 	}
@@ -949,7 +869,6 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', function($scope, Carous
 
 app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {
 
-
 	$scope.feelingScore = 3;
 	$scope.sleepScore = 3;
 	$scope.description = "";
@@ -962,10 +881,7 @@ app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryS
         queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,happinessScore,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
 			console.log("This is result:", result);
         });
-
 	}
-
-
 }]);
 
 app.controller("ResourcesCtrl", ["$scope", function ($scope) {

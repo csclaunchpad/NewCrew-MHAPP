@@ -22,10 +22,11 @@ DROP TABLE IF EXISTS wellnessTrackerEntries;
 CREATE TABLE wellnessTrackerEntries (
 	entryID INTEGER,
 	userID INTEGER REFERENCES users(userID),
-	happinessScore INTEGER NOT NULL,
-	happinessNote TEXT,
+	moodScore INTEGER NOT NULL,
 	sleepScore INTEGER NOT NULL,
-	sleepNote TEXT,
+	stressScore INTEGER NOT NULL,
+	dietScore INTEGER NOT NULL,
+	entryNote TEXT,
 	dateEntered TEXT NOT NULL,
 	PRIMARY KEY(entryID, userID)
 );
