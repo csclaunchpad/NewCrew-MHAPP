@@ -883,6 +883,8 @@ app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryS
 
 	$scope.feelingScore = 7;
 	$scope.sleepScore = 7;
+	$scope.dietScore = 7;
+	$scope.stressScore = 7;
 	$scope.description = "";
 	$scope.saveEntry = saveEntry;
 
