@@ -13,10 +13,10 @@
                     <md-card-title-text>
                         <div layout="row" flex layout-align="center center">
                             <span flex><strong>Date:</strong> {{entry.dateEntered}}</span>
-							<span flex class="moodText"><strong>Mood Score:</strong> {{entry.moodScore}}</span>
-							<span flex class="sleepText"><strong>Sleep Score:</strong> {{entry.sleepScore}}</span>
-							<span flex class="stressText"><strong>Stress Score:</strong> {{entry.stressScore}}</span>
-							<span flex class="dietText"><strong>Diet Score:</strong> {{entry.moodScore}}</span>
+							<span flex class="moodText"><strong>Mood:</strong> {{entry.moodScore}}</span>
+							<span flex class="sleepText"><strong>Sleep:</strong> {{entry.sleepScore}}</span>
+							<span flex class="stressText"><strong>Stress:</strong> {{entry.stressScore}}</span>
+							<span flex class="dietText"><strong>Diet:</strong> {{entry.moodScore}}</span>
                             <span flex ng-show="entry.entryScore <= 10"><strong>Total Score: </strong> Very Low ({{report.entry.entryScore}})</span>
                             <span flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Total Score:</strong> Low ({{entry.entryScore}})</span>
                             <span flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Total Score:</strong> Rough ({{entry.entryScore}})</span>
@@ -38,3 +38,4 @@
         </md-card>
     </md-card>
 </md-content>
+
