@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="zenApp">
-<!DOCTYPE html>
-<html>
+
 	<head>
 		<meta charset="utf-8">
 
 		<title>Zen Mental Health Application</title>
 		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 
-		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
-
-		<script src="lib/ionic/js/ionic.bundle.js"></script>
+<!--		<script src="lib/ionic/js/ionic.bundle.js"></script>    
 
 		<!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
-		<script src="cordova.js"></script>
+<!--		<script src="cordova.js"></script>
         <!------------ Meta tags ------------>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -26,7 +23,10 @@
 
         <!--Less-->
         <link rel="stylesheet/less" type="text/css" href="less/default.less" />
-
+		
+		<!--css-->
+<!--		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+-->
     </head>
 
 	<body ng-cloak>
@@ -45,11 +45,12 @@
 		<!------------ Side Nav ------------>
 		<div id="SideNav" class="sideNav" onclick="closeNav()">
 			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<a href="#analyticDashboard">Analytic Dashboard</a>
-			<a href="#dailyEntry">Wellness Tracker Check-In</a>
-			<a href="#checkinLog">Wellness Tracker Logs</a>
+			<a href="#analyticDashboard">Dashboard</a>
+			<a href="#dailyEntry">Daily Entry</a>
+			<a href="#checkinLog">Checkin Log</a>
 			<a href="#resources">Resources</a>
-			<a href="#toolStore">Tools</a>
+			<a href="#toolStore">Tools and Exercises</a>
+			<a href="#sqlTester">Settings</a>
 		</div>
 
         <!-- Help Me Button -->
@@ -98,13 +99,19 @@
 
 		<!------------ Moment Declarations ------------>
 		<script src="lib/moment/moment.js"></script>
-		
+
 		<!------------ Hammer Declarations ------------>
 		<script src="lib/hammer/hammer.js"></script>
 		
 		<!------------ Angular Carousel Declarations ------------>
 		<script src="lib/angularCarousel/angular-carousel.min.js"></script>
+		
+		<!-- Needed for sqlite/PhoneGap  -->
+<!--		<script src="lib/ionic/js/ionic.bundle.js"></script>
 
+		<!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
+<!--		<script src="lib/cordova/cordova.js"></script>    
+		
 	  	<!------------ $routeProvider/app config Declarations ------------>
 		<script type="text/javascript" src="js/app.js"></script>
 

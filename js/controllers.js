@@ -459,6 +459,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepCheckboxIndex].label, data: graphDataSets[sleepCheckboxIndex].data, borderColor: graphDataSets[sleepCheckboxIndex].borderColor, fill: graphDataSets[sleepCheckboxIndex].fill};
 				}
 				
+				// Generate Chart
 				var mainChart = new Chart(document.getElementById("mainChart").getContext('2d'), {
 					
 					type: 'line',
@@ -880,8 +881,8 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryServic
 
 app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {
 
-	$scope.feelingScore = 3;
-	$scope.sleepScore = 3;
+	$scope.feelingScore = 7;
+	$scope.sleepScore = 7;
 	$scope.description = "";
 	$scope.saveEntry = saveEntry;
 

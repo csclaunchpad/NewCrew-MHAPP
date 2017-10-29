@@ -10,7 +10,7 @@ app.config(["$routeProvider", function($routeProvider) {
 	// routeProvider for partials/home.html
 	.when("/home", {
 		controller: "HomeCtrl",
-        templateUrl: "partials/home.html"
+        templateUrl: "partials/home.html"  //Change by JW -cooment by TJ- May need to be Language splash page.
     })
     
     .when("/sqlTester", {
@@ -93,7 +93,7 @@ app.config(["$routeProvider", function($routeProvider) {
             // Calculating the total scores (This SHOULD be done in the DB - Justin)
             for(var i = 0; i < $rootScope.entries.length; i++) {
                 var entry = $rootScope.entries[i];
-                entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0);
+                entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0); //change by JW -comment by TJ- Adjusted to change face on total score for day with 2 new questions.
                 entry.date = new Date(entry.dateEntered);
             }
 
