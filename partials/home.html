@@ -1,157 +1,29 @@
 <md-content layout="column" layout-fill ng-cloak>
-
-	<!------------ Mini Tool #1 ------------>
-	<div class="miniToolTop" layout="row" layout-align="center center" flex="33">
-		<h1 class="md-headline">Mini Tool #1</h1>
-		<md-content >
-	<div layout="row" layout-align="center center">
-		<span class="dateHeader" flex="80" layout-align="start center"><strong>Report Date: </strong>{{selectedEntry.dateEntered}}</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore <= 10"><strong>Score:</strong> Very Low ({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 11 && selectedEntry.entryScore <= 30"><strong>Score:</strong> Low ({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 31 && selectedEntry.entryScore <= 40"><strong>Score:</strong> Rough ({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 41 && selectedEntry.entryScore <= 50"><strong>Score:</strong> Decent({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 51 && selectedEntry.entryScore <= 60"><strong>Score:</strong> Good ({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 61 && selectedEntry.entryScore <= 75"><strong>Score:</strong> Very Good ({{selectedEntry.entryScore}})</span>
-		<span class="scoreHeader" flex ng-show="selectedEntry.entryScore >= 76"><strong>Score:</strong> Amazing ({{selectedEntry.entryScore}})</span>
+<div layout="column" ng-cloak> 
+	<md-content> 
+	<header role="banner">
+	<div class="container">
+	<div class="text-center">
+	<img src="imgs/csc-scc-col-en.svg" onerror="this.src='imgs/csc-scc-col-en.png'" alt="Correctional Service Canada | Service correctionnel Canada" class="fip">
 	</div>
-	<md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-dynamic-height>
-		<md-tab label="Happiness">
-			<md-tab-body layout="column">
-				<div layout="row" flex layout-padding>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Current Score</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Weekly Average</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Monthly Average</div>
-					</div>
-					<div layout="row" flex layout-align="center center">
-						<div class="scoreHeader">Quarterly Average</div>
-					</div>
-				</div>
-				<div layout="row" flex layout-padding>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{selectedEntry.happinessScore}}</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{weeklyHappinessAverage}}</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{monthlyHappinessAverage}}</div>
-					</div>
-					<div layout="row" flex layout-align="center center">
-						<div class="scoreValue">{{quarterlyHappinessAverage}}</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-				
-				<md-tabs md-dynamic-height>
-					<md-tab label="Weekly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartHappinessWeekly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-					<md-tab label="Monthly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartHappinessMonthly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-					<md-tab label="Quartly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartHappinessQuarterly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-				</md-tabs>
-				
-				<md-divider layout-padding></md-divider>
-				
-				<div class="notesHeader" layout="row" >
-					<div flex>Notes</div>
-				</div>
-				<div class="notesContent"layout="row" layout-align="center center" layout-padding>
-					<div ng-show="selectedEntry.happinessNote != null" flex>{{selectedEntry.happinessNote}}</div>
-					<div ng-show="selectedEntry.happinessNote == null" flex>No additional notes.</div>
-				</div>
-			</md-tab-body>
-		</md-tab>
-		
-		<md-tab label="Sleep">
-			<md-tab-body layout="column">
-				<div layout="row" flex layout-padding>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Current Score</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Weekly Average</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreHeader">Monthly Average</div>
-					</div>
-					<div layout="row" flex layout-align="center center">
-						<div class="scoreHeader">Quarterly Average</div>
-					</div>
-				</div>
-				<div layout="row" flex layout-padding>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{selectedEntry.sleepScore}}</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{weeklySleepAverage}}</div>
-					</div>
-					<div layout="row" flex="25" layout-align="center center">
-						<div class="scoreValue">{{monthlySleepAverage}}</div>
-					</div>
-					<div layout="row" flex layout-align="center center">
-						<div class="scoreValue">{{quarterlySleepAverage}}</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-				
-				<md-tabs md-dynamic-height>
-					<md-tab label="Weekly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartSleepWeekly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-					<md-tab label="Monthly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartSleepMonthly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-					<md-tab label="Quartly">
-						<md-tab-body>
-							<div layout-padding>
-								<canvas id="line-chartSleepQuarterly"></canvas>
-							</div>
-						</md-tab-body>
-					</md-tab>
-				</md-tabs>
-				
-				<md-divider layout-padding></md-divider>
-				
-				<div class="notesHeader" layout="row" >
-					<div flex>Notes</div>
-				</div>
-				<div class="notesContent"layout="row" layout-align="center center" layout-padding>
-					<div ng-show="selectedEntry.sleepNote != null" flex>{{selectedEntry.sleepNote}}</div>
-					<div ng-show="selectedEntry.sleepNote == null" flex class="itemNotes">No additional notes.</div>
-				</div>
-			</md-tab-body>
-		</md-tab>
-	</md-tabs>
+	</div>
+	</header>
+	<div class="container" layout="column" id="splash">
+	<div layout="row" layout-xs="column">
+	<div flex layout="column">
+	<h2 class="md-display-1">Mental Health App</h2>
+	<md-button class="md-primary md-raised primary-met-bg" ng-click="setCurrentLang('en')" href="#/open"><strong>English</strong></md-button>
+	<md-button class="md-raised" href="#/terms-en">Terms and Conditions</md-button>
+	</div>
+	<div flex lang="fr" layout="column">
+	<h2 class="md-display-1">Mental Health App -FR</h2>
+	<md-button class="md-primary md-raised primary-met-bg" ng-click="setCurrentLang('fr')" href="#/open"><strong>Français</strong></md-button>
+	<md-button class="md-raised" href="#/terms-fr">Avis</md-button>
+	</div>
+	</div>
+	<br class="clearfix" />
+	<p class="text-center ver"><small>Version 1.0</small></p>
+	</div>
+	</md-content> 
 	</div>
 </md-content>
