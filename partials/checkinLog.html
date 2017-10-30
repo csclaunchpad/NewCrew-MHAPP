@@ -6,27 +6,55 @@
     </div>
 
     <md-card>
-
         <a ng-hide="entries == null" ng-repeat="entry in entries" href="#checkinLogInfo/{{::entry.entryID}}" class="entryItem">
-            <md-card >
-                <md-card-title>
-                    <md-card-title-text>
-                        <div layout="row" flex layout-align="center center">
-                            <span flex><strong>Date:</strong> {{entry.dateEntered}}</span>
-							<span flex class="moodText"><strong>Mood:</strong> {{entry.moodScore}}</span>
-							<span flex class="sleepText"><strong>Sleep:</strong> {{entry.sleepScore}}</span>
-							<span flex class="stressText"><strong>Stress:</strong> {{entry.stressScore}}</span>
-							<span flex class="dietText"><strong>Diet:</strong> {{entry.moodScore}}</span>
-                            <span flex ng-show="entry.entryScore <= 10"><strong>Total Score: </strong> Very Low ({{report.entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Total Score:</strong> Low ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Total Score:</strong> Rough ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Total Score:</strong> Decent ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Total Score:</strong> Good ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Total Score:</strong> Very Good ({{entry.entryScore}})</span>
-                            <span flex ng-show="entry.entryScore >= 76"><strong>Total Score:</strong> Amazing ({{entry.entryScore}})</span>
-                        </div>
-                    </md-card-title-text>
-                </md-card-title>
+            <md-card>
+				<!-- Card Body -->
+				<div layout="row">
+				
+					<!-- Date Space -->
+					<div layout="row" layout-align="start center" flex="30">
+						<div flex>
+							<strong>Date:</strong> {{entry.dateEntered}}
+						</div>
+					</div>
+				
+					<!-- Question Score Space -->
+					<div layout="row" flex="35" layout-align="center center">
+						<div layout="row" class="moodBackground" flex	layout-align="center center">
+							<div>
+								<strong>Mood:</strong> {{entry.moodScore}}
+							</div>
+						</div>
+						<div layout="row" class="sleepBackground" flex	layout-align="center center">
+							<div>
+								<strong>Sleep:</strong> {{entry.sleepScore}}
+							</div>
+						</div>
+						<div layout="row" class="stressBackground" flex layout-align="center center">
+							<div>
+								<strong>Stress:</strong> {{entry.stressScore}}
+							</div>
+						</div>
+						<div layout="row" class="dietBackground" flex	layout-align="center center">
+							<div>
+								<strong>Diet:</strong> {{entry.dietScore}}
+							</div>
+						</div>
+					</div>
+					
+					<!-- Total Score Space -->
+					<div layout="row" layout-align="end center" flex="30">
+						<div>
+							<div flex ng-show="entry.entryScore <= 10"><strong>Total Score: </strong> Very Low ({{report.entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Total Score:</strong> Low ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Total Score:</strong> Rough ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Total Score:</strong> Decent ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Total Score:</strong> Good ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Total Score:</strong> Very Good ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 76"><strong>Total Score:</strong> Amazing ({{entry.entryScore}})</div>
+						</div>
+					</div>
+				</div>
             </md-card>
         </a>
         <md-card ng-show="entries == null">
