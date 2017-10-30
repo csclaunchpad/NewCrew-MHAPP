@@ -45,35 +45,43 @@
 }
 
 .moodBackground {
-	background-color: #FF9800;
 	border-style: solid;
 	border-color:  #000000;
-	border-width: 2px 1px 2px 2px;
+	border-width: 2px 1px 2px 1px;
 	height:50px;
+	background: linear-gradient(210deg, #33ccff, #FFFFFF); /* Standard syntax (must be last) */
 }
 
 .stressBackground {
-	background-color: #D32F2F;
 	border-style: solid;
 	border-color:  #000000;
-	border-width: 2px 1px 2px 2px;
+	border-width: 2px 1px 2px 1px;
 	height:50px;
+	background: linear-gradient(210deg, #ff3333, #FFFFFF); /* Standard syntax (must be last) */
 }
 
 .dietBackground {
-	background-color: #4CAF50;
-	border-style: solid;
-	border-color:  #000000;
-	border-width: 2px 2px 2px 2px;
-	height:50px;
-}
-
-.sleepBackground {
-	background-color: #01579B;
 	border-style: solid;
 	border-color:  #000000;
 	border-width: 2px 1px 2px 2px;
 	height:50px;
+	background: linear-gradient(210deg, #66ff66, #FFFFFF); /* Standard syntax (must be last) */
+}
+
+.sleepBackground {
+	border-style: solid;
+	border-color:  #000000;
+	border-width: 2px 2px 2px 1px;
+	height:50px;
+	background: linear-gradient(210deg, #3366ff, #FFFFFF); /* Standard syntax (must be last) */
+}
+
+#red-slider .md-thumb:after, #red-slider .md-track-fill{
+    background-color: greenyellow !important;
+    border-color: greenyellow !important;
+}
+#red-slider .md-focus-thumb, #red-slider .md-focus-ring{
+    background-color: greenyellow;
 }
 
 /* ------ checkinLogInfo.html ------*/

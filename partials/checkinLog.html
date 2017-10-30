@@ -20,14 +20,14 @@
 				
 					<!-- Question Score Space -->
 					<div layout="row" flex="35" layout-align="center center">
+						<div layout="row" class="dietBackground" flex	layout-align="center center">
+							<div>
+								<strong>Diet:</strong> {{entry.dietScore}}
+							</div>
+						</div>
 						<div layout="row" class="moodBackground" flex	layout-align="center center">
 							<div>
 								<strong>Mood:</strong> {{entry.moodScore}}
-							</div>
-						</div>
-						<div layout="row" class="sleepBackground" flex	layout-align="center center">
-							<div>
-								<strong>Sleep:</strong> {{entry.sleepScore}}
 							</div>
 						</div>
 						<div layout="row" class="stressBackground" flex layout-align="center center">
@@ -35,11 +35,13 @@
 								<strong>Stress:</strong> {{entry.stressScore}}
 							</div>
 						</div>
-						<div layout="row" class="dietBackground" flex	layout-align="center center">
+						<div layout="row" class="sleepBackground" flex	layout-align="center center">
 							<div>
-								<strong>Diet:</strong> {{entry.dietScore}}
+								<strong>Sleep:</strong> {{entry.sleepScore}}
 							</div>
 						</div>
+						
+						
 					</div>
 					
 					<!-- Total Score Space -->
