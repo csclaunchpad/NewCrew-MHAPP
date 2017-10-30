@@ -214,24 +214,159 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 	}
 	
 	// Page elements
+
 	$scope.pageElements = {
 		maximizeButton: true,
 		showOutput: false,
 		hideAllElements: false,
-		moodValues: false,
-		stressValues: false,
-		dietValues: false,
-		sleepValues: false,
+		moodValues: true,
+		stressValues: true,
+		dietValues: true,
+		sleepValues: true,
 		loadComplete: false,
 		loadStarted: false
 	}
-	
+
 	$scope.redirectToCheckinLog = function() {
 		$window.location.href= "#/checkinLog";
 	}
 	
 	// Mood = 0, sleep = 1, stress = 2, diet = 3 
 	$scope.graphColours = ["#FF9800", "#01579B", "#D32F2F", "#4CAF50"];
+	
+	$scope.generateGraph = function() {
+		
+		var today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+		var todayMinusAMonth = moment().subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
+
+		var whereClause = "dateEntered BETWEEN DATETIME('" + todayMinusAMonth + "') AND DATETIME('" + today + "')";
+		
+		queryService.selectQuery("moodScore, stressScore, dietScore, sleepScore, dateEntered", "wellnessTrackerEntries", whereClause).then( function(response) {
+			$scope.entries = response.data;
+			
+			var labelsArray = [];
+			
+			var moodScoreArray = [];
+			var stressScoreArray = [];
+			var dietScoreArray = [];
+			var sleepScoreArray = [];
+			
+			var moodScoreTotal = 0;
+			var stressScoreTotal = 0;
+			var dietScoreTotal = 0;
+			var sleepScoreTotal = 0;
+			
+			var totalCheckins = 0;
+			
+			// Each array is aligned, apply the actual values from our query
+			for(var i = 0; i < $scope.entries.length; i++) {
+				
+				totalCheckins++;
+				
+				labelsArray[i] = $scope.entries[i].dateEntered;
+				
+				moodScoreArray[i] = $scope.entries[i].moodScore;
+				moodScoreTotal = moodScoreTotal + parseInt($scope.entries[i].moodScore);
+			
+				stressScoreArray[i] = $scope.entries[i].stressScore;
+				stressScoreTotal = stressScoreTotal + parseInt($scope.entries[i].stressScore);
+			
+				dietScoreArray[i] = $scope.entries[i].dietScore;
+				dietScoreTotal = dietScoreTotal + parseInt($scope.entries[i].dietScore);
+							
+				sleepScoreArray[i] = $scope.entries[i].sleepScore;
+				sleepScoreTotal = sleepScoreTotal + parseInt($scope.entries[i].sleepScore);
+			}
+			
+			$scope.moodScoreAverage = (moodScoreTotal / totalCheckins).toFixed(2);
+			$scope.stressScoreAverage = (stressScoreTotal / totalCheckins).toFixed(2);
+			$scope.dietScoreAverage = (dietScoreTotal / totalCheckins).toFixed(2);
+			$scope.sleepScoreAverage = (sleepScoreTotal / totalCheckins).toFixed(2);
+			
+			// Build our graph object
+			var graphDataSets = [];
+			
+			// Build our mood line
+			
+			var moodCheckboxIndex = graphDataSets.length;
+			
+			graphDataSets[graphDataSets.length] = { 
+				data: moodScoreArray,
+				label: "Mood Score",
+				borderColor: $scope.graphColours[0],
+				fill: false
+			}
+			
+			// Build our stress line
+				
+			var stressCheckboxIndex = graphDataSets.length;
+			
+			graphDataSets[graphDataSets.length] = { 
+				data: stressScoreArray,
+				label: "Stress Score",
+				borderColor: $scope.graphColours[2],
+				fill: false
+			}
+			
+			// Build our diet line
+				
+			var dietCheckboxIndex = graphDataSets.length;
+			
+			graphDataSets[graphDataSets.length] = { 
+				data: dietScoreArray,
+				label: "Diet Score",
+				borderColor: $scope.graphColours[3],
+				fill: false
+			}
+			
+			// Build our sleep quality line
+				
+			var sleepCheckboxIndex = graphDataSets.length;
+			
+			graphDataSets[graphDataSets.length] = { 
+				data: sleepScoreArray,
+				label: "Sleep Quality Score",
+				borderColor: $scope.graphColours[1],
+				fill: false
+			}
+			
+			var datasetsObject = [];
+
+			datasetsObject[datasetsObject.length] = {label: graphDataSets[moodCheckboxIndex].label, data: graphDataSets[moodCheckboxIndex].data, borderColor: graphDataSets[moodCheckboxIndex].borderColor, fill: graphDataSets[moodCheckboxIndex].fill};
+			datasetsObject[datasetsObject.length] = {label: graphDataSets[stressCheckboxIndex].label, data: graphDataSets[stressCheckboxIndex].data, borderColor: graphDataSets[stressCheckboxIndex].borderColor, fill: graphDataSets[stressCheckboxIndex].fill};
+			datasetsObject[datasetsObject.length] = {label: graphDataSets[dietCheckboxIndex].label, data: graphDataSets[dietCheckboxIndex].data, borderColor: graphDataSets[dietCheckboxIndex].borderColor, fill: graphDataSets[dietCheckboxIndex].fill};
+			datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepCheckboxIndex].label, data: graphDataSets[sleepCheckboxIndex].data, borderColor: graphDataSets[sleepCheckboxIndex].borderColor, fill: graphDataSets[sleepCheckboxIndex].fill};
+			
+			// Generate Chart
+			var mainChart = new Chart(document.getElementById("mainChart").getContext('2d'), {
+				
+				type: 'line',
+				data: {
+					labels: labelsArray,
+					datasets: datasetsObject
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'Wellness Trend',
+						responsive: true,
+						maintainAspectRatio: false
+					}
+				}
+			});
+			
+		});
+		$scope.pageElements.loadStarted = false;
+	}
+	
+	// Launch function
+	$scope.pageLoad = function() {
+		// Tell our loading bar that the back-end has started
+		$scope.pageElements.loadStarted = true;
+		$scope.generateGraph();
+	}
+	
+	$scope.pageLoad();
 	
 	// Called when "Generate" button is clicked
 	$scope.generateChart = function(moodCheckbox, stressCheckbox, dietCheckbox, sleepCheckbox, fromDate, toDate) {
@@ -306,7 +441,6 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			// Parse the angular dates into formats we can use using the moment time library (SQLite3 Standard)
 			var fromDate = moment($scope.data.fromDate).format('YYYY-MM-DD HH:mm:ss');
 			var toDate = moment($scope.data.toDate).format('YYYY-MM-DD HH:mm:ss');
-			
 			
 			// Set the times to their min or max hour accordingly
 			var finalFromDate = new String(fromDate.slice(0, 10) + ' 00' + fromDate.slice(13, fromDate.length));

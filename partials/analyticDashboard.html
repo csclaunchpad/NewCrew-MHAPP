@@ -4,7 +4,7 @@
 			<!-- Question Selection -->
 			<div layout="row">
 				<div layout="row" layout-padding layout-align="start center" flex>
-					<div layout="column">
+					<div layout="row">
 						<div class="moodText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="data.moodCheckbox" aria-label="Mood Checkbox">
 								Mood
@@ -15,8 +15,7 @@
 								Sleep
 							</md-checkbox>
 						</div>
-					</div>
-					<div layout="column">
+
 						<div class="stressText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="data.stressCheckbox" aria-label="Stress Checkbox">
 								Stress
@@ -185,7 +184,7 @@
 			</md-card>
 
 			
-			<div class="scoreBar" layout="row" layout-align="center center stretch" ng-show="pageElements.loadComplete" >			
+			<div class="scoreBar" layout="row" layout-align="center center stretch" >			
 				<div ng-show="pageElements.moodValues">
 					<div layout="column" layout-align="center center" style="height: 100%;">
 						<span class="btn2" style="background-color: #FF9800;" ng-click="">Mood<br>{{moodScoreAverage}} / 10</span>
