@@ -593,6 +593,9 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					datasetsObject[datasetsObject.length] = {label: graphDataSets[sleepCheckboxIndex].label, data: graphDataSets[sleepCheckboxIndex].data, borderColor: graphDataSets[sleepCheckboxIndex].borderColor, fill: graphDataSets[sleepCheckboxIndex].fill};
 				}
 				
+				var chartDiv = document.getElementById("chartDiv");
+				chartDiv.innerHTML = '<canvas id="mainChart"></canvas>';
+				
 				// Generate Chart
 				var mainChart = new Chart(document.getElementById("mainChart").getContext('2d'), {
 					
