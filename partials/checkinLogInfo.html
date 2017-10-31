@@ -12,6 +12,30 @@
     </div>
 
     <h3>On {{entry.date | date: 'longDate'}}, you were feeling:</h3>
+
+	<div layout="row" flex="35" layout-align="center center">
+		<div layout="column" class="dietBackground" layout-align="center center">
+			<div>
+				<strong>Diet:<br></strong> {{entry.dietScore}}
+			</div>
+		</div>
+		<div layout="column" class="moodBackground" layout-align="center center">
+			<div layout-align="center center">
+				<strong>Mood:<br></strong> {{entry.moodScore}}
+			</div>
+		</div>
+		<div layout="row" class="stressBackground" layout-align="center center">
+			<div>
+				<strong>Stress:<br></strong> {{entry.stressScore}}
+			</div>
+		</div>
+		<div layout="row" class="sleepBackground" layout-align="center center">
+			<div>
+				<strong>Sleep:<br></strong> {{entry.sleepScore}}
+			</div>
+		</div>					
+	</div>
+					
 	
 	<!-- Center doesn't work atm -->
 	<div layout="row" flex layout-align="center center">

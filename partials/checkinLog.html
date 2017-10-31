@@ -12,30 +12,30 @@
 				<div layout="row">
 				
 					<!-- Date Space -->
-					<div layout="row" layout-align="start center" flex="30">
+					<div layout="row" layout-align="start center" flex="20">
 						<div flex>
 							<strong>Date:<br></strong> {{entry.dateEntered}}
 						</div>
 					</div>
 				
 					<!-- Question Score Space -->
-					<div layout="row" flex="35" layout-align="center center">
-						<div layout="row" class="dietBackground" flex layout-align="center center">
+					<div layout="row" layout-align="center center" flex="60">
+						<div layout="row" class="dietBackground" layout-align="center center">
 							<div>
 								<strong>Diet:<br></strong> {{entry.dietScore}}
 							</div>
 						</div>
-						<div layout="row" class="moodBackground" flex layout-align="center center">
+						<div layout="row" class="moodBackground" layout-align="center center">
 							<div>
 								<strong>Mood:<br></strong> {{entry.moodScore}}
 							</div>
 						</div>
-						<div layout="row" class="stressBackground" flex layout-align="center center">
+						<div layout="row" class="stressBackground" layout-align="center center">
 							<div>
 								<strong>Stress:<br></strong> {{entry.stressScore}}
 							</div>
 						</div>
-						<div layout="row" class="sleepBackground" flex layout-align="center center">
+						<div layout="row" class="sleepBackground" layout-align="center center">
 							<div>
 								<strong>Sleep:<br></strong> {{entry.sleepScore}}
 							</div>
@@ -45,15 +45,15 @@
 					</div>
 					
 					<!-- Total Score Space -->
-					<div layout="row" layout-align="end center" flex="30">
+					<div layout="row" layout-align="end center" flex="20">
 						<div>
-							<div flex ng-show="entry.entryScore <= 10"><strong>Total Score: <br></strong> Very Low ({{report.entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong>Total Score:<br></strong> Low ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong>Total Score:<br></strong> Rough ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong>Total Score:<br></strong> Decent ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong>Total Score:<br></strong> Good ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong>Total Score:<br></strong> Very Good ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 76"><strong>Total Score:<br></strong> Amazing ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore <= 10"><strong></strong> Very Low <br>({{report.entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong></strong> Low ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong></strong> Rough ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong></strong> Decent ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong></strong> Good ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong></strong> Very Good ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 76"><strong></strong> Amazing ({{entry.entryScore}})</div>
 						</div>
 					</div>
 				</div>
