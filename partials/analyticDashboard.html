@@ -87,7 +87,31 @@
 			</md-card>
 
 			
-			<div class="scoreBar" layout="row" layout-align="center center stretch" >			
+
+			
+	<div layout="row"  layout-align="center center">
+		<div layout="column" class="dietBackground" layout-align="center center">
+			<div>
+				<strong>Diet:<br></strong> {{dietScoreAverage}}
+			</div>
+		</div>
+		<div layout="column" class="moodBackground" layout-align="center center">
+			<div layout-align="center center">
+				<strong>Mood:<br></strong> {{moodScoreAverage}}
+			</div>
+		</div>
+		<div layout="row" class="stressBackground" layout-align="center center">
+			<div>
+				<strong>Stress:<br></strong> {{stressScoreAverage}}
+			</div>
+		</div>
+		<div layout="row" class="sleepBackground" layout-align="center center">
+			<div>
+				<strong>Sleep:<br></strong> {{sleepScoreAverage}}
+			</div>
+		</div>					
+	</div>			
+<!--			<div class="scoreBar" layout="row" layout-align="center center stretch" >			
 				<div ng-show="pageElements.moodValues">
 					<div layout="column" layout-align="center center" style="height: 100%;">
 						<span class="btn2 moodBackground" ng-click=""><strong>Mood<br>{{moodScoreAverage}} / 10</strong></span>
@@ -96,7 +120,7 @@
 				
 				<div ng-show="pageElements.stressValues">
 					<div layout="column" layout-align="center center" style="height: 100%;">
-						<span class="btn2 stressBackground" ng-click=""><strong>Stress<br>{{stressScoreAverage}} / 10</strong></span>
+						<span class="btn2 stressBackground" ng-click=""><strong>Stress<br>{{stressScoreAverage}} / 10<strong></span>
 					</div>
 				</div>
 				
@@ -113,7 +137,7 @@
 				</div>
 				
 			</div>
-			
+-->			
 			
 <!--  Code Modded by TJ -->
 			
@@ -127,7 +151,7 @@
 				<div layout="row">
 					<md-button class="md-raised md-primary buttonBold" ng-click="generateChart(data.moodCheckbox, data.stressCheckbox, data.dietCheckbox, data.sleepCheckbox, data.fromDate, data.toDate)">Generate</md-button>
 					<md-button class="md-raised md-primary buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
-			</div>
+				</div>
 			</div>
 			
 <!-- End Mod  -->			

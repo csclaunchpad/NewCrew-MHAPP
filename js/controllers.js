@@ -1040,9 +1040,19 @@ app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryS
 
 		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.feelingScore + ", '" + $scope.description + "', " + $scope.sleepScore + ", datetime('now')";
 
-        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,happinessScore,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
+        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,Score,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
 			console.log("This is result:", result);
-        });
+/*
+		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.moodScore + ", " + $scope.sleepScore + ", " + $scope.dietScore + ", " + $scope.stressScore + ", " + $scope.entryNote + ",  datetime('now')";
+
+        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,moodScore,sleepScore,dietScore,stressScore,entryNote,dateEntered", valueStatement).then(function (result) {
+			console.log("This is result:", result);
+*/
+
+
+
+
+			});
 	}
 }]);
 
