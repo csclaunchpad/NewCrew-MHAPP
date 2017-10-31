@@ -346,12 +346,16 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					datasets: datasetsObject
 				},
 				options: {
-					title: {
-						display: true,
-						text: 'Wellness Trend',
-						responsive: true,
-						maintainAspectRatio: false
-					}
+					scales: {
+							xAxes: [{
+								type: 'time',
+								time: {
+									displayFormats: {
+										quarter: 'MMM D'
+									}
+								}
+							}] 
+						}
 				}
 			});
 			
@@ -1029,30 +1033,52 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryServic
 
 app.controller("DailyEntry", ["$scope", "queryService", function ($scope, queryService) {
 
-	$scope.feelingScore = 7;
+	$scope.moodScore = 7;
 	$scope.sleepScore = 7;
 	$scope.dietScore = 7;
 	$scope.stressScore = 7;
 	$scope.description = "";
 	$scope.saveEntry = saveEntry;
 
+	$scope.updatePicture = function() {
+		$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+	}
+	
+	$scope.$watch(function(scope) { return $scope.moodScore },
+		function() {
+			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+
+		}
+	);
+	
+	$scope.$watch(function(scope) { return $scope.sleepScore },
+		function() {
+			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+
+		}
+	);
+	
+	$scope.$watch(function(scope) { return $scope.stressScore },
+		function() {
+			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+
+		}
+	);
+	
+	$scope.$watch(function(scope) { return $scope.dietScore },
+		function() {
+			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+
+		}
+	);
+	
 	function saveEntry(){
 
-		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.feelingScore + ", '" + $scope.description + "', " + $scope.sleepScore + ", datetime('now')";
+		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, '" + $scope.moodScore + "', '" + $scope.stressScore + "', '" + $scope.sleepScore + "', '" + $scope.dietScore + "', '" + $scope.entryNote + "', datetime('now')";
 
-        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,Score,happinessNote,sleepScore,dateEntered", valueStatement).then(function (result) {
+        queryService.insertQuery("wellnessTrackerEntries", "entryID, userID, moodScore, stressScore, sleepScore, dietScore, entryNote, dateEntered", valueStatement).then(function (result) {
 			console.log("This is result:", result);
-/*
-		var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, " + $scope.moodScore + ", " + $scope.sleepScore + ", " + $scope.dietScore + ", " + $scope.stressScore + ", " + $scope.entryNote + ",  datetime('now')";
-
-        queryService.insertQuery("wellnessTrackerEntries", "entryID,userID,moodScore,sleepScore,dietScore,stressScore,entryNote,dateEntered", valueStatement).then(function (result) {
-			console.log("This is result:", result);
-*/
-
-
-
-
-			});
+		});
 	}
 }]);
 

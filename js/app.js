@@ -87,7 +87,7 @@ app.config(["$routeProvider", function($routeProvider) {
 
 
 	function entryListResolve($rootScope, queryService){
-        return queryService.selectQuery("*", "wellnessTrackerEntries", "").then(function(response) {
+        return queryService.selectQuery("*", "wellnessTrackerEntries", "1=1 ORDER BY dateEntered").then(function(response) {
             $rootScope.entries = response.data;
 
             // Calculating the total scores (This SHOULD be done in the DB - Justin)
