@@ -27,23 +27,8 @@
 							</md-checkbox>
 						</div>
 					</div>
-<!--					<div layout="column" flex flex-offset="40" style="height: 100%;">
-						<div layout-padding>
-							<md-datepicker ng-model="data.fromDate" md-max-date="data.toDate" md-placeholder="Enter date"></md-datepicker>
-						</div>
-						<div layout-padding class="md-datePicker-align">
-							<md-datepicker ng-model="data.toDate" md-min-date="data.fromDate" md-placeholder="Enter date"></md-datepicker>
-						</div>
-					</div> -->
 				</div>
-			</div>
-			
-			<!-- Submit Button -->
-<!--			<div layout="row" layout-align="end center">
-				<md-button class="md-raised buttonBold" ng-click="generateChart(data.moodCheckbox, data.stressCheckbox, data.dietCheckbox, data.sleepCheckbox, data.fromDate, data.toDate)">Generate</md-button>
-				<md-button class="md-raised buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
-			</div>
--->			
+			</div>		
 		</md-card>
 		
 		<div flex ng-show="!pageElements.loadComplete && pageElements.loadStarted && !pageElements.hideAllElements">
@@ -89,89 +74,7 @@
 				
 				<md-divider layout-padding></md-divider>
 			</div>
-<!--			<div layout="column" ng-show="pageElements.sleepValues">
-				<div layout="row" layout-padding>
-					<div layout="row" flex layout-align="center center" >
-						<div class="scoreTitle">Sleep Score</div>
-					</div>
-				</div>
-				<div layout="column" layout-padding>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Selected Dates</div>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Total</div>
-						</div>
-					</div>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{sleepScoreAverage}} / 10</span>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{sleepGrandAverage}} / 10</span>
-						</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-			</div>
-			<div layout="column" ng-show="pageElements.stressValues">
-				<div layout="row" layout-padding>
-					<div layout="row" flex layout-align="center center" >
-						<div class="scoreTitle">Stress Score</div>
-					</div>
-				</div>
-				<div layout="column" layout-padding>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Selected Dates</div>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Total</div>
-						</div>
-					</div>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{stressScoreAverage}} / 10</span>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{stressGrandAverage}} / 10</span>
-						</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-			</div>
-			
-			<div layout="column" ng-show="pageElements.dietValues">
-				<div layout="row" layout-padding>
-					<div layout="row" flex layout-align="center center" >
-						<div class="scoreTitle">Diet Score</div>
-					</div>
-				</div>
-				<div layout="column" layout-padding>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Selected Dates</div>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Total</div>
-						</div>
-					</div>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{dietScoreAverage}} / 10</span>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{dietGrandAverage}} / 10</span>
-						</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-			</div>
--->		
+-->
 			<!-- Graph -->
 			<md-card>
 				<div layout="row">

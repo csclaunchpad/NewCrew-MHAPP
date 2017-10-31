@@ -292,7 +292,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			
 			graphDataSets[graphDataSets.length] = { 
 				data: moodScoreArray,
-				label: "Mood Score",
+				label: "Mood",
 				borderColor: $scope.graphColours[0],
 				fill: false
 			}
@@ -303,7 +303,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			
 			graphDataSets[graphDataSets.length] = { 
 				data: stressScoreArray,
-				label: "Stress Score",
+				label: "Stress",
 				borderColor: $scope.graphColours[2],
 				fill: false
 			}
@@ -314,7 +314,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			
 			graphDataSets[graphDataSets.length] = { 
 				data: dietScoreArray,
-				label: "Diet Score",
+				label: "Diet",
 				borderColor: $scope.graphColours[3],
 				fill: false
 			}
@@ -325,7 +325,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			
 			graphDataSets[graphDataSets.length] = { 
 				data: sleepScoreArray,
-				label: "Sleep Quality Score",
+				label: "Sleep",
 				borderColor: $scope.graphColours[1],
 				fill: false
 			}
@@ -530,7 +530,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: moodScoreArray,
-						label: "Mood Score",
+						label: "Mood",
 						borderColor: $scope.graphColours[0],
 						fill: false
 					}
@@ -543,7 +543,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: stressScoreArray,
-						label: "Stress Score",
+						label: "Stress",
 						borderColor: $scope.graphColours[2],
 						fill: false
 					}
@@ -556,7 +556,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: dietScoreArray,
-						label: "Diet Score",
+						label: "Diet",
 						borderColor: $scope.graphColours[3],
 						fill: false
 					}
@@ -569,7 +569,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: sleepScoreArray,
-						label: "Sleep Quality Score",
+						label: "Sleep",
 						borderColor: $scope.graphColours[1],
 						fill: false
 					}
@@ -605,11 +605,22 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 						datasets: datasetsObject
 					},
 					options: {
-						title: {
+/*						title: {
 							display: true,
 							text: 'Wellness Trend',
 							responsive: true,
 							maintainAspectRatio: false
+						}
+*/						
+						scales: {
+							xAxes: [{
+								type: 'time',
+								time: {
+									displayFormats: {
+										quarter: 'MMM D'
+									}
+								}
+							}] 
 						}
 					}
 				});
