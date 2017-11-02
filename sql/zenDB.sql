@@ -3,7 +3,9 @@ CREATE TABLE users(
 	userID INTEGER PRIMARY KEY,
 	passcode INTEGER NOT NULL,
 	firstName TEXT NOT NULL,
-	gender TEXT NOT NULL
+	gender TEXT NOT NULL,
+	question TEXT NOT NULL,
+	answer TEXT NOT NULL
 );
 
 DROP TABLE IF EXISTS diaryEntries;
@@ -78,5 +80,5 @@ DROP TABLE IF EXISTS toolBelt;
 CREATE TABLE toolBelt(
 	userID INTEGER REFERENCES users(userID),
 	toolID INTEGER REFERENCES tools(toolID),
-	PRIMARY KEY(userID)
+	PRIMARY KEY(userID, toolID)
 );

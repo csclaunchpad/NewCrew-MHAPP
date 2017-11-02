@@ -15,6 +15,8 @@
 	
 	$result = $db->query($sqlStatement);
 	
+	error_log($sqlStatement);
+	
 	echo(json_encode($result->fetchAll(PDO::FETCH_ASSOC)));	
 	
 

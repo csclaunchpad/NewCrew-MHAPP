@@ -1,0 +1,62 @@
+<md-content>
+	<div layout="column" layout-align="center center">
+		<div layout="column" ng-show="pageElements.invalidPin">
+			<div>
+				That pin or name is already in use!
+			</div>
+
+		</div>
+		<div layout="column">
+			<div>
+				First Name
+			</div>
+			<div>
+				<input type="text" ng-model="userInput.firstName" name="firstName"><br>
+			</div>
+		</div>
+		
+		<div layout="column">
+			<div>
+				Pin (4-6 numbers)
+			</div>
+			<div>
+				<input type="text" ng-model="userInput.pin" name="pin" maxlength="6"><br>
+			</div>
+		</div>
+		
+		<div layout="column">
+			<div>
+				Gender
+			</div>
+			<div>
+				<md-select ng-model="userInput.gender">
+					<md-option>Male</md-option>
+					<md-option>Female</md-option>
+					<md-option>Other</md-option>
+				</md-select>
+			</div>
+		</div>
+		
+		<div layout="column">
+			<div>
+				Security Question
+			</div>
+			<div>
+				<input type="text" ng-model="userInput.question" name="question" maxlength="50"><br>
+			</div>
+		</div>
+		
+		<div layout="column">
+			<div>
+				Answer
+			</div>
+			<div>
+				<input type="text" ng-model="userInput.answer" name="answer" maxlength="50"><br>
+			</div>
+		</div>
+		
+		<div layout="row">
+			<md-button class="md-raised md-primary" ng-click="submitUser()">Create User</md-button>
+		</div>
+	</div>
+</md-content>

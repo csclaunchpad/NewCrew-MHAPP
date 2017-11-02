@@ -1,0 +1,66 @@
+<md-content>
+	<div style="margin-top: 10%" layout="column" layout-align="center center">
+		
+		<div layout="row" ng-show="pageElements.invalidLoginPin">
+			The pin you have entered is invalid!
+		</div>
+		
+		<div layout="row" flex>
+			<input type="text" ng-model="pin" name="pin"><br>
+		</div>
+	
+		<div flex layout="row">
+			<div flex>
+				<md-button class="md-raised" ng-click="addNumbers(1)">1</md-button>
+			</div>
+			<div flex>
+				<md-button class="md-raised" ng-click="addNumbers(2)">2</md-button>
+			</div>
+			<div flex>
+				<md-button class="md-raised" ng-click="addNumbers(3)">3</md-button>
+			</div>
+		</div>
+		<div layout="row">
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(4)">4</md-button>
+			</div>
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(5)">5</md-button>
+			</div>
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(6)">6</md-button>
+			</div>
+		</div>
+		<div layout="row">
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(7)">7</md-button>
+			</div>
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(8)">8</md-button>
+			</div>
+			<div>
+				<md-button class="md-raised" ng-click="addNumbers(9)">9</md-button>
+			</div>
+		</div>
+		<div layout="row">
+			<div>
+				<md-button class="md-raised" ng-click="removeNumbers()">Back</md-button>
+			</div>
+
+		</div>
+		<div layout="row">
+			<div layout-align="start center">
+				<md-button class="md-raised md-primary" ng-click="login()">Login</md-button>
+			</div>
+			<div layout-align="end center">
+				<md-button class="md-raised md-primary" ng-click="forgotPin()">Forgot my pin</md-button>
+			</div>
+		</div>
+		<div layout="row">
+			<div>
+				<md-button class="md-raised md-primary" ng-click="newUser()">Create new user</md-button>
+			</div>
+		</div>
+	</div>
+
+</md-content>
