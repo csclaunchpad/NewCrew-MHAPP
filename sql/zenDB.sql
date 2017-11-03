@@ -76,9 +76,9 @@ CREATE TABLE tools (
 	FOREIGN KEY(relatedApp3) REFERENCES tools(toolID)
 );
 
-DROP TABLE IF EXISTS toolBelt;
-CREATE TABLE toolBelt(
+DROP TABLE IF EXISTS favouriteTools;
+CREATE TABLE favouriteTools(
 	userID INTEGER REFERENCES users(userID),
-	toolID INTEGER REFERENCES tools(toolID),
-	PRIMARY KEY(userID, toolID)
+	favouriteToolID INTEGER REFERENCES tools(toolID),
+	PRIMARY KEY(userID, favouriteToolID)
 );
