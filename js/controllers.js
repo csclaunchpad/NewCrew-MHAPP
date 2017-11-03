@@ -126,7 +126,6 @@ app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", function($
 			$scope.userInput.pin = $scope.userInput.pin.substring(0, $scope.userInput.pin.length-1);
 		}
 	}
-
 }]);
 
 //------------------ Login Controller --------------------
@@ -266,26 +265,41 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 }]);
 
 //------------------ toolStore Controller (Place holder/Demo) --------------------
-app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
-	
+app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', function($scope, $window, queryService, $route){
 	// Check to see if a user is logged in, if not, redirect to login screen
-	if(localStorage.getItem("user") != null) {
-		/* Things to do: 
-		// 1. Add "Add to toolbelt" Button
-		// 2. Add picture functionality for tools
-		// 3. Hide Tools if they're already a part of the user's toolbelt
-		*/
-		
+	if(localStorage.getItem("user") != null) {		
 		// Fetch all the Tools
 		queryService.selectQuery("*", "tools", "").then(function(response) {
 			$scope.tools = response.data;
+			
+			// Our array that we'll build which will contain all the user's favourited tools
+			$scope.favouritedTools = [];
+			
+			// Now fetch the ones the user has favourited
+			var whereClause = "userID = '" + localStorage.getItem("user") + "'";
+			queryService.selectQuery("*", "favouriteTools", whereClause).then( function(response) {
+				$scope.favouritedToolsArray = response.data;
+				
+				// Walk through each favourited tool, and find it's ID in our total tool list
+				for(var x = 0; x < $scope.favouritedToolsArray.length; x++) {
+					
+					// When found, remove it from our tools list and move it to the favourited array so we can display them in different sections
+					for(var i = 0; i < $scope.tools.length; i++) {
+						if($scope.tools[i].toolID == $scope.favouritedToolsArray[x].favouriteToolID) {
+							$scope.favouritedTools.push($scope.tools[i]);
+							$scope.tools.splice(i, 1);
+						}
+					}
+				}
+			});			
 		});
 		
 		// Place holder for addTool to toolBelt function
-		$scope.addTool = function(toolID) {
+		$scope.addToolToFavourites = function(toolID) {
 			var valueStatement = localStorage.getItem("user") + ", " + toolID;
-			queryService.insertQuery("toolBelt", "userID, toolID", valueStatement).then( function() {
+			queryService.insertQuery("favouriteTools", "userID, favouriteToolID", valueStatement).then( function() {
 				console.log("HIT");
+				$route.reload();
 			});
 		};
 		
