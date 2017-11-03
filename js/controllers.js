@@ -34,7 +34,7 @@ app.controller('NewUserCtrl', ['$scope', '$window', "queryService", function($sc
 			
 			// Check to see if the username or pin is already taken, if so, display the appropriate text, otherwise, continue
 			var whereClause = "passcode = '" + $scope.userInput.pin + "' OR firstName = '" + $scope.userInput.firstName + "'";
-			queryService.selectQuery("", "users", whereClause).then( function(response) {
+			queryService.selectQuery("*", "users", whereClause).then( function(response) {
 				if(response.data.length == 0) {
 				
 					// Gender variable that'll be entered in the DB, since our DB supports "M", "F, or "O"
@@ -500,6 +500,8 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			// Tell our loading bar that the back-end has started
 			$scope.pageElements.loadStarted = true;
 			
+			// Set up our dates for last month
+			
 			// Grab both our dates
 			var today = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 			var todayMinusAMonth = moment().subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
@@ -512,11 +514,14 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			finalTodayDate = finalTodayDate.toString();
 			finalTodayMinusAMonth = finalTodayMinusAMonth.toString();
 			
+			// Call the method to generate the chart
 			$scope.generateChart(finalTodayMinusAMonth, finalTodayDate, true);
 		}
 		
-		// Called when "Generate" button is clicked
+		// Called when "Generate" button is clicked, creates a chart
 		$scope.generateChart = function(fromDate, toDate, pageLaunchFlag) {			
+			
+			if(pageLaunchFlag === null) pageLaunchFlag = false;
 			
 			// Tell our loading bar that the back-end has started
 			$scope.pageElements.loadStarted = true;
