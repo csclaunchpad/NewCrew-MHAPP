@@ -49,7 +49,7 @@ app.controller('NewUserCtrl', ['$scope', '$window', "queryService", function($sc
 					}
 					
 					// Enter the user into our users table
-					var valueStatement = "(SELECT IFNULL(MAX(userID), 0) + 1 FROM users), lower('" + $scope.userInput.firstName + "'), lower('" + $scope.userInput.pin + "'), lower('" + genderBackend + "'), lower('" + $scope.userInput.question + "'), lower('" + $scope.userInput.answer + "')";
+					var valueStatement = "(SELECT IFNULL(MAX(userID), 0) + 1 FROM users), lower('" + $scope.userInput.firstName + "'), '" + $scope.userInput.pin + "', lower('" + genderBackend + "'), lower('" + $scope.userInput.question + "'), lower('" + $scope.userInput.answer + "')";
 					queryService.insertQuery("users", "userID, firstName, passcode, gender, question, answer", valueStatement).then( function(response) {
 						$window.location.href = "#/checkinLog";
 					});
@@ -964,7 +964,7 @@ app.controller("DailyEntry", ["$scope", "queryService", '$window', function ($sc
 		
 		function saveEntry(){
 
-			var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), 1, '" + $scope.moodScore + "', '" + $scope.stressScore + "', '" + $scope.sleepScore + "', '" + $scope.dietScore + "', '" + $scope.entryNote + "', datetime('now')";
+			var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), '" + localStorage.getItem("user") + "', '" + $scope.moodScore + "', '" + $scope.stressScore + "', '" + $scope.sleepScore + "', '" + $scope.dietScore + "', '" + $scope.entryNote + "', datetime('now')";
 
 			queryService.insertQuery("wellnessTrackerEntries", "entryID, userID, moodScore, stressScore, sleepScore, dietScore, entryNote, dateEntered", valueStatement).then(function (result) {
 				console.log("This is result:", result);
