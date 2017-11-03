@@ -294,14 +294,21 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 			});			
 		});
 		
-		// Place holder for addTool to toolBelt function
+		// Adds tool to table favouriteTools
 		$scope.addToolToFavourites = function(toolID) {
 			var valueStatement = localStorage.getItem("user") + ", " + toolID;
 			queryService.insertQuery("favouriteTools", "userID, favouriteToolID", valueStatement).then( function() {
-				console.log("HIT");
 				$route.reload();
 			});
 		};
+		
+		// Removes tool from favouriteTools
+		$scope.removeToolFromFavourites = function(toolID) {
+			var whereClause = "userID = '" + localStorage.getItem("user") + "' AND favouriteToolID = '" + toolID + "'";
+			queryService.deleteQuery("favouriteTools", whereClause).then( function() {
+				$route.reload();
+			});
+		}
 		
 		// Caches the selected tool's ID, and redirects to our autofilled moreDetails page
 		$scope.moreDetails = function(toolID) {
