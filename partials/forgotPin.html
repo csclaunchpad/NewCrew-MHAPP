@@ -1,0 +1,98 @@
+<md-content>
+	<div layout="column" layout-align="center center">
+		<div ng-show="pageElements.invalidName">
+			That name wasn't found!
+		</div>
+		
+		<div ng-show="pageElements.invalidAnswer">
+			That answer isn't correct!
+		</div>
+		
+		<div ng-show="pageElements.invalidPin">
+			Your pin must be between 4-6 numbers!
+		</div>
+				
+		<div ng-show="pageElements.phase1" layout-align="center center">
+			<div>
+				What is the first name of the account your trying to recover?
+			</div>
+			<div>
+				<input type="text" ng-model="userInput.firstName" name="firstName"><br>
+			</div>
+		</div>
+		
+		<div ng-show="pageElements.phase2">
+			<div>
+				Question: 
+			</div>
+			
+			<div>
+				"{{question}}"?
+			</div>
+			<div>
+				Answer: 
+			</div>
+			
+			<div>
+				<input type="text" ng-model="userInput.answer" name="answer"><br>
+			</div>
+			
+		</div>
+		
+		<div ng-show="pageElements.phase3" layout="column">
+			<div>
+				Set your new pin!
+			</div>
+			
+			<div>
+				<div layout="row" flex>
+					<input type="text" ng-model="userInput.pin" name="pin"><br>
+				</div>
+			
+				<div flex layout="row">
+					<div flex>
+						<md-button class="md-raised" ng-click="addNumbers(1)">1</md-button>
+					</div>
+					<div flex>
+						<md-button class="md-raised" ng-click="addNumbers(2)">2</md-button>
+					</div>
+					<div flex>
+						<md-button class="md-raised" ng-click="addNumbers(3)">3</md-button>
+					</div>
+				</div>
+				<div layout="row">
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(4)">4</md-button>
+					</div>
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(5)">5</md-button>
+					</div>
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(6)">6</md-button>
+					</div>
+				</div>
+				<div layout="row">
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(7)">7</md-button>
+					</div>
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(8)">8</md-button>
+					</div>
+					<div>
+						<md-button class="md-raised" ng-click="addNumbers(9)">9</md-button>
+					</div>
+				</div>
+				<div layout="row">
+					<div>
+						<md-button class="md-raised" ng-click="removeNumbers()">Back</md-button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div>
+			<md-button class="md-raised md-primary" ng-click="submitInput()">Submit</md-button>
+		</div>
+	
+	</div>
+</md-content>

@@ -84,6 +84,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "DailyEntry",
 		templateUrl: "partials/dailyEntry.html"
 	})
+<<<<<<< HEAD
 
 	.when("/sleepTool", {
 		controller: "SleepTool",
@@ -104,23 +105,45 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/depressionTool.html"
 	})
 	
+=======
+	
+	.when("/login", { // Login Page: Added by JW - 2017/11/01
+		controller: "LoginCtrl",
+		templateUrl: "partials/login.html"
+	})
+	
+	.when("/newUser", { // New User Page: Added by JW - 2017/11/01
+		controller: "NewUserCtrl",
+		templateUrl: "partials/newUser.html"
+	})
+	
+	.when("/forgotPin", { // Forgot Pin Page: Added by JW - 2017/11/01
+		controller: "ForgotPinCtrl",
+		templateUrl: "partials/forgotPin.html"
+	})
+    
+>>>>>>> b28b272102c713731103449c22383463a0fad93b
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
 
 
 
 	function entryListResolve($rootScope, queryService){
-        return queryService.selectQuery("*", "wellnessTrackerEntries", "1=1 ORDER BY dateEntered").then(function(response) {
-            $rootScope.entries = response.data;
+		
+		if(localStorage.getItem("user") != "undefined") {
+			var whereClause = "userID = '" + localStorage.getItem("user") + "' ORDER BY dateEntered DESC";
+			return queryService.selectQuery("*", "wellnessTrackerEntries", whereClause).then(function(response) {
+				$rootScope.entries = response.data;
 
-            // Calculating the total scores (This SHOULD be done in the DB - Justin)
-            for(var i = 0; i < $rootScope.entries.length; i++) {
-                var entry = $rootScope.entries[i];
-                entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0); //change by JW -comment by TJ- Adjusted to change face on total score for day with 2 new questions.
-                entry.date = new Date(entry.dateEntered);
-            }
+				// Calculating the total scores (This SHOULD be done in the DB - Justin)
+				for(var i = 0; i < $rootScope.entries.length; i++) {
+					var entry = $rootScope.entries[i];
+					entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0); //change by JW -comment by TJ- Adjusted to change face on total score for day with 2 new questions.
+					entry.date = new Date(entry.dateEntered);
+				}
 
-            return $rootScope.entries;
-        });
+				return $rootScope.entries;
+			});
+		}
 	}
 }]);

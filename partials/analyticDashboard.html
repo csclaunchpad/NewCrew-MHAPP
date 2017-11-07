@@ -6,23 +6,23 @@
 				<div layout="row" layout-padding layout-align="start center" flex>
 					<div layout="row">
 						<div class="moodText" layout="column" layout-padding>
-							<md-checkbox class="md-primary" ng-model="data.moodCheckbox" aria-label="Mood Checkbox">
+							<md-checkbox class="md-primary" ng-model="userInput.moodCheckbox" aria-label="Mood Checkbox">
 								Mood
 							</md-checkbox>
 						</div>
 						<div class="sleepText" layout="column" layout-padding>
-							<md-checkbox class="md-primary" ng-model="data.sleepCheckbox" aria-label="Sleep Checkbox">
+							<md-checkbox class="md-primary" ng-model="userInput.sleepCheckbox" aria-label="Sleep Checkbox">
 								Sleep
 							</md-checkbox>
 						</div>
 
 						<div class="stressText" layout="column" layout-padding>
-							<md-checkbox class="md-primary" ng-model="data.stressCheckbox" aria-label="Stress Checkbox">
+							<md-checkbox class="md-primary" ng-model="userInput.stressCheckbox" aria-label="Stress Checkbox">
 								Stress
 							</md-checkbox>
 						</div>
 						<div class="dietText" layout="column" layout-padding>
-							<md-checkbox class="md-primary" ng-model="data.dietCheckbox" aria-label="Diet Checkbox">
+							<md-checkbox class="md-primary" ng-model="userInput.dietCheckbox" aria-label="Diet Checkbox">
 								Diet
 							</md-checkbox>
 						</div>
@@ -41,124 +41,49 @@
 			</div>
 		</md-card>
 		
-		<!-- Maximize Button -->
-<!--		<div layout="row" layout-align="center center" layout-padding>
-			<md-button class="md-raised buttonBold" onclick="document.getElementById('slider').classList.toggle('closed');">Test Slider Button</md-button>
-		</div>
--->		
-<!--		<div flex="50" ng-show="pageElements.loadComplete" ng-hide="pageElements.hideAllElements">			
-			<div layout="column" ng-show="pageElements.moodValues">
-				<div layout="row" layout-padding>
-					<div layout="row" flex layout-align="center center" >
-						<div class="scoreTitle">Mood Score</div>
-					</div>
-				</div>
-				<div layout="column" layout-padding>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Selected Dates</div>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<div class="scoreHeader">Average Score: Total</div>
-						</div>
-					</div>
-					<div layout="row" layout-padding>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{moodScoreAverage}} / 10</span>
-						</div>
-						<div layout="row" flex layout-align="center center">
-							<span class="scoreValue">{{moodGrandAverage}} / 10</span>
-						</div>
-					</div>
-				</div>
-				
-				<md-divider layout-padding></md-divider>
-			</div>
--->
-			<!-- Graph -->
-			<md-card>
-				<div layout="row">
-					<div id="chartDiv" layout-fill>
-<!--					<div class="graphBounds">  -->
-						<canvas id="mainChart"></canvas>
-<!--					</div>  -->
-					</div>	
-				</div>
-			</md-card>
-
-			
-
-			
-	<div layout="row"  layout-align="center center">
-		<div layout="column" class="dietBackground" layout-align="center center">
-			<div>
-				<strong>Diet:<br></strong> {{dietScoreAverage}}
-			</div>
-		</div>
-		<div layout="column" class="moodBackground" layout-align="center center">
-			<div layout-align="center center">
-				<strong>Mood:<br></strong> {{moodScoreAverage}}
-			</div>
-		</div>
-		<div layout="row" class="stressBackground" layout-align="center center">
-			<div>
-				<strong>Stress:<br></strong> {{stressScoreAverage}}
-			</div>
-		</div>
-		<div layout="row" class="sleepBackground" layout-align="center center">
-			<div>
-				<strong>Sleep:<br></strong> {{sleepScoreAverage}}
-			</div>
-		</div>					
-	</div>			
-<!--			<div class="scoreBar" layout="row" layout-align="center center stretch" >			
-				<div ng-show="pageElements.moodValues">
-					<div layout="column" layout-align="center center" style="height: 100%;">
-						<span class="btn2 moodBackground" ng-click=""><strong>Mood<br>{{moodScoreAverage}} / 10</strong></span>
-					</div>
-				</div>
-				
-				<div ng-show="pageElements.stressValues">
-					<div layout="column" layout-align="center center" style="height: 100%;">
-						<span class="btn2 stressBackground" ng-click=""><strong>Stress<br>{{stressScoreAverage}} / 10<strong></span>
-					</div>
-				</div>
-				
-				<div ng-show="pageElements.dietValues">
-					<div layout="column" layout-align="center center" style="height: 100%;">
-						<span class="btn2 dietBackground" ng-click=""><strong>Diet<br>{{dietScoreAverage}} / 10</strong></span>
-					</div>
+		<!-- Graph -->
+		<md-card>
+			<div layout="row">
+				<div id="chartDiv" layout-fill>
+					<canvas id="mainChart"></canvas>
 				</div>	
-				
-				<div ng-show="pageElements.sleepValues">
-					<div layout="column" layout-align="center center" style="height: 100%;">
-						<span class="btn2 sleepBackground" ng-click=""><strong>Sleep<br>{{sleepScoreAverage}} / 10</strong></span>
-					</div>
-				</div>
-				
 			</div>
--->			
+		</md-card>
 			
-<!--  Code Modded by TJ -->
-			
-			<div layout="column" layout-align="center center"  style="height: 100%;">
-				<div layout-padding>
-					<md-datepicker ng-model="data.fromDate" md-max-date="data.toDate" md-placeholder="Enter date"></md-datepicker>
-				</div>
-				<div layout-padding class="md-datePicker-align">
-					<md-datepicker ng-model="data.toDate" md-min-date="data.fromDate" md-placeholder="Enter date"></md-datepicker>
-				</div>
-				<div layout="row">
-					<md-button class="md-raised md-primary buttonBold" ng-click="generateChart(data.moodCheckbox, data.stressCheckbox, data.dietCheckbox, data.sleepCheckbox, data.fromDate, data.toDate)">Generate</md-button>
-					<md-button class="md-raised md-primary buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
+		<div layout="row"  layout-align="center center">
+			<div layout="column" class="dietBackground" layout-align="center center">
+				<div>
+					<strong>Diet:<br></strong> {{dietScoreAverage}}
 				</div>
 			</div>
-			
-<!-- End Mod  -->			
-		</div>
-		
-		
-		
+			<div layout="column" class="moodBackground" layout-align="center center">
+				<div layout-align="center center">
+					<strong>Mood:<br></strong> {{moodScoreAverage}}
+				</div>
+			</div>
+			<div layout="row" class="stressBackground" layout-align="center center">
+				<div>
+					<strong>Stress:<br></strong> {{stressScoreAverage}}
+				</div>
+			</div>
+			<div layout="row" class="sleepBackground" layout-align="center center">
+				<div>
+					<strong>Sleep:<br></strong> {{sleepScoreAverage}}
+				</div>
+			</div>					
+		</div>		
+				
+		<div layout="column" layout-align="center center"  style="height: 100%;">
+			<div layout-padding>
+				<md-datepicker ng-model="userInput.fromDate" md-max-date="userInput.toDate" md-placeholder="Enter date"></md-datepicker>
+			</div>
+			<div layout-padding class="md-datePicker-align">
+				<md-datepicker ng-model="userInput.toDate" md-min-date="userInput.fromDate" md-placeholder="Enter date"></md-datepicker>
+			</div>
+			<div layout="row">
+				<md-button class="md-raised md-primary buttonBold" ng-click="generateChart(userInput.fromDate, userInput.toDate, false)">Generate</md-button>
+				<md-button class="md-raised md-primary buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
+			</div>
+		</div>		
 	</div>
-	
 </md-content>
