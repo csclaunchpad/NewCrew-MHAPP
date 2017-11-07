@@ -519,7 +519,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 		}
 		
 		// Called when "Generate" button is clicked, creates a chart
-		$scope.generateChart = function(fromDate, toDate, pageLaunchFlag) {			
+		$scope.generateChart = function(fromDate, toDate, pageLaunchFlag) {
 			
 			if(pageLaunchFlag === null) pageLaunchFlag = false;
 			
@@ -590,8 +590,8 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			if(!pageLaunchFlag) {
 			
 				// Format our dates
-				var fromDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-				var toDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+				var fromDate = moment(fromDate).format('YYYY-MM-DD HH:mm:ss');
+				var toDate = moment(toDate).format('YYYY-MM-DD HH:mm:ss');
 					
 				// Set the times to their min or max hour accordingly
 				var finalFromDate = new String(fromDate.slice(0, 10) + ' 00' + fromDate.slice(13, fromDate.length));
