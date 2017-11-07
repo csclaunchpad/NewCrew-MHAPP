@@ -84,28 +84,26 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "DailyEntry",
 		templateUrl: "partials/dailyEntry.html"
 	})
-<<<<<<< HEAD
 
-	.when("/sleepTool", {
+	.when("/sleepTool", { // Login Page: Added by TJ - 2017/11/07
 		controller: "SleepTool",
 		templateUrl: "partials/sleepTool.html"
 	})
 
-    .when("/panicTool", {
+    .when("/panicTool", { // Login Page: Added by TJ - 2017/11/07
 		controller: "PanicTool",
 		templateUrl: "partials/panicTool.html"
 	})
 	
-	.when("/dietTool", {
+	.when("/dietTool", { // Login Page: Added by TJ - 2017/11/07
 		controller: "DietTool",
 		templateUrl: "partials/dietTool.html"
 	})
-	.when("/depressionTool", {
+	
+	.when("/depressionTool", { // Login Page: Added by TJ - 2017/11/07
 		controller: "DepressionTool",
 		templateUrl: "partials/depressionTool.html"
 	})
-	
-=======
 	
 	.when("/login", { // Login Page: Added by JW - 2017/11/01
 		controller: "LoginCtrl",
@@ -122,7 +120,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/forgotPin.html"
 	})
     
->>>>>>> b28b272102c713731103449c22383463a0fad93b
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
 
