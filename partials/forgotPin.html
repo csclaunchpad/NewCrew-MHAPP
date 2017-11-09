@@ -1,20 +1,20 @@
 <md-content>
 	<div layout="column" layout-align="center center">
 		<div ng-show="pageElements.invalidName">
-			That name wasn't found!
+			{{pageElements.invalidNameText}}!
 		</div>
 		
 		<div ng-show="pageElements.invalidAnswer">
-			That answer isn't correct!
+			{{pageElements.invalidAnswerText}}!
 		</div>
 		
 		<div ng-show="pageElements.invalidPin">
-			Your pin must be between 4-6 numbers!
+			{{pageElements.invalidNewPinText}}
 		</div>
 				
-		<div ng-show="pageElements.phase1" layout-align="center center">
+		<div ng-show="pageElements.phase1">
 			<div>
-				What is the first name of the account your trying to recover?
+				{{pageElements.phase1Text}}
 			</div>
 			<div>
 				<input type="text" ng-model="userInput.firstName" name="firstName"><br>
@@ -23,14 +23,14 @@
 		
 		<div ng-show="pageElements.phase2">
 			<div>
-				Question: 
+				{{pageElements.questionText}}: 
 			</div>
 			
 			<div>
 				"{{question}}"?
 			</div>
 			<div>
-				Answer: 
+				{{pageElements.answerText}}: 
 			</div>
 			
 			<div>
@@ -41,7 +41,7 @@
 		
 		<div ng-show="pageElements.phase3" layout="column">
 			<div>
-				Set your new pin!
+				{{pageElements.setYourNewPinText}}
 			</div>
 			
 			<div>
@@ -84,14 +84,14 @@
 				</div>
 				<div layout="row">
 					<div>
-						<md-button class="md-raised" ng-click="removeNumbers()">Back</md-button>
+						<md-button class="md-raised" ng-click="removeNumbers()">{{pageElements.backText}}</md-button>
 					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div>
-			<md-button class="md-raised md-primary" ng-click="submitInput()">Submit</md-button>
+			<md-button class="md-raised md-primary" ng-click="submitInput()">{{pageElements.submitText}}</md-button>
 		</div>
 	
 	</div>

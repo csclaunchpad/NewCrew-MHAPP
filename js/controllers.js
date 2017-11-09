@@ -5,12 +5,15 @@
 var app = angular.module("zenApp.controllers", ['ngRoute', 'ngMaterial', 'angular-carousel']);
 
 //------------------ Home Controller --------------------
-app.controller('HomeCtrl', ['$scope', function($scope){
-	/* Placeholder Controller */
+app.controller('HomeCtrl', ['$scope', '$window', "translationService", function($scope, $window, translationService){
+	$scope.setLanguage = function(language) {
+		localStorage.setItem("languageFlag", language);
+		$window.location.href = "#/login";
+	}
 }]);
 
 //------------------ newUser Controller --------------------
-app.controller('NewUserCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
+app.controller('NewUserCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
 	// Any input the user can provide is stored in here
 	$scope.userInput = {
@@ -63,7 +66,7 @@ app.controller('NewUserCtrl', ['$scope', '$window', "queryService", function($sc
 }]);
 
 //------------------ ForgotPin Controller --------------------
-app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
+app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
 	// Any input the user can provide is stored in here
 	$scope.userInput = {
@@ -81,6 +84,15 @@ app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", function($
 		invalidName: false,
 		invalidAnswer: false,
 		invalidPin: false,
+		phase1Text: translationService.translate("phase1"),
+		questionText: translationService.translate("question"),
+		answerText: translationService.translate("answer"),
+		setYourNewPinText: translationService.translate("setyournewpin"),
+		submitText: translationService.translate("submit"),
+		invalidNameText: translationService.translate("invalidName"),
+		invalidAnswerText: translationService.translate("invalidAnswer"),
+		invalidNewPinText: translationService.translate("invalidNewPin"),
+		backText: translationService.translate("back")
 	}
 	
 	// Method that is called when the user clicks the "Submit" Button
@@ -102,7 +114,7 @@ app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", function($
 			*/
 			
 			// Check to see if there is a user with the provided name
-			var whereClause = "firstName = lower('" + $scope.userInput.firstName + "')";
+			var whereClause = "lower(firstName) = lower('" + $scope.userInput.firstName + "')";
 			queryService.selectQuery("*", "users", whereClause).then( function(response) {
 				
 				// If no, display the appropriate text
@@ -172,16 +184,21 @@ app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", function($
 }]);
 
 //------------------ Login Controller --------------------
-app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', "queryService", function($scope, $rootScope, $window, queryService){
+app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', "queryService", "translationService", function($scope, $rootScope, $window, queryService, translationService){
 	
 	// Check to see if a user is already logged in, if so, redirect them to the landing page.
-	if(localStorage.getItem("user") != null) $window.location.href = "#/home";
+	if(localStorage.getItem("user") != null) $window.location.href = "#/checkinLog";
 	
 	// Anything affecting the front-end is stored here
 	$scope.pageElements = {
+		loginText: translationService.translate("login"),
+		forgotMyPinText: translationService.translate("forgotmypin"),
+		createNewUserText: translationService.translate("createnewuser"),
+		backText: translationService.translate("back"),
+		invalidPinText: translationService.translate("invalidPin"),	
 		invalidLoginPin: false
 	}
-	
+
 	// Any input the user can provide is stored in here
 	$scope.userInput = {
 		pin: ""
@@ -314,6 +331,8 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 //------------------ toolStore Controller (Place holder/Demo) --------------------
 app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', function($scope, $window, queryService, $route){
 	
+	// Needs translation service (Requires DB rewrite)
+	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {		
 		// Fetch all the Tools
@@ -364,7 +383,7 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 			$window.location.href= "#/moreDetails";
 		};
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 }]);
 
@@ -382,7 +401,7 @@ app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", function($sc
 			$window.location.href = "#/checkinLogInfo";
 		};
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 }]);
 
@@ -455,12 +474,12 @@ app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "$w
 			$scope.hasPrev = currentIndex !== 0;
 		}
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 }]);
 
 //------------------ Analytic Dashboard Controller --------------------
-app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", function($scope, queryService, $window){
+app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
@@ -488,7 +507,14 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 			dietValues: true,
 			sleepValues: true,
 			loadComplete: false,
-			loadStarted: false
+			loadStarted: false,
+			moodText: translationService.translate("mood"),
+			sleepText: translationService.translate("sleep"),
+			stressText: translationService.translate("stress"),
+			dietText: translationService.translate("diet"),
+			noCheckinsFound: translationService.translate("noCheckinsFound"),
+			generateText: translationService.translate("generate"),
+			checkinLogText: translationService.translate("checkinLog")
 		}
 
 		$scope.redirectToCheckinLog = function() {
@@ -668,7 +694,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: moodScoreArray,
-						label: "Mood",
+						label: translationService.translate("Mood"),
 						borderColor: $scope.graphColours[0],
 						fill: false
 					}
@@ -681,7 +707,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: stressScoreArray,
-						label: "Stress",
+						label: translationService.translate("Stress"),
 						borderColor: $scope.graphColours[2],
 						fill: false
 					}
@@ -694,7 +720,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: dietScoreArray,
-						label: "Diet",
+						label: translationService.translate("Diet"),
 						borderColor: $scope.graphColours[3],
 						fill: false
 					}
@@ -707,13 +733,15 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: sleepScoreArray,
-						label: "Sleep",
+						label: translationService.translate("Sleep"),
 						borderColor: $scope.graphColours[1],
 						fill: false
 					}
 				}
 				
 				var datasetsObject = [];
+				
+				
 				
 				if($scope.userInput.moodCheckbox || pageLaunchFlag) {
 					datasetsObject[datasetsObject.length] = {label: graphDataSets[moodCheckboxIndex].label, data: graphDataSets[moodCheckboxIndex].data, borderColor: graphDataSets[moodCheckboxIndex].borderColor, fill: graphDataSets[moodCheckboxIndex].fill};
@@ -762,7 +790,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "$window", fu
 		
 		$scope.pageLoad();
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 	
 }]);
@@ -808,7 +836,7 @@ app.controller('DiaryCtrl', ['$scope', '$window', "queryService", function($scop
 			});
 		};
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 }]);
 
@@ -892,7 +920,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", functio
 			});
 		};
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 }]);
 
@@ -914,7 +942,7 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryServic
 			$scope.tool = response.data[0];
 		});
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}	
 }]);
 
@@ -971,7 +999,7 @@ app.controller("DailyEntry", ["$scope", "queryService", '$window', function ($sc
 			});
 		}
 	} else {
-		$window.location.href = "#/login";	
+		$window.location.href = "#/home";	
 	}
 }]);
 
@@ -980,7 +1008,7 @@ app.controller("ResourcesCtrl", ["$scope", '$window', function ($scope, $window)
 	if(localStorage.getItem("user") != null) {
 		
 	} else {
-		$window.location.href = "#/login";
+		$window.location.href = "#/home";
 	}
 
 }]);

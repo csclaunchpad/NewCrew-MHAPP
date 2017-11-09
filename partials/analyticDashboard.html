@@ -7,23 +7,23 @@
 					<div layout="row">
 						<div class="moodText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="userInput.moodCheckbox" aria-label="Mood Checkbox">
-								Mood
+								{{pageElements.moodText}}
 							</md-checkbox>
 						</div>
 						<div class="sleepText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="userInput.sleepCheckbox" aria-label="Sleep Checkbox">
-								Sleep
+								{{pageElements.sleepText}}
 							</md-checkbox>
 						</div>
 
 						<div class="stressText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="userInput.stressCheckbox" aria-label="Stress Checkbox">
-								Stress
+								{{pageElements.stressText}}
 							</md-checkbox>
 						</div>
 						<div class="dietText" layout="column" layout-padding>
 							<md-checkbox class="md-primary" ng-model="userInput.dietCheckbox" aria-label="Diet Checkbox">
-								Diet
+								{{pageElements.dietText}}
 							</md-checkbox>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
 		
 		<md-card ng-show="pageElements.hideAllElements" layout-align="center center">
 			<div>
-				No Check-Ins Found!
+				{{pageElements.noCheckinsFound}}!
 			</div>
 		</md-card>
 		
@@ -53,22 +53,22 @@
 		<div layout="row"  layout-align="center center">
 			<div layout="column" class="dietBackground" layout-align="center center">
 				<div>
-					<strong>Diet:<br></strong> {{dietScoreAverage}}
+					<strong>{{pageElements.dietText}}:<br></strong> {{dietScoreAverage}}
 				</div>
 			</div>
 			<div layout="column" class="moodBackground" layout-align="center center">
 				<div layout-align="center center">
-					<strong>Mood:<br></strong> {{moodScoreAverage}}
+					<strong>{{pageElements.moodText}}:<br></strong> {{moodScoreAverage}}
 				</div>
 			</div>
 			<div layout="row" class="stressBackground" layout-align="center center">
 				<div>
-					<strong>Stress:<br></strong> {{stressScoreAverage}}
+					<strong>{{pageElements.stressText}}:<br></strong> {{stressScoreAverage}}
 				</div>
 			</div>
 			<div layout="row" class="sleepBackground" layout-align="center center">
 				<div>
-					<strong>Sleep:<br></strong> {{sleepScoreAverage}}
+					<strong>{{pageElements.sleepText}}:<br></strong> {{sleepScoreAverage}}
 				</div>
 			</div>					
 		</div>		
@@ -81,8 +81,8 @@
 				<md-datepicker ng-model="userInput.toDate" md-min-date="userInput.fromDate" md-placeholder="Enter date"></md-datepicker>
 			</div>
 			<div layout="row">
-				<md-button class="md-raised md-primary buttonBold" ng-click="generateChart(userInput.fromDate, userInput.toDate, false)">Generate</md-button>
-				<md-button class="md-raised md-primary buttonBold" ng-click="redirectToCheckinLog()">Check-In Log</md-button>
+				<md-button class="md-raised md-primary buttonBold" ng-click="generateChart(userInput.fromDate, userInput.toDate, false)">{{pageElements.generateText}}</md-button>
+				<md-button class="md-raised md-primary buttonBold" ng-click="redirectToCheckinLog()">{{pageElements.checkinLogText}}</md-button>
 			</div>
 		</div>		
 	</div>
