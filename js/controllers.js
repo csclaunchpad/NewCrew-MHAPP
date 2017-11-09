@@ -26,7 +26,17 @@ app.controller('NewUserCtrl', ['$scope', '$window', "queryService", "translation
 	
 	// Anything affecting the front-end is stored here
 	$scope.pageElements = {
-		invalidPin: false
+		invalidPin: false,
+		pinAlreadyInUse: translationService.translate("pinalreadyinuse"),
+		firstName: translationService.translate("firstname"),
+		pin: translationService.translate("pin"),
+		gender: translationService.translate("gender"),
+		male: translationService.translate("male"),
+		female: translationService.translate("female"),
+		other: translationService.translate("other"),
+		securityQuestion: translationService.translate("securityquestion"),
+		answer: translationService.translate("answer"),
+		createUser: translationService.translate("createnewuser")
 	}
 	
 	// Method that is called the user clicks the "Submit" button
