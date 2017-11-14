@@ -1,31 +1,31 @@
-<md-content>
+			<md-content>
 	<!-- Case: New Entry -->
 	<div layout="column" ng-hide="flag != 'new'">
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>Title</label>
+					<label>{{pageElements.titleText}}</label>
 					<input ng-model="newEntry.title">
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>SubTitle</label>
+					<label>{{pageElements.subtitleText}}</label>
 					<input ng-model="newEntry.subtitle">
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>Content</label>
+					<label>{{pageElements.contentText}}</label>
 					<textarea ng-model="newEntry.content" md-maxlength="1000" rows="8" md-select-on-focus></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-show="!addingEntry" ng-click="addDiaryEntry()" ng-disabled="newEntry.title == '' || newEntry.content ==''">Add Diary Entry</md-button>
-				<md-button class="md-raised button" ng-show="addingEntry">Adding Entry...</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">Back</md-button>
+				<md-button class="md-raised button" ng-show="!addingEntry" ng-click="addDiaryEntry()" ng-disabled="newEntry.title == '' || newEntry.content ==''">{{pageElements.addDiaryEntryText}}</md-button>
+				<md-button class="md-raised button" ng-show="addingEntry">{{pageElements.addingDiaryEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>
@@ -35,28 +35,28 @@
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>Title</label>
+					<label>{{pageElements.titleText}}</label>
 					<input ng-model="selectedEntry.title" disabled>
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>SubTitle</label>
+					<label>{{pageElements.subtitleText}}</label>
 					<input ng-model="selectedEntry.subtitle" disabled>
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>Content</label>
+					<label>{{pageElements.contentText}}</label>
 					<textarea ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus disabled></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-click="editDiaryEntry(selectedEntry.entryID)">Edit Entry</md-button>
-				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">Delete</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">Back</md-button>
+				<md-button class="md-raised button" ng-click="editDiaryEntry(selectedEntry.entryID)">{{pageElements.editEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">{{pageElements.deleteText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>
@@ -66,28 +66,28 @@
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>Title</label>
+					<label>{{pageElements.titleText}}</label>
 					<input ng-model="selectedEntry.title">
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>SubTitle</label>
+					<label>{{pageElements.subtitleText}}</label>
 					<input ng-model="selectedEntry.subtitle">
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>Content</label>
+					<label>{{pageElements.contentText}}</label>
 					<textarea ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-click="updateDiaryEntry()">Update Entry</md-button>
-				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">Delete</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">Back</md-button>
+				<md-button class="md-raised button" ng-click="updateDiaryEntry()">{{pageElements.updateEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">{{pageElements.deleteText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>

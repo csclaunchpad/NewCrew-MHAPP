@@ -12,6 +12,11 @@ app.controller('HomeCtrl', ['$scope', '$window', "translationService", function(
 	}
 }]);
 
+//------------------ Landing Page Controller --------------------
+app.controller('LandingPageCtrl', ['$scope', "translationService", function($scope, $window, translationService){ // Added by JW 2017/11/10
+	
+}]);
+
 //------------------ newUser Controller --------------------
 app.controller('NewUserCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
@@ -25,19 +30,7 @@ app.controller('NewUserCtrl', ['$scope', '$window', "queryService", "translation
 	}
 	
 	// Anything affecting the front-end is stored here
-	$scope.pageElements = {
-		invalidPin: false,
-		pinAlreadyInUse: translationService.translate("pinalreadyinuse"),
-		firstName: translationService.translate("firstname"),
-		pin: translationService.translate("pin"),
-		gender: translationService.translate("gender"),
-		male: translationService.translate("male"),
-		female: translationService.translate("female"),
-		other: translationService.translate("other"),
-		securityQuestion: translationService.translate("securityquestion"),
-		answer: translationService.translate("answer"),
-		createUser: translationService.translate("createnewuser")
-	}
+	$scope.pageElements = translationService.translate("newUser.html")
 	
 	// Method that is called the user clicks the "Submit" button
 	$scope.submitUser = function() {
@@ -87,23 +80,7 @@ app.controller('ForgotPinCtrl', ['$scope', '$window', "queryService", "translati
 	}
 	
 	// Anything affecting the front-end is stored here
-	$scope.pageElements = {
-		phase1: true,
-		phase2: false,
-		phase3: false,
-		invalidName: false,
-		invalidAnswer: false,
-		invalidPin: false,
-		phase1Text: translationService.translate("phase1"),
-		questionText: translationService.translate("question"),
-		answerText: translationService.translate("answer"),
-		setYourNewPinText: translationService.translate("setyournewpin"),
-		submitText: translationService.translate("submit"),
-		invalidNameText: translationService.translate("invalidName"),
-		invalidAnswerText: translationService.translate("invalidAnswer"),
-		invalidNewPinText: translationService.translate("invalidNewPin"),
-		backText: translationService.translate("back")
-	}
+	$scope.pageElements = translationService.translate("forgotMyPin.html");
 	
 	// Method that is called when the user clicks the "Submit" Button
 	$scope.submitInput = function() {
@@ -200,14 +177,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', "queryService", 
 	if(localStorage.getItem("user") != null) $window.location.href = "#/checkinLog";
 	
 	// Anything affecting the front-end is stored here
-	$scope.pageElements = {
-		loginText: translationService.translate("login"),
-		forgotMyPinText: translationService.translate("forgotmypin"),
-		createNewUserText: translationService.translate("createnewuser"),
-		backText: translationService.translate("back"),
-		invalidPinText: translationService.translate("invalidPin"),	
-		invalidLoginPin: false
-	}
+	$scope.pageElements = translationService.translate("login.html");
 
 	// Any input the user can provide is stored in here
 	$scope.userInput = {
@@ -243,6 +213,7 @@ app.controller('LoginCtrl', ['$scope', '$rootScope', '$window', "queryService", 
 			// If the passcode is correct, set the user's ID in localstorage and redirect to checkinLog
 			} else {
 				localStorage.setItem("user", response.data[0].userID);
+				console.log("HIT");
 				$window.location.href = "#/checkinLog";
 			}
 		});
@@ -398,10 +369,13 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 }]);
 
 //------------------ checkinLog Controller --------------------
-app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", function($scope, $window, entryList){
+app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", "translationService", function($scope, $window, entryList, translationService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		$scope.pageElements = translationService.translate("checkinLog.html");
+		
 		// Fetch all wellnessTrackerEntries
 		$scope.entries = entryList;
 		
@@ -416,10 +390,13 @@ app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", function($sc
 }]);
 
 //------------------ Checkin Log Controller Controller --------------------
-app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "$window", "entryList", function($scope, $routeParams, $location, $window, entryList){
+app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "$window", "entryList", "scoreManager", "translationService", function($scope, $routeParams, $location, $window, entryList, scoreManager, translationService){
 
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		$scope.pageElements = translationService.translate("checkinLogInfo.html");
+		
 		var id = $routeParams.id, currentIndex;
 
 		$scope.entry = null;
@@ -433,7 +410,7 @@ app.controller('CheckinLogInfoCtrl', ['$scope', "$routeParams", "$location", "$w
 		setEntry();
 		
 		// Calculate the total score of the checkin, and then use it to display the appropriate images
-		$scope.checkinTotal = ((parseInt($scope.entry.moodScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.sleepScore) + parseInt($scope.entry.dietScore)) / 4).toFixed(0);
+		$scope.checkinTotal = ((parseInt($scope.entry.moodScore) + parseInt($scope.entry.sleepScore) + scoreManager.reverseScore(parseInt($scope.entry.stressScore)) + parseInt($scope.entry.dietScore)) / 4).toFixed(0);
 		
 		// Check if the note is blank, if so, enable our "No notes were entered" element.
 		if($scope.entry.entryNote === null) {
@@ -508,24 +485,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 		}
 		
 		// Page elements
-		$scope.pageElements = {
-			maximizeButton: true,
-			showOutput: false,
-			hideAllElements: false,
-			moodValues: true,
-			stressValues: true,
-			dietValues: true,
-			sleepValues: true,
-			loadComplete: false,
-			loadStarted: false,
-			moodText: translationService.translate("mood"),
-			sleepText: translationService.translate("sleep"),
-			stressText: translationService.translate("stress"),
-			dietText: translationService.translate("diet"),
-			noCheckinsFound: translationService.translate("noCheckinsFound"),
-			generateText: translationService.translate("generate"),
-			checkinLogText: translationService.translate("checkinLog")
-		}
+		$scope.pageElements = translationService.translate("analyticDashboard.html");
 
 		$scope.redirectToCheckinLog = function() {
 			$window.location.href= "#/checkinLog";
@@ -704,7 +664,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: moodScoreArray,
-						label: translationService.translate("Mood"),
+						label: $scope.pageElements.moodText,
 						borderColor: $scope.graphColours[0],
 						fill: false
 					}
@@ -717,7 +677,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: stressScoreArray,
-						label: translationService.translate("Stress"),
+						label: $scope.pageElements.stressText,
 						borderColor: $scope.graphColours[2],
 						fill: false
 					}
@@ -730,7 +690,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: dietScoreArray,
-						label: translationService.translate("Diet"),
+						label: $scope.pageElements.dietText,
 						borderColor: $scope.graphColours[3],
 						fill: false
 					}
@@ -743,7 +703,7 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 					
 					graphDataSets[graphDataSets.length] = { 
 						data: sleepScoreArray,
-						label: translationService.translate("Sleep"),
+						label: $scope.pageElements.sleepText,
 						borderColor: $scope.graphColours[1],
 						fill: false
 					}
@@ -806,10 +766,13 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 }]);
 
 //------------------ Diary Controller --------------------
-app.controller('DiaryCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
+app.controller('DiaryCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		$scope.pageElements = translationService.translate("diary.html");
+		
 		// Resets DiaryManager's function
 		localStorage.setItem("diaryFunction", "");
 		
@@ -851,10 +814,13 @@ app.controller('DiaryCtrl', ['$scope', '$window', "queryService", function($scop
 }]);
 
 //------------------ Diary Manager Controller --------------------
-app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", function($scope, $window, queryService){
+app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		$scope.pageElements = translationService.translate("diaryManager.html");
+		
 		// Retrieve the function flag from localStorage, this flag tells diaryManager which feature the user requested
 		$scope.flag = localStorage.getItem("diaryFunction");
 		
@@ -957,7 +923,7 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryServic
 }]);
 
 //------------------ Daily Entry Controller --------------------
-app.controller("DailyEntry", ["$scope", "queryService", '$window', function ($scope, queryService, $window) {
+app.controller("DailyEntry", ["$scope", "queryService", '$window', 'scoreManager', "translationService", function ($scope, queryService, $window, scoreManager, translationService) {
 
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
@@ -968,34 +934,36 @@ app.controller("DailyEntry", ["$scope", "queryService", '$window', function ($sc
 		$scope.description = "";
 		$scope.saveEntry = saveEntry;
 
+		$scope.pageElements = translationService.translate("dailyEntry.html");
+		
 		$scope.updatePicture = function() {
-			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+			$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + scoreManager.reverseScore(parseInt($scope.stressScore))) / 4).toFixed(0); //Added by JW
 		}
 		
 		$scope.$watch(function(scope) { return $scope.moodScore },
 			function() {
-				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + scoreManager.reverseScore(parseInt($scope.stressScore))) / 4).toFixed(0); //Added by JW
 
 			}
 		);
 		
 		$scope.$watch(function(scope) { return $scope.sleepScore },
 			function() {
-				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + scoreManager.reverseScore(parseInt($scope.stressScore))) / 4).toFixed(0); //Added by JW
 
 			}
 		);
 		
 		$scope.$watch(function(scope) { return $scope.stressScore },
 			function() {
-				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + scoreManager.reverseScore(parseInt($scope.stressScore))) / 4).toFixed(0); //Added by JW
 
 			}
 		);
 		
 		$scope.$watch(function(scope) { return $scope.dietScore },
 			function() {
-				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + parseInt($scope.stressScore)) / 4).toFixed(0); //Added by JW
+				$scope.totalScore = ((parseInt($scope.moodScore) + parseInt($scope.sleepScore) + parseInt($scope.dietScore) + scoreManager.reverseScore(parseInt($scope.stressScore))) / 4).toFixed(0); //Added by JW
 
 			}
 		);

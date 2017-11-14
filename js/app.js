@@ -48,7 +48,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "CheckinLogCtrl",
 		templateUrl: "partials/checkinLog.html",
         resolve: {
-            entryList: ["$rootScope", "queryService", entryListResolve]
+            entryList: ["$rootScope", "queryService", "scoreManager", entryListResolve]
         }
 	})
 	
@@ -56,7 +56,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "CheckinLogInfoCtrl",
 		templateUrl: "partials/checkinLogInfo.html",
         resolve: {
-            entryList: ["$rootScope", "queryService", entryListResolve]
+            entryList: ["$rootScope", "queryService", "scoreManager", entryListResolve]
         }
 	})
 	
@@ -119,13 +119,18 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "ForgotPinCtrl",
 		templateUrl: "partials/forgotPin.html"
 	})
+	
+	.when("/landingPage", { // Added by JW 2017/11/10
+		controller: "LandingPageCtrl",
+		templateUrl: "partials/landingPage.html"
+	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});
 
 
 
-	function entryListResolve($rootScope, queryService){
+	function entryListResolve($rootScope, queryService, scoreManager){
 		
 		if(localStorage.getItem("user") != "undefined") {
 			var whereClause = "userID = '" + localStorage.getItem("user") + "' ORDER BY dateEntered DESC";
@@ -135,7 +140,7 @@ app.config(["$routeProvider", function($routeProvider) {
 				// Calculating the total scores (This SHOULD be done in the DB - Justin)
 				for(var i = 0; i < $rootScope.entries.length; i++) {
 					var entry = $rootScope.entries[i];
-					entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + parseInt(entry.stressScore)) * 2.5).toFixed(0); //change by JW -comment by TJ- Adjusted to change face on total score for day with 2 new questions.
+					entry.entryScore = ((parseInt(entry.moodScore) + parseInt(entry.sleepScore) + parseInt(entry.dietScore) + scoreManager.reverseScore(parseInt(entry.stressScore))) * 2.5).toFixed(0);
 					entry.date = new Date(entry.dateEntered);
 				}
 

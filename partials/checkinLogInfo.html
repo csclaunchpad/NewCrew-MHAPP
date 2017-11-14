@@ -11,27 +11,27 @@
         </div>
     </div>
 
-    <h3>On {{entry.date | date: 'longDate'}}, you were feeling:</h3>
+    <h3>{{pageElements.onText}} {{entry.date | date: 'longDate'}}, {{pageElements.youWereFeelingText}}</h3>
 
 	<div layout="row"  layout-align="center center">
 		<div layout="column" class="dietBackground" layout-align="center center">
 			<div>
-				<strong>Diet:<br></strong> {{entry.dietScore}}
+				<strong>{{pageElements.dietText}}<br></strong> {{entry.dietScore}}
 			</div>
 		</div>
 		<div layout="column" class="moodBackground" layout-align="center center">
 			<div layout-align="center center">
-				<strong>Mood:<br></strong> {{entry.moodScore}}
+				<strong>{{pageElements.moodText}}<br></strong> {{entry.moodScore}}
 			</div>
 		</div>
 		<div layout="row" class="stressBackground" layout-align="center center">
 			<div>
-				<strong>Stress:<br></strong> {{entry.stressScore}}
+				<strong>{{pageElements.stressText}}<br></strong> {{entry.stressScore}}
 			</div>
 		</div>
 		<div layout="row" class="sleepBackground" layout-align="center center">
 			<div>
-				<strong>Sleep:<br></strong> {{entry.sleepScore}}
+				<strong>{{pageElements.sleepText}}<br></strong> {{entry.sleepScore}}
 			</div>
 		</div>					
 	</div>
@@ -41,7 +41,7 @@
 	<div layout="row" flex layout-align="center center">
 		<div flex>
 			<p ng-show="notesProvided" ng-bind="entry.entryNote" class="descriptionText"></p>
-			<p ng-show="!notesProvided" class="descriptionText">No notes were provided for this check-in!</p>
+			<p ng-show="!notesProvided" class="descriptionText">{{pageElements.noNotesText}}</p>
 		</div>
 	</div>
 </md-content>

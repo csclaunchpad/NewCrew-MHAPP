@@ -3,7 +3,7 @@
 	<!-- Upper Banner -->
 	<div layout="row">
 		<div flex-offset="90" flex>
-			<md-button class="md-raised button" ng-click="addDiaryEntry()">Add Diary Entry</md-button>
+			<md-button class="md-raised button" ng-click="addDiaryEntry()">{{pageElements.addDiaryEntry}}</md-button>
 		</div>
 	</div>
 	
@@ -20,15 +20,15 @@
 					
 				</md-card-title>
 				<md-card-actions layout="row" layout-align="end center">
-					<md-button class="md-raised button" ng-click="editDiaryEntry(diaryItem.entryID)">Edit</md-button>
-					<md-button class="md-raised button" ng-click="deleteDiaryEntry(diaryItem.entryID)">Delete</md-button>
+					<md-button class="md-raised button" ng-click="editDiaryEntry(diaryItem.entryID)">{{pageElements.editText}}</md-button>
+					<md-button class="md-raised button" ng-click="deleteDiaryEntry(diaryItem.entryID)">{{pageElements.deleteText}}</md-button>
 				</md-card-actions>
 			</md-card>
 		</div>
 		<md-card ng-show="diaryEntries.length == 0">		
 			<md-card-title>	
 				<md-card-title-text>
-					<span>You have no diary entries yet!</span>
+					<span>{{pageElements.noDiaryEntries}}</span>
 				</md-card-title-text>
 			</md-card-title>
 		</md-card>

@@ -1,7 +1,7 @@
 <md-content >
     <div layout="row" layout-align="end center">
         <a href="#dailyEntry">
-            <md-button class="md-raised md-primary">+ Add New Entry</md-button>
+            <md-button class="md-raised md-primary">{{pageElements.addNewEntryText}}</md-button>
         </a>
     </div>
 
@@ -14,7 +14,7 @@
 					<!-- Date Space -->
 					<div layout="row" layout-align="start center" flex="20">
 						<div flex>
-							<strong>Date:<br></strong> {{entry.dateEntered}}
+							<strong>{{pageElements.dateText}}<br></strong> {{entry.dateEntered}}
 						</div>
 					</div>
 				
@@ -22,22 +22,22 @@
 					<div layout="row" layout-align="center center" flex="60">
 						<div layout="row" class="dietBackground" layout-align="center center">
 							<div>
-								<strong>Diet:<br></strong> {{entry.dietScore}}
+								<strong>{{pageElements.dietText}}<br></strong> {{entry.dietScore}}
 							</div>
 						</div>
 						<div layout="row" class="moodBackground" layout-align="center center">
 							<div>
-								<strong>Mood:<br></strong> {{entry.moodScore}}
+								<strong>{{pageElements.moodText}}<br></strong> {{entry.moodScore}}
 							</div>
 						</div>
 						<div layout="row" class="stressBackground" layout-align="center center">
 							<div>
-								<strong>Stress:<br></strong> {{entry.stressScore}}
+								<strong>{{pageElements.stressText}}<br></strong> {{entry.stressScore}}
 							</div>
 						</div>
 						<div layout="row" class="sleepBackground" layout-align="center center">
 							<div>
-								<strong>Sleep:<br></strong> {{entry.sleepScore}}
+								<strong>{{pageElements.sleepText}}<br></strong> {{entry.sleepScore}}
 							</div>
 						</div>
 						
@@ -47,13 +47,13 @@
 					<!-- Total Score Space -->
 					<div layout="row" layout-align="end center" flex="20">
 						<div>
-							<div flex ng-show="entry.entryScore <= 10"><strong></strong> Very Low <br>({{report.entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong></strong> Low ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong></strong> Rough ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong></strong> Decent ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong></strong> Good ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong></strong> Very Good ({{entry.entryScore}})</div>
-							<div flex ng-show="entry.entryScore >= 76"><strong></strong> Amazing ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore <= 10"><strong></strong> {{pageElements.veryLowText}} <br>({{report.entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 11 && entry.entryScore <= 30"><strong></strong> {{pageElements.lowText}} ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 31 && entry.entryScore <= 40"><strong></strong> {{pageElements.roughText}} ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 41 && entry.entryScore <= 50"><strong></strong> {{pageElements.decentText}} ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 51 && entry.entryScore <= 60"><strong></strong> {{pageElements.goodText}} ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 61 && entry.entryScore <= 75"><strong></strong> {{pageElements.veryGoodText}} ({{entry.entryScore}})</div>
+							<div flex ng-show="entry.entryScore >= 76"><strong></strong> {{pageElements.amazingText}} ({{entry.entryScore}})</div>
 						</div>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
         <md-card ng-show="entries == null">
             <md-card-title>
                 <md-card-title-text>
-                    <span>Loading...</span>
+                    <span>{{pageElements.loadingText}}</span>
                 </md-card-title-text>
             </md-card-title>
         </md-card>

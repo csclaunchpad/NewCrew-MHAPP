@@ -1,12 +1,16 @@
-
+app.factory("scoreManager", function() {
+	return { reverseScore: reverseScore }
+	
+	// Given a number, this method will reverse it. 10 = 1, 9 = 2, 8 = 3, 7 = 4, 6 = 5, 5 = 6, 4 = 7, 3 = 8, 2 = 9, 1 = 10
+	function reverseScore(score) { return ((10 - score) + 1); }
+})
 
 app.factory('translationService', function() {  
     return { translate: translate };
 	
-	function translate(item) {
+	function translate(page) {
 		
 		var languageFlag = "";
-		item = item.toLowerCase();
 		
 		if(localStorage.getItem("languageFlag") === "fr") {
 			languageFlag = "fr";
@@ -14,86 +18,145 @@ app.factory('translationService', function() {
 			languageFlag = "en";
 		}
 		
-		// NOTE, make sure the text you're comparing below is lowercase as 'item' is forced to lowercase
-		
 		if(languageFlag === "en") {
+			
+			switch(page) {
+				
+				case "login.html":
+					return {
+						loginText: "Login",
+						forgotMyPinText: "Forgot my Pin",
+						createNewUserText: "Create New User",
+						backText: "Back",
+						invalidPinText: "The pin you have entered is invalid!",
+						invalidLoginPin: false
+					}
+					
+				case "forgotMyPin.html":
+					return {
+						phase1: true,
+						phase2: false,
+						phase3: false,
+						invalidName: false,
+						invalidAnswer: false,
+						invalidPin: false,
+						phase1Text: "Please enter the first name that is asscioated with the account you are trying to find.",
+						questionText: "Question",
+						answerText: "Answer",
+						setYourNewPinText: "Set your new pin!",
+						submitText: "Submit",
+						invalidNameText: "The name you have entered doesn't exist!",
+						invalidAnswerText: "The answer you have provided isn't right!",
+						invalidNewPinText: "The pin you have entered is invalid",
+						backText: "Back"
+					}
+					
+				case "newUser.html":
+					return {
+						invalidPin: false,
+						pinAlreadyInUse: "That pin or name is already in use!",
+						firstName: "First Name",
+						pin: "Pin (4-6 numbers)",
+						gender: "Gender",
+						male: "Male",
+						female: "Female",
+						other: "Other",
+						securityQuestion: "Security Question",
+						answer: "Answer",
+						createUser: "Create User"
+					}
+					
+				case "analyticDashboard.html":
+					return {
+						maximizeButtons: true,
+						showOutput: false,
+						hideAllElements: false,
+						moodValues: true,
+						stressValues: true,
+						dietValues: true,
+						sleepValues: true,
+						loadComplete: false,
+						loadStarted: false,
+						moodText: "Mood",
+						sleepText: "Sleep",
+						stressText: "Stress",
+						dietText: "Diet",
+						noCheckinsFound: "No Check-Ins Found",
+						generateText: "Generate",
+						checkinLogText: "Check-In Log"
+					}
+					
+				case "diary.html":
+				
+					return {
+						addDiaryEntry: "Add Diary Entry",
+						editText: "Edit",
+						deleteText: "Delete",
+						noDiaryEntries: "You have no diary entries yet!"
+					}
+					
+				case "diaryManager.html":
+				
+					return {
+						titleText: "Title",
+						subtitleText: "Sub-Title",
+						contentText: "Content",
+						addDiaryEntryText: "Add Diary Entry",
+						addingDiaryEntryText: "Adding Entry...",
+						backText: "Back",
+						editEntryText: "Edit Entry",
+						deleteText: "Delete",
+						updateEntryText: "Update Entry"
+					}
+					
+				case "dailyEntry.html": 
+				
+					return {
+						sliderHeaderText: "Tell us about your day from 1-10?",
+						moodSentenceText: "How are you feeling?",
+						sleepSentenceText: "How was your sleep?",
+						dietSentenceText: "How healthy did you eat today?",
+						stressSentenceText: "How is your current stress level?",
+						whatsOnYourMindText: "What's on your mind?",
+						doneText: "Done"	
+					}
+					
+				case "checkinLog.html":
+				
+					return {
+						addNewEntryText: "+ Add New Entry",
+						dateText: "Date:",
+						dietText: "Diet:",
+						moodText: "Mood:",
+						stressText: "Stress:",
+						sleepText: "Sleep:",
+						veryLowText: "Very Low",
+						lowText: "Low",
+						roughText: "Rough",
+						decentText: "Decent",
+						goodText: "Good",
+						veryGoodText: "Very Good",
+						amazingText: "Amazing",
+						loadingText: "Loading..."
+					}
+					
+				case "checkinLogInfo.html":
+				
+					return {
+						onText: "On",
+						youWereFeelingText: "You were feeling:",
+						dietText: "Diet:",
+						moodText: "Mood:",
+						stressText: "Stress:",
+						sleepText: "Sleep:",
+						noNotesText: ">No notes were provided for this check-in!"
+					}
+				default:
+					break;
+				
 		
-			/* ---- General Text ---- */
-			if(item === "appname") return "Mental Health App";
-			if(item === "mood") return "Mood";
-			if(item === "sleep") return "Sleep";
-			if(item === "diet") return "Diet";
-			if(item === "stress") return "Stress";
-			if(item === "nocheckinsfound") return "No Checkins Found";
-			if(item === "generate") return "Generate";
-			if(item === "checkinlog") return "Check In Log";
-			if(item === "gender") return "Gender";
-			if(item === "male") return "Male";
-			if(item === "female") return "Female";
-			if(item === "other") return "Other";
-			if(item === "securityQuestion") return "Security Question";
-			if(item === "question") return "Question";
-			if(item === "answer") return "Answer";
-			if(item === "back") return "Back";
-			if(item === "login") return "Login";
-			if(item === "submit") return "Submit";
-			
-			/* ---- login.html ---- */
-			if(item === "forgotmypin") return "Forgot my Pin";
-			if(item === "createnewuser") return "Create New User";
-			if(item === "invalidpin") return "The pin you have entered is invalid";
-
-			/* ---- forgotMyPin.html ---- */
-			if(item === "phase1") return "What is the first name of the account your trying to recover";
-			if(item === "setyournewpin") return "Set your new pin";
-			if(item === "invalidname") return "That name wasn't found";
-			if(item === "invalidanswer") return "That answer isn't correct";
-			if(item === "invalidnewpin") return "Your pin must be between 4-6 numbers";
-			
-			/* ---- createNewUser.html ---- */
-			if(item === "pinalreadyinuse") return "That pin or name is already in use";
-			if(item === "firstname") return "First Name";
-			if(item === "pin") return "Pin (4-6 numbers)";
-		
-		} else if(languageFlag === "fr") {
-			
-			/* ---- General Text ---- */
-			if(item === "appname") return "Su suis Mental Health App";
-			if(item === "mood") return "Ambiance";
-			if(item === "sleep") return "Dormir";
-			if(item === "diet") return "Régime";
-			if(item === "stress") return "Stress";
-			if(item === "nocheckinsfound") return "Aucune Vérification n'a été Trouvée";
-			if(item === "generate") return "Générer";
-			if(item === "checkinlog") return "Enregistrement dans le Journal"
-			if(item === "gender") return "Le genre";
-			if(item === "male") return "Garçon";
-			if(item === "female") return "Fille";
-			if(item === "other") return "Autre";
-			if(item === "firstname") return "Prénom";
-			if(item === "answer") return "Répondre";
-			if(item === "back") return "Arrière";
-			if(item === "login") return "S'identifier";
-			
-			/* ---- login.html ---- */
-			if(item === "forgotmypin") return "J'ai oublié mon épingle";
-			if(item === "createnewuser") return "Créer un nouvel utilisateur";
-			if(item === "invalidpin") return "La broche que vous avez entrée est invalide";
-			
-			/* ---- forgotMyPin.html ---- */
-			if(item === "phase1") return "Quel est le prénom du compte que vous essayez de récupérer";
-			if(item === "question") return "Question";
-			if(item === "setyournewpin") return "Définissez votre nouvelle broche";
-			if(item === "submit") return "Soumettre";
-			if(item === "invalidname") return "Ce nom n'a pas été trouvé";
-			if(item === "invalidanswer") return "Cette réponse n'est pas correcte";
-			if(item === "invalidnewpin") return "Votre broche doit être entre 4 et 6 chiffres";
-		
-			/* ---- createNewUser.html ---- */
-			if(item === "pinalreadyinuse") return "Cette broche ou ce nom est déjà utilisé";
-			if(item === "pin") return "Pin (4-6 numéros)";
-			if(item === "securityquestion") return "Question de sécurité";
-		}		
+			}
+		}
 	}
 });
 
