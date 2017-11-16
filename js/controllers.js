@@ -12,11 +12,6 @@ app.controller('HomeCtrl', ['$scope', '$window', "translationService", function(
 	}
 }]);
 
-//------------------ Landing Page Controller --------------------
-app.controller('LandingPageCtrl', ['$scope', "translationService", function($scope, $window, translationService){ // Added by JW 2017/11/10
-	
-}]);
-
 //------------------ newUser Controller --------------------
 app.controller('NewUserCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
 	
@@ -310,12 +305,17 @@ app.controller('SqlTesterCtrl', ['$scope', "queryService", function($scope, quer
 }]);
 
 //------------------ toolStore Controller (Place holder/Demo) --------------------
-app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', function($scope, $window, queryService, $route){
+app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', "toastService", function($scope, $window, queryService, $route, toastService){
 	
 	// Needs translation service (Requires DB rewrite)
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {		
+		
+		if(localStorage.getItem("toastFlag") != null) {
+			toastService.showToast(localStorage.getItem("toastFlag"));
+		}
+		
 		// Fetch all the Tools
 		queryService.selectQuery("*", "tools", "").then(function(response) {
 			$scope.tools = response.data;
@@ -346,6 +346,7 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 		$scope.addToolToFavourites = function(toolID) {
 			var valueStatement = localStorage.getItem("user") + ", " + toolID;
 			queryService.insertQuery("favouriteTools", "userID, favouriteToolID", valueStatement).then( function() {
+				localStorage.setItem("toastFlag", "Tool has been added to your favourites!");
 				$route.reload();
 			});
 		};
@@ -354,6 +355,7 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 		$scope.removeToolFromFavourites = function(toolID) {
 			var whereClause = "userID = '" + localStorage.getItem("user") + "' AND favouriteToolID = '" + toolID + "'";
 			queryService.deleteQuery("favouriteTools", whereClause).then( function() {
+				localStorage.setItem("toastFlag", "Tool has been removed from your favourites!");
 				$route.reload();
 			});
 		}
@@ -369,10 +371,14 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 }]);
 
 //------------------ checkinLog Controller --------------------
-app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", "translationService", function($scope, $window, entryList, translationService){
+app.controller('CheckinLogCtrl', ['$scope', '$window', "entryList", "translationService", "toastService", function($scope, $window, entryList, translationService, toastService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		if(localStorage.getItem("toastFlag") != null) {
+			toastService.showToast(localStorage.getItem("toastFlag"));
+		}
 		
 		$scope.pageElements = translationService.translate("checkinLog.html");
 		
@@ -766,10 +772,14 @@ app.controller('analyticDashboardCtrl', ['$scope', "queryService", "translationS
 }]);
 
 //------------------ Diary Controller --------------------
-app.controller('DiaryCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
+app.controller('DiaryCtrl', ['$scope', '$window', "queryService", "translationService", "toastService", function($scope, $window, queryService, translationService, toastService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		if(localStorage.getItem("toastFlag") != null) {
+			toastService.showToast(localStorage.getItem("toastFlag"));
+		}
 		
 		$scope.pageElements = translationService.translate("diary.html");
 		
@@ -805,6 +815,7 @@ app.controller('DiaryCtrl', ['$scope', '$window', "queryService", "translationSe
 		$scope.deleteDiaryEntry = function(selectedDiaryEntry) {
 			var whereClause = "entryID = " + selectedDiaryEntry;
 			queryService.deleteQuery("diaryEntries", whereClause).then(function() {
+				localStorage.setItem("toastFlag", "Diary entry has been deleted!");
 				$window.location.href = "#/diary";
 			});
 		};
@@ -814,10 +825,14 @@ app.controller('DiaryCtrl', ['$scope', '$window', "queryService", "translationSe
 }]);
 
 //------------------ Diary Manager Controller --------------------
-app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "translationService", function($scope, $window, queryService, translationService){
+app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "translationService", "toastService", function($scope, $window, queryService, translationService, toastService){
 	
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
+		
+		if(localStorage.getItem("toastFlag") != null) {
+			toastService.showToast(localStorage.getItem("toastFlag"));
+		}
 		
 		$scope.pageElements = translationService.translate("diaryManager.html");
 		
@@ -863,6 +878,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "transl
 			$scope.addingEntry = true;
 
 			queryService.insertQuery("diaryEntries", "entryID, userID, title, subtitle, content, dateCreated, dateLastEdited", valuesClause).then(function(response) {
+				localStorage.setItem("toastFlag", "Diary entry has been added!");
 				$window.location.href = "#/diary";
 			});
 		};
@@ -872,6 +888,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "transl
 			var setQuery = "title = '" + $scope.selectedEntry.title + "', subtitle = '" + $scope.selectedEntry.subtitle + "', content = '" + $scope.selectedEntry.content + "', dateLastEdited = datetime('now')";
 			var whereClause = "entryID = " + $scope.selectedEntry.entryID;
 			queryService.updateQuery("diaryEntries", setQuery, whereClause).then(function() {
+				localStorage.setItem("toastFlag", "Diary entry has been updated!");
 				$window.location.href = "#/diary";
 			});
 		};
@@ -892,6 +909,7 @@ app.controller('DiaryManagerCtrl', ['$scope', '$window', "queryService", "transl
 		$scope.deleteDiaryEntry = function(selectedDiaryEntry) {
 			var whereClause = "entryID = " + selectedDiaryEntry;
 			queryService.deleteQuery("diaryEntries", whereClause).then(function() {
+				localStorage.setItem("toastFlag", "Diary entry has been deleted");
 				$window.location.href = "#/diary";
 			});
 		};
@@ -973,7 +991,8 @@ app.controller("DailyEntry", ["$scope", "queryService", '$window', 'scoreManager
 			var valueStatement = "(SELECT IFNULL(MAX(entryID), 0) + 1 FROM wellnessTrackerEntries), '" + localStorage.getItem("user") + "', '" + $scope.moodScore + "', '" + $scope.stressScore + "', '" + $scope.sleepScore + "', '" + $scope.dietScore + "', '" + $scope.entryNote + "', datetime('now')";
 
 			queryService.insertQuery("wellnessTrackerEntries", "entryID, userID, moodScore, stressScore, sleepScore, dietScore, entryNote, dateEntered", valueStatement).then(function (result) {
-				console.log("This is result:", result);
+				localStorage.setItem("toastFlag", "Entry has been added!");
+				$window.location.href = "#/checkinLog";	
 			});
 		}
 	} else {

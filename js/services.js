@@ -3,7 +3,24 @@ app.factory("scoreManager", function() {
 	
 	// Given a number, this method will reverse it. 10 = 1, 9 = 2, 8 = 3, 7 = 4, 6 = 5, 5 = 6, 4 = 7, 3 = 8, 2 = 9, 1 = 10
 	function reverseScore(score) { return ((10 - score) + 1); }
-})
+});
+
+app.factory("toastService", ["$mdToast", function ($mdToast) {
+	
+	return { showToast: showToast };
+	
+	function showToast(inputText) {
+		var toast = $mdToast.simple()
+			.textContent(inputText)
+			.highlightAction(true)
+			.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+			.position("bottom right");
+		$mdToast.show(toast).then( function() {
+			localStorage.removeItem("toastFlag");
+		});
+		
+	}
+}]);
 
 app.factory('translationService', function() {  
     return { translate: translate };
@@ -29,7 +46,17 @@ app.factory('translationService', function() {
 						createNewUserText: "Create New User",
 						backText: "Back",
 						invalidPinText: "The pin you have entered is invalid!",
-						invalidLoginPin: false
+						invalidLoginPin: false,
+						one: "One",
+						two: "Two",
+						three: "Three",
+						four: "Four",
+						five: "Five",
+						six: "Six",
+						seven: "Seven",
+						eight: "Eight",
+						nine: "Nine",
+						zero: "Zero"
 					}
 					
 				case "forgotMyPin.html":
@@ -48,7 +75,18 @@ app.factory('translationService', function() {
 						invalidNameText: "The name you have entered doesn't exist!",
 						invalidAnswerText: "The answer you have provided isn't right!",
 						invalidNewPinText: "The pin you have entered is invalid",
-						backText: "Back"
+						backText: "Back",
+						firstNameAL: "First Name",
+						one: "One",
+						two: "Two",
+						three: "Three",
+						four: "Four",
+						five: "Five",
+						six: "Six",
+						seven: "Seven",
+						eight: "Eight",
+						nine: "Nine",
+						zero: "Zero"
 					}
 					
 				case "newUser.html":
@@ -83,7 +121,18 @@ app.factory('translationService', function() {
 						dietText: "Diet",
 						noCheckinsFound: "No Check-Ins Found",
 						generateText: "Generate",
-						checkinLogText: "Check-In Log"
+						checkinLogText: "Check-In Log",
+						moodCheckboxAL: "Mood Checkbox",
+						stressCheckboxAL: "Stress Checkbox",
+						sleepCheckboxAL: "Sleep Checkbox",
+						dietCheckboxAL: "Diet Checkbox",
+						noCheckinsFoundAL: "No Check-Ins Found",
+						moodScoreAverageAL: "Mood Score Average",
+						stressScoreAverageAL: "Stress Score Average",
+						dietScoreAverageAL: "Diet Score Average",
+						sleepScoreAverageAL: "Sleep Score Average",
+						toDateAL: "To Date",
+						fromDateAL: "From Date"
 					}
 					
 				case "diary.html":
@@ -92,7 +141,12 @@ app.factory('translationService', function() {
 						addDiaryEntry: "Add Diary Entry",
 						editText: "Edit",
 						deleteText: "Delete",
-						noDiaryEntries: "You have no diary entries yet!"
+						noDiaryEntries: "You have no diary entries yet!",
+						titleAL: "Title",
+						subtitleAL: "Sub-Title",
+						dateEnteredAL: "Date Entered",
+						editDiaryEntryAL: "Edit diary entry with title",
+						deleteDiaryEntryAL: "Delete diary entry with title"
 					}
 					
 				case "diaryManager.html":
@@ -118,7 +172,8 @@ app.factory('translationService', function() {
 						dietSentenceText: "How healthy did you eat today?",
 						stressSentenceText: "How is your current stress level?",
 						whatsOnYourMindText: "What's on your mind?",
-						doneText: "Done"	
+						doneText: "Done",
+						whatsOnYourMindAL: "What's on your mind?"
 					}
 					
 				case "checkinLog.html":
@@ -137,7 +192,13 @@ app.factory('translationService', function() {
 						goodText: "Good",
 						veryGoodText: "Very Good",
 						amazingText: "Amazing",
-						loadingText: "Loading..."
+						loadingText: "Loading...",
+						addNewEntryAL: "Add New Entry",
+						dateEnteredAL: "Date Entered",
+						dietScoreAL: "Diet Score",
+						moodScoreAL: "Mood Score",
+						stressScoreAL: "Stress Score",
+						sleepScoreAL: "Sleep Score"
 					}
 					
 				case "checkinLogInfo.html":
@@ -149,12 +210,12 @@ app.factory('translationService', function() {
 						moodText: "Mood:",
 						stressText: "Stress:",
 						sleepText: "Sleep:",
-						noNotesText: ">No notes were provided for this check-in!"
+						noNotesText: "No notes were provided for this check-in!",
+						previousAL: "Previous",
+						nextAL: "Next",
 					}
 				default:
 					break;
-				
-		
 			}
 		}
 	}

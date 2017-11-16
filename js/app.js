@@ -119,11 +119,6 @@ app.config(["$routeProvider", function($routeProvider) {
 		controller: "ForgotPinCtrl",
 		templateUrl: "partials/forgotPin.html"
 	})
-	
-	.when("/landingPage", { // Added by JW 2017/11/10
-		controller: "LandingPageCtrl",
-		templateUrl: "partials/landingPage.html"
-	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)
 	.otherwise({redirectTo: "/home"});

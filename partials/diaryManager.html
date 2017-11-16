@@ -4,28 +4,28 @@
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.titleText}}</label>
-					<input ng-model="newEntry.title">
+					<label aria-label="{{pageElements.titleText}}">{{pageElements.titleText}}</label>
+					<input aria-label="{{newEntry.title}}" ng-model="newEntry.title">
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.subtitleText}}</label>
-					<input ng-model="newEntry.subtitle">
+					<label aria-label="{{pageElements.subtitleText}}">{{pageElements.subtitleText}}</label>
+					<input aria-label="{{newEntry.subtitle}}" ng-model="newEntry.subtitle">
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>{{pageElements.contentText}}</label>
+					<label aria-label="{{pageElements.contentText}}">{{pageElements.contentText}}</label>
 					<textarea ng-model="newEntry.content" md-maxlength="1000" rows="8" md-select-on-focus></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-show="!addingEntry" ng-click="addDiaryEntry()" ng-disabled="newEntry.title == '' || newEntry.content ==''">{{pageElements.addDiaryEntryText}}</md-button>
-				<md-button class="md-raised button" ng-show="addingEntry">{{pageElements.addingDiaryEntryText}}</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
+				<md-button class="md-raised button" ng-show="!addingEntry" ng-click="addDiaryEntry()" ng-disabled="newEntry.title == '' || newEntry.content ==''" aria-label="{{pageElements.addDiaryEntryText}}">{{pageElements.addDiaryEntryText}}</md-button>
+				<md-button class="md-raised button" ng-show="addingEntry" aria-label="{{pageElements.addingDiaryEntryText}}">{{pageElements.addingDiaryEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()" aria-label="{{pageElements.backText}}">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>
@@ -35,28 +35,28 @@
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.titleText}}</label>
-					<input ng-model="selectedEntry.title" disabled>
+					<label aria-label="{{pageElements.titleText}}">{{pageElements.titleText}}</label>
+					<input aria-label="{{selectedEntry.title}}" ng-model="selectedEntry.title" disabled>
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.subtitleText}}</label>
-					<input ng-model="selectedEntry.subtitle" disabled>
+					<label aria-label="{{pageElements.subtitleText}}">{{pageElements.subtitleText}}</label>
+					<input aria-label="{{selectedEntry.subtitle}}" ng-model="selectedEntry.subtitle" disabled>
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>{{pageElements.contentText}}</label>
-					<textarea ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus disabled></textarea>
+					<label aria-label="{{pageElements.contentText}}">{{pageElements.contentText}}</label>
+					<textarea aria-label="{{selectedEntry.content}}" ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus disabled></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-click="editDiaryEntry(selectedEntry.entryID)">{{pageElements.editEntryText}}</md-button>
-				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">{{pageElements.deleteText}}</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
+				<md-button class="md-raised button" ng-click="editDiaryEntry(selectedEntry.entryID)" aria-label="{{pageElements.editEntryText}}">{{pageElements.editEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)" aria-label="{{pageElements.deleteText}}">{{pageElements.deleteText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()" aria-label="{{pageElements.backText}}">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>
@@ -66,28 +66,28 @@
 		<div layout-padding>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.titleText}}</label>
-					<input ng-model="selectedEntry.title">
+					<label aria-label="{{pageElements.titleText}}">{{pageElements.titleText}}</label>
+					<input aria-label="{{selectedEntry.title}}" ng-model="selectedEntry.title">
 				</md-input-container>
 			</div>
 			<div>
 				<md-input-container class="md-block" flex="80">
-					<label>{{pageElements.subtitleText}}</label>
-					<input ng-model="selectedEntry.subtitle">
+					<label aria-label="{{pageElements.subtitleText}}">{{pageElements.subtitleText}}</label>
+					<input aria-label="{{selectedEntry.subtitle}}"ng-model="selectedEntry.subtitle">
 				</md-input-container>
 			</div>
 			
 			<div>
 				<md-input-container class="md-block">
-					<label>{{pageElements.contentText}}</label>
-					<textarea ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus></textarea>
+					<label aria-label="{{pageElements.contentText}}">{{pageElements.contentText}}</label>
+					<textarea aria-label="{{selectedEntry.content}}" ng-model="selectedEntry.content" md-maxlength="1000" rows="8" md-select-on-focus></textarea>
 				</md-input-container>
 			</div>
 			
 			<div>
-				<md-button class="md-raised button" ng-click="updateDiaryEntry()">{{pageElements.updateEntryText}}</md-button>
-				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)">{{pageElements.deleteText}}</md-button>
-				<md-button class="md-raised button" ng-click="diaryReturn()">{{pageElements.backText}}</md-button>
+				<md-button class="md-raised button" ng-click="updateDiaryEntry()" aria-label="{{pageElements.updateEntryText}}">{{pageElements.updateEntryText}}</md-button>
+				<md-button class="md-raised button" ng-click="deleteDiaryEntry(selectedEntry.entryID)" aria-label="{{pageElements.deleteText}}">{{pageElements.deleteText}}</md-button>
+				<md-button class="md-raised button" ng-click="diaryReturn()" aria-label="{{pageElements.backText}}">{{pageElements.backText}}</md-button>
 			</div>
 		</div>
 	</div>
