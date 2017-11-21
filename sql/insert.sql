@@ -22,7 +22,12 @@ INSERT INTO tools
 	(toolID, name, designedBy, subDescription, description1, description2, description3, carouselPicture1, carouselPicture2, carouselPicture3, carouselPicture4, helpsWithName1, helpsWithScore1,  helpsWithName2, helpsWithScore2, helpsWithName3, helpsWithScore3, relatedApp1, relatedApp2, relatedApp3, link)
 VALUES
 	(3, "Depression 101", "Dr.Saad", "Discover multiple facts about Depression that you never knew before!", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "imgs/toolPictures/depression101/picture1.jpg", "imgs/toolPictures/depression101/picture2.jpg", "imgs/toolPictures/depression101/picture3.jpg", "imgs/toolPictures/depression101/picture4.jpg", "Depression", 70, "Energy", 50, "Sleep", 30, 1, 2, 3, "#/depression101");
-	
+
+INSERT INTO tools
+	(toolID, name, designedBy, subDescription, description1, description2, description3, carouselPicture1, carouselPicture2, carouselPicture3, carouselPicture4, helpsWithName1, helpsWithScore1,  helpsWithName2, helpsWithScore2, helpsWithName3, helpsWithScore3, relatedApp1, relatedApp2, relatedApp3, link)
+VALUES
+	(4, "Inspiration Tool", "Dr.Cando", "Everyone is short on inspiration sometimes, come get your fill!", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "Duis ac massa quis erat vehicula molestie. Pellentesque vitae arcu non enim vestibulum scelerisque sed non ligula. Integer finibus, libero quis ornare lobortis, nunc quam ornare nulla, eleifend tincidunt tellus sem non leo. Nullam vulputate semper fermentum. Praesent vestibulum efficitur magna, sed aliquet arcu iaculis at. Suspendisse enim ante, sollicitudin eu justo lacinia, bibendum porttitor erat.", "imgs/toolPictures/placeholder.png", "imgs/toolPictures/placeholder.png", "imgs/toolPictures/placeholder.png", "imgs/toolPictures/placeholder.png", "Confindence", 70, "Happiness", 50, "Energy", 20, 1, 2, 3, "#/InspirationalQuoteTool");
+		
 
 INSERT INTO anxiety101
 	(factID, factEN, factFR)
@@ -101,4 +106,29 @@ VALUES
 	(5, "This is fact number 5", "C'est le fait numéro 5");
 	
 	
+INSERT INTO inspirationalQuotesTool
+	(quoteID, quoteEN, quoteFR)
+VALUES
+	(1, "This is quote number 1", "C'est le citation numéro 1");
 	
+INSERT INTO inspirationalQuotesTool
+	(quoteID, quoteEN, quoteFR)
+VALUES
+	(2, "This is quote number 2", "C'est le citation numéro 2");
+	
+INSERT INTO inspirationalQuotesTool
+	(quoteID, quoteEN, quoteFR)
+VALUES
+	(3, "This is quote number 3", "C'est le citation numéro 3");
+	
+INSERT INTO inspirationalQuotesTool
+	(quoteID, quoteEN, quoteFR)
+VALUES
+	(4, "This is quote number 4", "C'est le citation numéro 4");
+	
+INSERT INTO inspirationalQuotesTool
+	(quoteID, quoteEN, quoteFR)
+VALUES
+	(5, "This is quote number 5", "C'est le citation numéro 5");
+	
+		

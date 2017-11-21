@@ -84,26 +84,34 @@ CREATE TABLE favouriteTools(
 	PRIMARY KEY(userID, favouriteToolID)
 );
 
-DROP TABLE IF EXISTS anxiety101;
-CREATE TABLE anxiety101(
+DROP TABLE IF EXISTS anxiety101Tool;
+CREATE TABLE anxiety101Tool(
 	factID INTEGER,
 	factEN TEXT NOT NULL,
 	factFR TEXT NOT NULL,
 	PRIMARY KEY(factID)
 );
 
-DROP TABLE IF EXISTS stress101;
-CREATE TABLE stress101(
+DROP TABLE IF EXISTS stress101Tool;
+CREATE TABLE stress101Tool(
 	factID INTEGER,
 	factEN TEXT NOT NULL,
 	factFR TEXT NOT NULL,
 	PRIMARY KEY(factID)
 );
 
-DROP TABLE IF EXISTS depression101;
-CREATE TABLE depression101(
+DROP TABLE IF EXISTS depression101Tool;
+CREATE TABLE depression101Tool(
 	factID INTEGER,
 	factEN TEXT NOT NULL,
 	factFR TEXT NOT NULL,
 	PRIMARY KEY(factID)
+);
+
+DROP TABLE IF EXISTS inspirationalQuotesTool;
+CREATE TABLE inspirationalQuotesTool(
+	quoteID INTEGER,
+	quoteEN TEXT NOT NULL,
+	quoteFR TEXT NOT NULL,
+	PRIMARY KEY(quoteID)
 );
