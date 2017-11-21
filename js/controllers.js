@@ -940,6 +940,15 @@ app.controller('MoreDetailsCtrl', ['$scope', 'Carousel', '$window', 'queryServic
 		queryService.selectQuery("*", "tools", whereClause).then( function(response) {
 			$scope.tool = response.data[0];
 		});
+		
+		$scope.goToTool = function(toolLink) {
+			$window.location.href = toolLink;
+		}
+		
+		$scope.toolReturn = function() {
+			$window.location.href = "#/toolStore";
+		}
+		
 	} else {
 		$window.location.href = "#/home";
 	}	
@@ -1005,6 +1014,7 @@ app.controller("DailyEntry", ["$scope", "queryService", '$window', 'scoreManager
 	}
 }]);
 
+//------------------ Resources Controller --------------------
 app.controller("ResourcesCtrl", ["$scope", '$window', function ($scope, $window) {
 	// Check to see if a user is logged in, if not, redirect to login screen
 	if(localStorage.getItem("user") != null) {
@@ -1016,7 +1026,7 @@ app.controller("ResourcesCtrl", ["$scope", '$window', function ($scope, $window)
 }]);
 
 //------------------ Tools/Anxiety 101 Controller --------------------
-app.controller('Anxiety101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+app.controller('Anxiety101ToolCtrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
 	
 	if(localStorage.getItem("user") != null) {
 		
@@ -1026,7 +1036,7 @@ app.controller('Anxiety101Ctrl', ['$scope', "queryService", "translationService"
 		$scope.pageElements = translationService.translate("anxiety101.html");
 	
 		$scope.grabFacts = function() {
-			queryService.selectQuery("*", "anxiety101", "").then( function(response) {
+			queryService.selectQuery("*", "anxiety101Tool", "").then( function(response) {
 				$scope.facts = response.data;
 				
 				while($scope.nextIndex == $scope.currentIndex) {
@@ -1063,7 +1073,7 @@ app.controller('Anxiety101Ctrl', ['$scope', "queryService", "translationService"
 }]);
 
 //------------------ Tools/Depression 101 Controller --------------------
-app.controller('Depression101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+app.controller('Depression101ToolCtrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
 	if(localStorage.getItem("user") != null) {
 		
 		$scope.currentIndex = 0;
@@ -1072,7 +1082,7 @@ app.controller('Depression101Ctrl', ['$scope', "queryService", "translationServi
 		$scope.pageElements = translationService.translate("depression101.html");
 	
 		$scope.grabFacts = function() {
-			queryService.selectQuery("*", "depression101", "").then( function(response) {
+			queryService.selectQuery("*", "depression101Tool", "").then( function(response) {
 				$scope.facts = response.data;
 				
 				while($scope.nextIndex == $scope.currentIndex) {
@@ -1110,7 +1120,7 @@ app.controller('Depression101Ctrl', ['$scope', "queryService", "translationServi
 }]);
 
 //------------------ Tools/Stress 101 Controller --------------------
-app.controller('Stress101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+app.controller('Stress101ToolCtrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
 	if(localStorage.getItem("user") != null) {
 		
 		$scope.currentIndex = 0;
@@ -1119,7 +1129,7 @@ app.controller('Stress101Ctrl', ['$scope', "queryService", "translationService",
 		$scope.pageElements = translationService.translate("stress101.html");
 	
 		$scope.grabFacts = function() {
-			queryService.selectQuery("*", "stress101", "").then( function(response) {
+			queryService.selectQuery("*", "stress101Tool", "").then( function(response) {
 				$scope.facts = response.data;
 				
 				while($scope.nextIndex == $scope.currentIndex) {
@@ -1150,6 +1160,53 @@ app.controller('Stress101Ctrl', ['$scope', "queryService", "translationService",
 		}
 		
 		$scope.grabFacts();
+	} else {
+		$window.location.href = "#/home";
+	}
+	
+}]);
+
+//------------------ Tools/Inspriational Quotes Tool Controller --------------------
+app.controller('InspirationalQuoteToolCtrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+	if(localStorage.getItem("user") != null) {
+		
+		$scope.currentIndex = 0;
+		$scope.nextIndex = 0;
+		
+		$scope.pageElements = translationService.translate("inspirationalQuotesTool.html");
+	
+		$scope.grabQuotes = function() {
+			queryService.selectQuery("*", "inspirationalQuotesTool", "").then( function(response) {
+				$scope.quotes = response.data;
+				
+				while($scope.nextIndex == $scope.currentIndex) {
+					$scope.nextIndex = Math.floor(Math.random() * $scope.quotes.length);
+				}
+				
+				$scope.currentIndex = $scope.nextIndex;
+				if(localStorage.getItem("languageFlag") == "en") {
+					$scope.pageElements.quote = $scope.quotes[$scope.currentIndex].quoteEN;
+				} else if(localStorage.getItem("languageFlag") == "fr") {
+					$scope.pageElements.quote = $scope.quotes[$scope.currentIndex].quoteFR;
+				}
+			});
+		}
+		
+		$scope.nextQuote = function() {
+
+			while($scope.nextIndex == $scope.currentIndex) {
+				$scope.nextIndex = Math.floor(Math.random() * $scope.quotes.length);
+			}
+			
+			$scope.currentIndex = $scope.nextIndex;
+			if(localStorage.getItem("languageFlag") == "en") {
+				$scope.pageElements.quote = $scope.quotes[$scope.currentIndex].quoteEN;
+			} else if(localStorage.getItem("languageFlag") == "fr") {
+				$scope.pageElements.quote = $scope.quotes[$scope.currentIndex].quoteFR;
+			}
+		}
+		
+		$scope.grabQuotes();
 	} else {
 		$window.location.href = "#/home";
 	}

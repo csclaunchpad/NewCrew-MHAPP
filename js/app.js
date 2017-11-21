@@ -120,19 +120,24 @@ app.config(["$routeProvider", function($routeProvider) {
 		templateUrl: "partials/forgotPin.html"
 	})
 	
-	.when("/anxiety101", { // Forgot Pin Page: Added by JW - 2017/11/21
-		controller: "Anxiety101Ctrl",
-		templateUrl: "partials/tools/anxiety101.html"
+	.when("/anxiety101Tool", { // Forgot Pin Page: Added by JW - 2017/11/21
+		controller: "Anxiety101ToolCtrl",
+		templateUrl: "partials/tools/anxiety101Tool.html"
 	})
 	
-	.when("/stress101", { // Forgot Pin Page: Added by JW - 2017/11/21
-		controller: "Stress101Ctrl",
-		templateUrl: "partials/tools/stress101.html"
+	.when("/stress101Tool", { // Forgot Pin Page: Added by JW - 2017/11/21
+		controller: "Stress101ToolCtrl",
+		templateUrl: "partials/tools/stress101Tool.html"
 	})
 	
-	.when("/depression101", { // Forgot Pin Page: Added by JW - 2017/11/21
-		controller: "Depression101Ctrl",
-		templateUrl: "partials/tools/depression101.html"
+	.when("/depression101Tool", { // Forgot Pin Page: Added by JW - 2017/11/21
+		controller: "Depression101ToolCtrl",
+		templateUrl: "partials/tools/depression101Tool.html"
+	})
+	
+	.when("/InspirationalQuoteTool", { // Forgot Pin Page: Added by JW - 2017/11/21
+		controller: "InspirationalQuoteToolCtrl",
+		templateUrl: "partials/tools/inspirationalQuoteTool.html"
 	})
     
     // Whenever none of the above .when method calls occur, run this .otherwise method instead (This should always be the application's initial landing page)

@@ -239,6 +239,14 @@ app.factory('translationService', function() {
 						anxietyFactText: "Depression Fact",
 						nextFactText: "Next Fact!",
 					}
+				case "inspirationalQuotesTool.html":
+			
+					return {
+						quote: "",
+						inspirationalQuoteText: "Inspirational Quote:",
+						quoteText: "Quote:",
+						nextQuoteText: "Next Quote!",
+					}
 				default:
 					break;
 			}
