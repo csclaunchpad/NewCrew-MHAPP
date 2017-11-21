@@ -365,6 +365,11 @@ app.controller('ToolStoreCtrl', ['$scope', '$window', "queryService", '$route', 
 			localStorage.setItem("selectedToolID", toolID);
 			$window.location.href= "#/moreDetails";
 		};
+		
+		$scope.goToTool = function(toolLink) {
+			$window.location.href= toolLink;
+		}
+		
 	} else {
 		$window.location.href = "#/home";
 	}
@@ -1008,4 +1013,145 @@ app.controller("ResourcesCtrl", ["$scope", '$window', function ($scope, $window)
 		$window.location.href = "#/home";
 	}
 
+}]);
+
+//------------------ Tools/Anxiety 101 Controller --------------------
+app.controller('Anxiety101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+	
+	if(localStorage.getItem("user") != null) {
+		
+		$scope.currentIndex = 0;
+		$scope.nextIndex = 0;
+		
+		$scope.pageElements = translationService.translate("anxiety101.html");
+	
+		$scope.grabFacts = function() {
+			queryService.selectQuery("*", "anxiety101", "").then( function(response) {
+				$scope.facts = response.data;
+				
+				while($scope.nextIndex == $scope.currentIndex) {
+					$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+				}
+				
+				$scope.currentIndex = $scope.nextIndex;
+				if(localStorage.getItem("languageFlag") == "en") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+				} else if(localStorage.getItem("languageFlag") == "fr") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+				}
+			});
+		}
+		
+		$scope.nextFact = function() {
+
+			while($scope.nextIndex == $scope.currentIndex) {
+				$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+			}
+			
+			$scope.currentIndex = $scope.nextIndex;
+			if(localStorage.getItem("languageFlag") == "en") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+			} else if(localStorage.getItem("languageFlag") == "fr") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+			}
+		}
+		
+		$scope.grabFacts();
+	} else {
+		$window.location.href = "#/home";
+	}
+}]);
+
+//------------------ Tools/Depression 101 Controller --------------------
+app.controller('Depression101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+	if(localStorage.getItem("user") != null) {
+		
+		$scope.currentIndex = 0;
+		$scope.nextIndex = 0;
+		
+		$scope.pageElements = translationService.translate("depression101.html");
+	
+		$scope.grabFacts = function() {
+			queryService.selectQuery("*", "depression101", "").then( function(response) {
+				$scope.facts = response.data;
+				
+				while($scope.nextIndex == $scope.currentIndex) {
+					$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+				}
+				
+				$scope.currentIndex = $scope.nextIndex;
+				if(localStorage.getItem("languageFlag") == "en") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+				} else if(localStorage.getItem("languageFlag") == "fr") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+				}
+			});
+		}
+		
+		$scope.nextFact = function() {
+
+			while($scope.nextIndex == $scope.currentIndex) {
+				$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+			}
+			
+			$scope.currentIndex = $scope.nextIndex;
+			if(localStorage.getItem("languageFlag") == "en") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+			} else if(localStorage.getItem("languageFlag") == "fr") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+			}
+		}
+		
+		$scope.grabFacts();
+	} else {
+		$window.location.href = "#/home";
+	}
+	
+}]);
+
+//------------------ Tools/Stress 101 Controller --------------------
+app.controller('Stress101Ctrl', ['$scope', "queryService", "translationService", "$window", function($scope, queryService, translationService, $window){
+	if(localStorage.getItem("user") != null) {
+		
+		$scope.currentIndex = 0;
+		$scope.nextIndex = 0;
+		
+		$scope.pageElements = translationService.translate("stress101.html");
+	
+		$scope.grabFacts = function() {
+			queryService.selectQuery("*", "stress101", "").then( function(response) {
+				$scope.facts = response.data;
+				
+				while($scope.nextIndex == $scope.currentIndex) {
+					$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+				}
+				
+				$scope.currentIndex = $scope.nextIndex;
+				if(localStorage.getItem("languageFlag") == "en") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+				} else if(localStorage.getItem("languageFlag") == "fr") {
+					$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+				}
+			});
+		}
+		
+		$scope.nextFact = function() {
+
+			while($scope.nextIndex == $scope.currentIndex) {
+				$scope.nextIndex = Math.floor(Math.random() * $scope.facts.length);
+			}
+			
+			$scope.currentIndex = $scope.nextIndex;
+			if(localStorage.getItem("languageFlag") == "en") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factEN;
+			} else if(localStorage.getItem("languageFlag") == "fr") {
+				$scope.pageElements.fact = $scope.facts[$scope.currentIndex].factFR;
+			}
+		}
+		
+		$scope.grabFacts();
+	} else {
+		$window.location.href = "#/home";
+	}
+	
 }]);

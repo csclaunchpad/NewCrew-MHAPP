@@ -214,6 +214,31 @@ app.factory('translationService', function() {
 						previousAL: "Previous",
 						nextAL: "Next",
 					}
+				case "anxiety101.html":
+				
+					return {
+						fact: "",
+						factText: "Fact:",
+						anxietyFactText: "Anxiety Fact",
+						nextFactText: "Next Fact!",
+					}
+				case "stress101.html":
+				
+					return {
+						fact: "",
+						factText: "Fact:",
+						anxietyFactText: "Stress Fact",
+						nextFactText: "Next Fact!",
+					}
+					
+				case "depression101.html":
+			
+					return {
+						fact: "",
+						factText: "Fact:",
+						anxietyFactText: "Depression Fact",
+						nextFactText: "Next Fact!",
+					}
 				default:
 					break;
 			}

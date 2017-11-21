@@ -1,5 +1,5 @@
 <md-content ng-cloak>
-	<div ng-repeat="favoriteTool in favouritedTools" flex layout="row" layout-fill>
+	<div ng-repeat="favouriteTool in favouritedTools" flex layout="row" layout-fill>
 		<md-card flex>
 			<md-card-title>
 				<md-card-title-media layout-padding>
@@ -7,15 +7,16 @@
 				</md-card-title-media>
 			
 				<md-card-title-text>
-					<span class="md-headline">{{favoriteTool.name}}</span>
-					<span class="md-subhead">Developed by {{favoriteTool.designedBy}}</span>
+					<span class="md-headline">{{favouriteTool.name}}</span>
+					<span class="md-subhead">Developed by {{favouriteTool.designedBy}}</span>
 				</md-card-title-text>
 			</md-card-title>
 			<md-card-content>
-				<p>{{favoriteTool.subDescription}}
+				<p>{{favouriteTool.subDescription}}
 			</md-card-content>
 			
 			<md-card-actions layout="row" layout-padding layout-align="end end">
+				<md-button ng-click="goToTool(favouriteTool.link)" class="md-raised md-primary" aria-label="">Start Tool</md-button>
 				<md-button ng-click="removeToolFromFavourites(favoriteTool.toolID)" class="md-raised md-primary" aria-label="Unfavourite">Unfavourite</md-button>
 				<md-button ng-click="moreDetails(favoriteTool.toolID)" class="md-raised md-primary" aria-label="More Details">More Details</md-button>
 			</md-card-actions>
@@ -41,6 +42,7 @@
 			</md-card-content>
 			
 			<md-card-actions layout="row" layout-padding layout-align="end end">
+				<md-button ng-click="goToTool(tool.link)" class="md-raised md-primary" aria-label="">Start Tool</md-button>
 				<md-button ng-click="addToolToFavourites(tool.toolID)" class="md-raised md-primary" aria-label="Favourite Tool">Favourite</md-button>
 				<md-button ng-click="moreDetails(tool.toolID)" class="md-raised md-primary" aria-label="More Details">More Details</md-button>
 			</md-card-actions>
