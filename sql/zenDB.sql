@@ -71,7 +71,6 @@ CREATE TABLE tools (
 	relatedApp1 INTEGER,
 	relatedApp2 INTEGER,
 	relatedApp3 INTEGER,
-	link TEXT NOT NULL,
 	FOREIGN KEY(relatedApp1) REFERENCES tools(toolID),
 	FOREIGN KEY(relatedApp2) REFERENCES tools(toolID),
 	FOREIGN KEY(relatedApp3) REFERENCES tools(toolID)
@@ -82,36 +81,4 @@ CREATE TABLE favouriteTools(
 	userID INTEGER REFERENCES users(userID),
 	favouriteToolID INTEGER REFERENCES tools(toolID),
 	PRIMARY KEY(userID, favouriteToolID)
-);
-
-DROP TABLE IF EXISTS anxiety101Tool;
-CREATE TABLE anxiety101Tool(
-	factID INTEGER,
-	factEN TEXT NOT NULL,
-	factFR TEXT NOT NULL,
-	PRIMARY KEY(factID)
-);
-
-DROP TABLE IF EXISTS stress101Tool;
-CREATE TABLE stress101Tool(
-	factID INTEGER,
-	factEN TEXT NOT NULL,
-	factFR TEXT NOT NULL,
-	PRIMARY KEY(factID)
-);
-
-DROP TABLE IF EXISTS depression101Tool;
-CREATE TABLE depression101Tool(
-	factID INTEGER,
-	factEN TEXT NOT NULL,
-	factFR TEXT NOT NULL,
-	PRIMARY KEY(factID)
-);
-
-DROP TABLE IF EXISTS inspirationalQuotesTool;
-CREATE TABLE inspirationalQuotesTool(
-	quoteID INTEGER,
-	quoteEN TEXT NOT NULL,
-	quoteFR TEXT NOT NULL,
-	PRIMARY KEY(quoteID)
 );
